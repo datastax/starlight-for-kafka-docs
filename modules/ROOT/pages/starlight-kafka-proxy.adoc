@@ -1,0 +1,85 @@
+= {product_name} Proxy
+
+:page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
+
+{product_name} allows you to deploy a proxy extension on the Pulsar proxy component. This allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
+This is particularly useful in Kubernetes environments where you already have the Pulsar proxy.
+
+== Configuration:
+
+. Create a `proxyextensions` folder in the root of your Pulsar directory.
+. Copy the `pulsar-kafka-proxy-2.10.0.1.XXXX.nar` file to the “proxyextensions” directory.
+. Add these lines to `proxy.conf`:
++
+[source,yaml]
+----
+proxyExtensions=kafka
+proxyExtensionsDirectory=proxyextensions
+# Local listener
+kafkaListeners=PLAINTEXT://0.0.0.0:9092
+# Advertised listener to the clients
+kafkaAdvertisedListeners=PLAINTEXT://pulsar-proxy:9092
+kopSchemaRegistryEnable=true
+kopSchemaRegistryProxyPort=8081
+# TLS settings
+kopSchemaRegistryProxyEnableTls=true
+kopTlsEnabledWithBroker=true
+----
+
+`kafkaAdvertisedListeners` must contain the public address that clients will use to connect to the proxy.
+In the example above we are using `pulsar-proxy:9092`, but this address is available only inside the Kubernetes cluster. If you are exposing your service outside of the Kubernetes cluster, you must use the public name.
+
+== TLS Configuration for the Proxy
+
+TLS is configured using the same TLS configuration as the Pulsar proxy. To expose TLS endpoints, change the following settings in `conf/proxy.conf`. 
+
+[source,yaml]
+----
+kopSchemaRegistryProxyEnableTls=true
+kopTlsEnabledWithBroker=true
+kafkaListeners=PLAINTEXT://0.0.0.0:9092, SSL://0.0.0.0:9093
+kafkaAdvertisedListeners=PLAINTEXT://pulsar-proxy:9092, SSL://pulsar-proxy:9093
+----
+
+The proxy always uses PLAINTEXT connection while connecting to the internal brokers, so if you are configuring TLS on the proxy you must also configure a PLAINTEXT listener on the broker.
+
+== Authentication and authorization for the Proxy
+
+In order to configure authentication and authorization for the proxy you must enable authentication and authorization on the Pulsar proxy.
+The Kafka proxy will use the same configuration as the Pulsar proxy.
+
+Add these lines to the Pulsar proxy:
+[source,yaml]
+----
+saslAllowedMechanisms=PLAIN
+kafkaProxySuperUserRole=admin
+----
+
+The first line tells the proxy to accept username/password authentication.
+In the second line, ‘admin’ is the name of a “role” that is allowed to perform administrative operations on the cluster. This role is needed to perform authorization tasks on the proxy, like validating the user that is logging in.
+
+If you enable authentication and authorization on the proxy then you must also enable them on the broker, and the Protocol Handler must be configured to listen on PLAINTEXT_SASL.
+
+== Discovering Pulsar Brokers from the Proxy
+
+The proxy uses the broker discovery service to discover the brokers.
+The Pulsar broker does not advertise the address of the Kafka listeners, so the mapping between a broker and the actual TCP port that is listening for Kafka connections is done per convention. +
+If a Pulsar broker exposes the Pulsar endpoint at port 6650, the proxy assumes that it is exposing the Kafka endpoint at port 9092. The same applies for TLS communications, where port 6651 is mapped to 9093.
+You can override this mapping by using the `kafkaProxyBrokerPortToKopMapping` configuration entry:
+[source,yaml]
+----
+kafkaProxyBrokerPortToKopMapping=6650=19092,6651=19093
+----
+
+This means that a broker on port *6650* for Pulsar protocol will be mapped to Kafka port *19092* and port *6651* is mapped to *19093*.
+This is usually not needed for standard deployments that use default ports.
+
+== What's next?
+
+For more on {product_name}, see:
+
+* xref:starlight-kafka-configuration.adoc[{product_name} Configuration]
+* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
+* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
+* xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:starlight-kafka-quickstart.adoc[Quickstart]

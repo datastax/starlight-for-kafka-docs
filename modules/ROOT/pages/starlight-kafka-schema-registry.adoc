@@ -1,0 +1,98 @@
+= {product_name} Schema Registry
+
+:page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
+
+{product_name} implements a schema registry that is compatible with the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry®] and the https://www.apicur.io/registry[Apicurio Schema Registry], the most commonly used schema registries in the Kafka ecosystem.
+
+The Kafka Schema Registry stores schemas in the `$<tenant>/__kafka/__schema-registry` topic.
+It is automatically created as a non-partitioned topic with infinite retention. 
+
+[NOTE]
+====
+To avoid losing data, it is very important to disable retention on the `__kafka` namespace, or set it only for that topic if you have “topic level policies” enabled in your Pulsar system.
+====
+
+The Starlight for Kafka adapter creates automatically the $<tenant>/__kafka__schemaregistry namespace and sets infinite retention for you.
+
+You can use `kopSchemaRegistryNamespace` configuration parameter to set the name of the namespace to be used.
+
+== {product_name} Schema Registry Implementation
+
+. To enable the Schema Registry, add this configuration in `conf/broker.conf`:
++
+[source,yaml]
+----
+kopSchemaRegistryEnable=true
+kopSchemaRegistryProxyPort=8001
+----
+
+. If you're using the Kafka xref:starlight-kafka-proxy.adoc[proxy], add this configuration in `conf/proxy.conf`:
+[source,yaml]
++
+----
+kopSchemaRegistryEnable=true
+kopSchemaRegistryProxyPort=8081
+----
+
+. Verify that the Schema Registry is working properly by connecting to http://pulsar-broker:8001/config or http://pulsar-proxy:8081/config (if you're using the proxy). You should see something like this:
++
+[source,json]
+----
+{
+  "compatibilityLevel" : "NONE"
+}
+----
+
+[NOTE]
+====
+The Proxy works only if the broker is working properly, because it simply forwards the requests to a broker. If the broker fails or it is not accessible, the Proxy will answer with an error message.
+====
+
+== Enable TLS on schema registry
+
+. To enable TLS on the schema registry, you must use the Kafka proxy. +
+To set the SchemaRegistry endpoint on the *broker* to use TLS, add this configuration in `conf/broker.conf`:
++
+[source,yaml]
+----
+kopSchemaRegistryEnableTls=true
+kopSchemaRegistryProxyEnableTls=true
+----
+
+. To set the SchemaRegistry endpoint on the *proxy* to use TLS, add this configuration in `conf/proxy.conf`:
++
+[source,yaml]
+----
+kopSchemaRegistryEnableTls=true
+kopSchemaRegistryProxyEnableTls=true
+----
+
+. TLS configuration is then picked up automatically by the Pulsar proxy configuration.
+
+== Authentication for the schema registry
+
+If authentication is enabled, you can only use the schema registry with HTTP Basic Authentication:
+[source,yaml]
+----
+Username: the name of the “tenant” to connect to
+Password: token:xxxxxxxx (the JWT token used to connect to Pulsar/Kafka)
+----
+
+If you are using the Confluent Java client or the Kafka Tools, set these properties:
+[source,yaml]
+----
+basic.auth.credentials.source=USER_INFO
+basic.auth.user.info=TENANTNAME:token:xxxxxxxx
+schema.registry.url=http://pulsar-proxy:8081
+----
+
+== What's next?
+
+You can configure and manage {product_name} based on your requirements. Check the following guides for more details.
+
+* xref:starlight-kafka-configuration.adoc[{product_name} Configuration]
+* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
+* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
+* xref:starlight-kafka-security.adoc[{product_name} Security]
+* xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
+

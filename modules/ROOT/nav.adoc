@@ -1,7 +1,8 @@
-* xref:index.adoc[Overview]
-
-* Installation
-
-* Configuration
-
-* Operations
+* xref:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:starlight-kafka-configuration.adoc[Configuration]
+* xref:starlight-kafka-implementation.adoc[Implementation]
+* xref:starlight-kafka-proxy.adoc[Proxy Extension]
+* xref:starlight-kafka-schema-registry.adoc[Schema Registry]
+* xref:starlight-kafka-monitor.adoc[Monitoring]
+* xref:starlight-kafka-security.adoc[Security]
+* xref:starlight-kafka-kstreams.adoc[KStreams Example App]
