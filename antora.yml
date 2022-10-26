@@ -1,0 +1,10 @@
+name: starlight-for-kafka
+title: Starlight For Kafka Documentation
+version: 2.10.0.4
+start_page: starlight-for-kafka::index.adoc
+
+asciidoc:
+  attributes:
+
+nav:
+  - modules/ROOT/nav.adoc
