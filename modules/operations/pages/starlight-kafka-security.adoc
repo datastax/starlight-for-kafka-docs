@@ -1,7 +1,7 @@
 = Security
 
 :page-tag: starlight-kafka,security,secure,dev,pulsar,kafka
-:page-alias: docs@starlight-for-kafka::starlight-kafka-security.adoc
+:page-aliases: docs@starlight-for-kafka::starlight-kafka-security.adoc
 
 This page covers enabling authentication features for {product_name}. +
 

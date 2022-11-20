@@ -1,7 +1,7 @@
 = Configuration
 
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
-:page-alias: docs@starlight-for-kafka::starlight-kafka-configuration.adoc
+:page-aliases: docs@starlight-for-kafka::starlight-kafka-configuration.adoc
 
 This page describes configuration options for {product_name}:
 

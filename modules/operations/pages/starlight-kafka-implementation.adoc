@@ -1,7 +1,7 @@
 = Implementation
 
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
-:page-alias: docs@starlight-for-kafka::starlight-kafka-implementation.adoc
+:page-aliases: docs@starlight-for-kafka::starlight-kafka-implementation.adoc
 
 This document describes how to implement the {product_name} protocol handler.
 
