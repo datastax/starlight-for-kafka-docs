@@ -148,8 +148,8 @@ Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventT
 
 For more on {product_name}, see:
 
-* xref:starlight-kafka-configuration.adoc[{product_name} Configuration]
+* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
 * xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
 * xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
 * xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
-* xref:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:installation:starlight-kafka-quickstart.adoc[Quickstart]

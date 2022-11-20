@@ -18,14 +18,14 @@
 
 {product_name} adds additional features to make native Kafka protocol support even better.
 
-* xref:starlight-kafka-schema-registry.adoc[Schema registry] - A schema registry compatible with both the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry®] and the https://www.apicur.io/registry[Apicurio Schema Registry]. +
+* xref:operations:starlight-kafka-schema-registry.adoc[Schema registry] - A schema registry compatible with both the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry®] and the https://www.apicur.io/registry[Apicurio Schema Registry]. +
 
-* xref:starlight-kafka-proxy.adoc[Proxy extension] - allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
+* xref:operations:starlight-kafka-proxy.adoc[Proxy extension] - allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
 
 * Integrated support for the Pulsar schema registry. +
 //* xref:starlight-cdc.adoc[AVRO consumption] - consume AVRO schema from a Kafka client. 
 
 == What's next?
 
-* xref:starlight-kafka-quickstart.adoc[{product_name} Quickstart]
-* xref:starlight-kafka-implementation.adoc[{product_name} Implementation] 
+* xref:installation:starlight-kafka-quickstart.adoc[{product_name} Quickstart]
+* xref:operations:starlight-kafka-implementation.adoc[{product_name} Implementation]

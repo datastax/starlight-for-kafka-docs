@@ -173,7 +173,7 @@ kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092, SSL://PUBLIC-HOSTNAME-OF-TH
 +
 These settings will enable TLS on the broker, and {product_name} will pick up the TLS certificates automatically. +
 
-. Proceed to xref:starlight-kafka-quickstart.adoc#test[Test {product_name}] to test your configuration.
+. Proceed to xref:installation:starlight-kafka-quickstart.adoc#test[Test {product_name}] to test your configuration.
 
 [#manual-ssl]
 === Create SSL configuration manually
@@ -257,9 +257,9 @@ For more on configuring Kafka, see https://kafka.apache.org/documentation/#secur
 
 For more on {product_name}, see:
 
-* xref:starlight-kafka-configuration.adoc[{product_name} Configuration]
+* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
 * xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
 * xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
 * xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
 * xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
-* xref:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:installation:starlight-kafka-quickstart.adoc[Quickstart]

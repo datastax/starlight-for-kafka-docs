@@ -113,8 +113,8 @@ This bridges the gap between Pulsar and Kafka and allows use of existing Pulsar 
 
 For more on {product_name}, see:
 
-* xref:starlight-kafka-configuration.adoc[{product_name} Configuration]
+* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
 * xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
 * xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
 * xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
-* xref:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:installation:starlight-kafka-quickstart.adoc[Quickstart]

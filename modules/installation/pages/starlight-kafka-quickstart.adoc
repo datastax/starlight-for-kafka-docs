@@ -201,9 +201,9 @@ key:[null], properties:[], content:hi pulsar, it's me, kafka!
 
 You can configure and manage {product_name} based on your requirements. Check the following guides for more details.
 
-* xref:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
-* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
-* xref:starlight-kafka-security.adoc[{product_name} Security]
-* xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
-* xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
+* xref:operations:starlight-kafka-implementation.adoc[{product_name} Implementation]
+* xref:operations:starlight-kafka-monitor.adoc[Monitor {product_name}]
+* xref:operations:starlight-kafka-security.adoc[{product_name} Security]
+* xref:operations:starlight-kafka-proxy.adoc[{product_name} Proxy]
+* xref:operations:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
