@@ -9,4 +9,6 @@ asciidoc:
     protocol_version: '2.10'
 
 nav:
-  - modules/ROOT/nav.adoc
+  - modules/installation/nav.adoc
+  - modules/operations/nav.adoc
+  - modules/configuration/nav.adoc
