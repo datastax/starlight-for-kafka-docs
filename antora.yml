@@ -1,7 +1,7 @@
 name: starlight-for-kafka
 title: Starlight For Kafka Documentation
 version: 2.10.0.4
-start_page: starlight-for-kafka::index.adoc
+start_page: index.adoc
 
 asciidoc:
   attributes:
