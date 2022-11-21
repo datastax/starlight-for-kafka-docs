@@ -1,7 +1,7 @@
 = {product_name} Schema Registry
 
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
-:page-aliases: docs@starlight-for-kafka::starlight-kafka-schema-registry.adoc
+:page-aliases: docs@starlight-kafka::starlight-kafka-schema-registry.adoc
 
 {product_name} implements a schema registry that is compatible with the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry®] and the https://www.apicur.io/registry[Apicurio Schema Registry], the most commonly used schema registries in the Kafka ecosystem.
 

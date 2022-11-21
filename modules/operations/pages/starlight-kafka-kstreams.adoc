@@ -1,6 +1,6 @@
 = Kafka streams in {product_name}
 
-:page-aliases: docs@starlight-for-kafka::starlight-kafka-kstreams.adoc
+:page-aliases: docs@starlight-kafka::starlight-kafka-kstreams.adoc
 
 {product_name} can run Kafka® Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with {product_name}. 
 

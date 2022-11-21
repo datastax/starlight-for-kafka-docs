@@ -1,7 +1,7 @@
 = Monitor {product_name} 
 
 :page-tag: starlight-kafka,admin,manage,pulsar,kafka
-:page-aliases: docs@starlight-for-kafka::starlight-kafka-monitor.adoc
+:page-aliases: docs@starlight-kafka::starlight-kafka-monitor.adoc
 
 {product_name} exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
 

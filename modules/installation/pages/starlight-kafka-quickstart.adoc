@@ -1,7 +1,7 @@
 = {product_name} Quickstart
 
 :page-tag: starlight-kafka,quickstart,install,admin,dev,pulsar,kafka
-:page-aliases: docs@starlight-for-kafka::starlight-kafka-quickstart.adoc
+:page-aliases: docs@starlight-kafka::starlight-kafka-quickstart.adoc
 
 This document will help you get started producing and consuming Kafka messages on a Pulsar cluster.
 

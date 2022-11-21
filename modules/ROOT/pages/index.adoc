@@ -1,7 +1,7 @@
 = {product_name} 
 
 :page-tag: starlight-kafka,dev,admin,pulsar,kafka
-:page-aliases: docs@starlight-for-kafka::index.adoc
+:page-aliases: docs@starlight-kafka::index.adoc
 
 {product_name} brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka protocol handler on Pulsar brokers. By adding the {product_name} protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar’s powerful features, such as:
 
