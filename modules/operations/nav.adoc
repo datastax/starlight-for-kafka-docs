@@ -1,4 +1,4 @@
-.Operations
+* xref:starlight-kafka-implementation.adoc[Operations]
 ** xref:starlight-kafka-implementation.adoc[]
 ** xref:starlight-kafka-kstreams.adoc[]
 ** xref:starlight-kafka-monitor.adoc[]

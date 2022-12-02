@@ -1,2 +1,1 @@
-.Configuration
-** xref:starlight-kafka-configuration.adoc[]
+* xref:starlight-kafka-configuration.adoc[Configuration]
