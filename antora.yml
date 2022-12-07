@@ -1,6 +1,7 @@
 name: starlight-for-kafka
 title: Starlight For Kafka Documentation
-version: 2.10.0.4
+version: 's4k_2.10.0.4'
+display_version: '2.10.0.4'
 start_page: index.adoc
 
 asciidoc:
