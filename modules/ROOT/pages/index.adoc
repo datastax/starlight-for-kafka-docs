@@ -1,5 +1,5 @@
-= {product_name} 
-
+= {product_name}
+:navtitle: Starlight for Kafka
 :page-tag: starlight-kafka,dev,admin,pulsar,kafka
 :page-aliases: docs@starlight-kafka::index.adoc
 
