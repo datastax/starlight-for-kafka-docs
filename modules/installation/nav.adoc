@@ -1,1 +1,1 @@
-* xref:starlight-kafka-quickstart.adoc[Installation]
+* xref:starlight-kafka-quickstart.adoc[]

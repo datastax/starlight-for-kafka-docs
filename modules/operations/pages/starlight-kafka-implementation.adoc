@@ -1,5 +1,5 @@
 = Implementation
-
+:navtitle: Operations
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-implementation.adoc
 

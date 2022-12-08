@@ -1,5 +1,5 @@
 = {product_name} Quickstart
-
+:navtitle: Installation
 :page-tag: starlight-kafka,quickstart,install,admin,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-quickstart.adoc
 
