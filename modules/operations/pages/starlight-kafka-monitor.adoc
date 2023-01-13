@@ -1,9 +1,10 @@
-= Monitor {product_name} 
+= Monitoring the Starlight for Kafka extension
 
+:navtitle: Monitoring
 :page-tag: starlight-kafka,admin,manage,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-monitor.adoc
 
-{product_name} exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
+Starlight for Kafka exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
 
 The following types of metrics are available:
 
@@ -12,9 +13,9 @@ The following types of metrics are available:
 - https://prometheus.io/docs/concepts/metric_types/#histogram[Histogram]: a histogram samples observations (usually things like request durations or response sizes) and counts them in configurable buckets.
 - https://prometheus.io/docs/concepts/metric_types/#summary[Summary]: similar to a histogram, a summary samples observations (usually things like request durations and response sizes). While it also provides a total count of observations and a sum of all observed values, it calculates configurable quantiles over a sliding time window.
 
-== {product_name} metrics
+== Starlight for Kafka metrics
 
-The {product_name} metrics are exposed under `/metrics`` at port `8000` along with Pulsar metrics. Use a different port by configuring the `stats_server_port` system property.
+The Starlight for Kafka metrics are exposed under `/metrics`` at port `8000` along with Pulsar metrics. Use a different port by configuring the `stats_server_port` system property.
 
 === Request metrics
 
@@ -146,10 +147,10 @@ Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventT
 
 == What's next?
 
-For more on {product_name}, see:
+For more on Starlight for Kafka, see:
 
-* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
-* xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
-* xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
+* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
+* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
+* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
 * xref:installation:starlight-kafka-quickstart.adoc[Quickstart]

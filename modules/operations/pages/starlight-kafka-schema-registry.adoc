@@ -1,9 +1,9 @@
-= {product_name} Schema Registry
-
+= Starlight for Kafka Schema Registry
+:navtitle: Schema registry
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-schema-registry.adoc
 
-{product_name} implements a schema registry that is compatible with the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry®] and the https://www.apicur.io/registry[Apicurio Schema Registry], the most commonly used schema registries in the Kafka ecosystem.
+Starlight for Kafka implements a schema registry that is compatible with the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry®] and the https://www.apicur.io/registry[Apicurio Schema Registry], the most commonly used schema registries in the Kafka ecosystem.
 
 The Kafka Schema Registry stores schemas in the `$<tenant>/__kafka/__schema-registry` topic.
 It is automatically created as a non-partitioned topic with infinite retention. 
@@ -17,7 +17,7 @@ The Starlight for Kafka adapter creates automatically the $<tenant>/__kafka__sch
 
 You can use `kopSchemaRegistryNamespace` configuration parameter to set the name of the namespace to be used.
 
-== {product_name} Schema Registry Implementation
+== Starlight for Kafka Schema Registry Implementation
 
 . To enable the Schema Registry, add this configuration in `conf/broker.conf`:
 +
@@ -89,11 +89,11 @@ schema.registry.url=http://pulsar-proxy:8081
 
 == What's next?
 
-You can configure and manage {product_name} based on your requirements. Check the following guides for more details.
+You can configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
 
-* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
-* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
-* xref:starlight-kafka-security.adoc[{product_name} Security]
-* xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
+* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
+* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
+* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
+* xref:starlight-kafka-security.adoc[Starlight for Kafka Security]
+* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
 
