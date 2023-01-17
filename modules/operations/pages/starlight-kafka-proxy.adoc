@@ -1,9 +1,9 @@
-= {product_name} Proxy
-
+= Starlight for Kafka Proxy
+:navtitle: Proxy extension
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-proxy.adoc
 
-{product_name} allows you to deploy a proxy extension on the Pulsar proxy component. This allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
+Starlight for Kafka allows you to deploy a proxy extension on the Pulsar proxy component. This allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
 This is particularly useful in Kubernetes environments where you already have the Pulsar proxy.
 
 == Configuration:
@@ -77,10 +77,10 @@ This is usually not needed for standard deployments that use default ports.
 
 == What's next?
 
-For more on {product_name}, see:
+For more on Starlight for Kafka, see:
 
-* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
-* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
-* xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
+* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
+* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
+* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
 * xref:installation:starlight-kafka-quickstart.adoc[Quickstart]

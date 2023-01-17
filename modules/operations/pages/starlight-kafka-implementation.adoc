@@ -1,13 +1,14 @@
-= Implementation
-:navtitle: Operations
+= Messaging implementation of Starlight for Kafka
+
+:navtitle: Implementation
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-implementation.adoc
 
-This document describes how to implement the {product_name} protocol handler.
+This document describes how to implement the Starlight for Kafka protocol handler.
 
 == Topic
 
-In Kafka, all topics are stored in one flat namespace, but in Pulsar, topics are organized in hierarchical multi-tenant namespaces. {product_name} introduces a setting `kafkaNamespace` in the broker configuration which allows administrators to map Kafka topics to Pulsar topics.
+In Kafka, all topics are stored in one flat namespace, but in Pulsar, topics are organized in hierarchical multi-tenant namespaces. Starlight for Kafka introduces a setting `kafkaNamespace` in the broker configuration which allows administrators to map Kafka topics to Pulsar topics.
 
 To let Kafka users leverage the multi-tenancy of Apache Pulsar, a Kafka user can specify a Pulsar tenant and namespace as the topic prefix like Pulsar topics:
 
@@ -32,14 +33,14 @@ When `kafkaEnableMultiTenantMetadata` is enabled, `<kafkaTenant>` is the Pulsar 
 
 == Topic lookup
 
-{product_name} uses the same topic lookup approach for the Kafka request handler and the Pulsar request handler. The request handler does topic discovery to look up all ownerships for the requested topic partitions, and responds with the ownership information as part of the Kafka `TopicMetadata` returned to Kafka clients.
+Starlight for Kafka uses the same topic lookup approach for the Kafka request handler and the Pulsar request handler. The request handler does topic discovery to look up all ownerships for the requested topic partitions, and responds with the ownership information as part of the Kafka `TopicMetadata` returned to Kafka clients.
 
 When you are using the xref:starlight-kafka-proxy.adoc[Proxy] module, the proxy answers its own advertised address as owner of every topic. The Proxy automatically
 dispatches every request to the Broker that owns the topic, so Kafka clients do not have knowledge of the internal topology of the cluster.
 
 == Message
 
-Kafka and Pulsar messages have keys, values, timestamps, and headers, but in Pulsar the `headers` are called `properties`. {product_name} converts these
+Kafka and Pulsar messages have keys, values, timestamps, and headers, but in Pulsar the `headers` are called `properties`. Starlight for Kafka converts these
 fields automatically between Kafka messages and Pulsar messages. The mapping relationships are as below.
 
 === Pulsar to Kafka message field mapping relationships
@@ -91,7 +92,7 @@ fields automatically between Kafka messages and Pulsar messages. The mapping rel
 
 In Kafka, each message is assigned with an offset once the message is successfully produced to a topic partition. +
 In Pulsar, each message is assigned with a `MessageID`. The message ID consists of `ledger-id`, `entry-id`, and `batch-index` components. +
-{product_name} uses the same approach in the Pulsar-Kafka wrapper to convert a Pulsar `MessageID` to an offset, and vice versa.
+Starlight for Kafka uses the same approach in the Pulsar-Kafka wrapper to convert a Pulsar `MessageID` to an offset, and vice versa.
 
 == Produce Messages
 
@@ -105,16 +106,16 @@ When the Kafka request handler receives a consumer request from a Kafka client, 
 
 Pulsar does not have a centralized group coordinator for assigning partitions to consumers of a consumer group or managing offsets for each consumer group. In Pulsar, partition assignment is managed by the broker on a per-partition basis, and the offset management is done by storing the acknowledgements in cursors by the owner broker of that partition.
 
-To be fully compatible with Kafka clients, {product_name} implements the Kafka group coordinator by storing the coordinator group changes and offsets in a system topic called `kafkaTenant/kafka/consumer_offsets` in Pulsar.
+To be fully compatible with Kafka clients, Starlight for Kafka implements the Kafka group coordinator by storing the coordinator group changes and offsets in a system topic called `kafkaTenant/kafka/consumer_offsets` in Pulsar.
 
-This bridges the gap between Pulsar and Kafka and allows use of existing Pulsar tools and policies to manage subscriptions and monitor Kafka consumers. {product_name} adds a background thread in the implemented group coordinator to periodically synchronize offset updates from the system topic to Pulsar cursors. Therefore, a Kafka consumer group is effectively treated as a Pulsar subscription to allow existing Pulsar tools to be used for managing Kafka consumer groups.
+This bridges the gap between Pulsar and Kafka and allows use of existing Pulsar tools and policies to manage subscriptions and monitor Kafka consumers. Starlight for Kafka adds a background thread in the implemented group coordinator to periodically synchronize offset updates from the system topic to Pulsar cursors. Therefore, a Kafka consumer group is effectively treated as a Pulsar subscription to allow existing Pulsar tools to be used for managing Kafka consumer groups.
 
 == What's next?
 
-For more on {product_name}, see:
+For more on Starlight for Kafka, see:
 
-* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
-* xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
-* xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
+* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
+* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
+* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
 * xref:installation:starlight-kafka-quickstart.adoc[Quickstart]

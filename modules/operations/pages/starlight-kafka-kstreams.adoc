@@ -1,8 +1,9 @@
-= Kafka streams in {product_name}
+= Kafka streams in Starlight for Kafka
 
+:navtitle: Kafka Streams
 :page-aliases: docs@starlight-kafka::starlight-kafka-kstreams.adoc
 
-{product_name} can run Kafka® Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with {product_name}. 
+{} can run Kafka® Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with Starlight for Kafka.
 
 * xref:starlight-kafka-kstreams.adoc#configure-auth[Configure authentication]
 * xref:starlight-kafka-kstreams.adoc#configure-rep[Configure replication factor]
@@ -26,7 +27,7 @@ sasl.mechanism=PLAIN
 [#configure-rep]
 == Configuring replication factor
 
-In {product_name}, the replication factor is handled by BookKeeper and set at the namespace level. +
+In Starlight for Kafka, the replication factor is handled by BookKeeper and set at the namespace level. +
 Kafka Streams sets its own internal `replication.factor` number, but Pulsar will apply its namespace replication factor from BookKeeper. +
 Set `replication.factor=1` in KStreams, or any positive integer. 
 
@@ -222,11 +223,11 @@ Follow along with this video from our *Five Minutes About Pulsar* series to migr
 video::Qy2ZlelLjXg[youtube, list=PL2g2h-wyI4SqeKH16czlcQ5x4Q_z-X7_m]
 
 == What's next? 
-You can configure and manage {product_name} based on your requirements. Check the following guides for more details.
+You can configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
 
-* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
-* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
-* xref:starlight-kafka-security.adoc[{product_name} Security]
-* xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
-* xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
+* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
+* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
+* xref:starlight-kafka-security.adoc[Starlight for Kafka Security]
+* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
+* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]

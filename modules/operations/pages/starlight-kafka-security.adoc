@@ -1,30 +1,31 @@
-= Security
+= Starlight for Kafka security
 
+:navtitle: Security
 :page-tag: starlight-kafka,security,secure,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-security.adoc
 
-This page covers enabling authentication features for {product_name}. +
+This page covers enabling authentication features for Starlight for Kafka. +
 
-{product_name} supports xref:starlight-kafka-security.adoc#authentication[SASL/PLAIN authentication], xref:starlight-kafka-security.adoc#authorization[JWT authorization], and xref:starlight-kafka-security.adoc#ssl[SSL encryption]. +
+Starlight for Kafka supports xref:starlight-kafka-security.adoc#authentication[SASL/PLAIN authentication], xref:starlight-kafka-security.adoc#authorization[JWT authorization], and xref:starlight-kafka-security.adoc#ssl[SSL encryption]. +
 
-{product_name} is installed with no authentication, authorization, or encryption, but these can be enabled to improve security. +
+Starlight for Kafka is installed with no authentication, authorization, or encryption, but these can be enabled to improve security. +
 
 Currently, these features are **only available in Java**.
 
 [#authentication]
 == Authentication
 
-{product_name} authentication uses the https://docs.confluent.io/platform/current/kafka/overview-authentication-methods.html[Kafka SASL/PLAIN mechanisms] and https://pulsar.apache.org/docs/en/security-overview/[Pulsar token-based mechanisms]. 
+Starlight for Kafka authentication uses the https://docs.confluent.io/platform/current/kafka/overview-authentication-methods.html[Kafka SASL/PLAIN mechanisms] and https://pulsar.apache.org/docs/en/security-overview/[Pulsar token-based mechanisms].
 
-Enabling authentication for {product_name} requires enabling authentication for the following components:
+Enabling authentication for Starlight for Kafka requires enabling authentication for the following components:
 
 * Pulsar brokers
 
-* {product_name} (some configurations of S4K rely on the configurations of Pulsar brokers)
+* Starlight for Kafka (some configurations of S4K rely on the configurations of Pulsar brokers)
 
 * Kafka clients
 
-Currently, {product_name} only supports the https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_plain.html#kafka-sasl-auth-plain[`PLAIN`] SASL mechanism, but there are more to come.
+Currently, Starlight for Kafka only supports the https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_plain.html#kafka-sasl-auth-plain[`PLAIN`] SASL mechanism, but there are more to come.
 
 === Enable `PLAIN` authentication
 
@@ -45,7 +46,7 @@ authenticationEnabled=true
 authenticationProviders=org.apache.pulsar.broker.authentication.AuthenticationProviderToken
 ----
 
-.. Enable authentication between the Pulsar broker and {product_name}.
+.. Enable authentication between the Pulsar broker and Starlight for Kafka.
 +
 [source,yaml]
 ----
@@ -77,7 +78,7 @@ tokenSecretKey=data:;base64,FLFyW0oLJ2Fi22KKCm21J18mbAdztfSHN/lAT5ucEKU=
 tokenPublicKey=file:///path/to/public.key
 ----
 
-. Enable authentication on {product_name}. Set the following property in the `conf/broker.conf`:
+. Enable authentication on Starlight for Kafka. Set the following property in the `conf/broker.conf`:
 +
 [source,yaml]
 ----
@@ -113,7 +114,7 @@ For more on passing credentials with JAAS, see https://docs.confluent.io/platfor
 [#authorization]
 == Authorization
 
-To enable authorization on {product_name}, ensure that authentication is enabled first.
+To enable authorization on Starlight for Kafka, ensure that authentication is enabled first.
 
 For more on authorization in Pulsar, see http://pulsar.apache.org/docs/en/security-jwt/#authorization[Pulsar Authorization].
 
@@ -150,16 +151,16 @@ bin/pulsar-admin --auth-plugin "org.apache.pulsar.client.impl.auth.Authenticatio
 [#ssl]
 == SSL encryption
 
-This section explains connecting and configuring {product_name} with SSL. There are two methods available: +
+This section explains connecting and configuring Starlight for Kafka with SSL. There are two methods available: +
 
-* (*Recommended*) Use the TLS certificates already configured for the Pulsar TLS endpoint to also connect the Kafka client. This is a new feature of {product_name} designed to make TLS connection fast and painless. Proceed to xref:starlight-kafka-security.adoc#pulsar-ssl[Create SSL connection with Pulsar].
+* (*Recommended*) Use the TLS certificates already configured for the Pulsar TLS endpoint to also connect the Kafka client. This is a new feature of Starlight for Kafka designed to make TLS connection fast and painless. Proceed to xref:starlight-kafka-security.adoc#pulsar-ssl[Create SSL connection with Pulsar].
 
 * Create dedicated TLS certificates and modify the Pulsar broker and Kafka client. Instructions for this method are xref:starlight-kafka-security.adoc#manual-ssl[here].
 
 [#pulsar-ssl]
 === Create SSL configuration with Pulsar 
 
-{product_name} features fast, painless TLS configuration between Pulsar and Kafka. Instead of creating different certificates for the Pulsar broker and Kafka client, simply modify `broker.conf` to pick up the existing Pulsar TLS certifications and configurations.
+Starlight for Kafka features fast, painless TLS configuration between Pulsar and Kafka. Instead of creating different certificates for the Pulsar broker and Kafka client, simply modify `broker.conf` to pick up the existing Pulsar TLS certifications and configurations.
 
 . Configure TLS on the Pulsar broker. For more, see https://pulsar.apache.org/docs/security-tls-transport/#create-tls-certificates[Create TLS certificates].
 . Expose TLS endpoints by adding the following configurations to `broker.conf`:
@@ -171,15 +172,15 @@ kafkaListeners=PLAINTEXT://127.0.0.1:9092, SSL://PRIVATE-HOSTNAME-OF-THE-BROKER:
 kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092, SSL://PUBLIC-HOSTNAME-OF-THE-BROKER:9093
 ----
 +
-These settings will enable TLS on the broker, and {product_name} will pick up the TLS certificates automatically. +
+These settings will enable TLS on the broker, and Starlight for Kafka will pick up the TLS certificates automatically. +
 
-. Proceed to xref:installation:starlight-kafka-quickstart.adoc#test[Test {product_name}] to test your configuration.
+. Proceed to xref:installation:starlight-kafka-quickstart.adoc#test[Test Starlight for Kafka] to test your configuration.
 
 [#manual-ssl]
 === Create SSL configuration manually
-The following example shows how to manually configure {product_name} with SSL.
+The following example shows how to manually configure Starlight for Kafka with SSL.
 
-{product_name} supports `PLAINTEXT` and `SSL` configuration types for Kafka listeners. SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as below.
+Starlight for Kafka supports `PLAINTEXT` and `SSL` configuration types for Kafka listeners. SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as below.
 [source,bash]
 ----
 kafkalisteners=PLAINTEXT://localhost:9092,SSL://localhost:9093
@@ -255,11 +256,11 @@ For more on configuring Kafka, see https://kafka.apache.org/documentation/#secur
 
 == What's next?
 
-For more on {product_name}, see:
+For more on Starlight for Kafka, see:
 
-* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:starlight-kafka-implementation.adoc[{product_name} Implementation]
-* xref:starlight-kafka-monitor.adoc[Monitor {product_name}]
-* xref:starlight-kafka-proxy.adoc[{product_name} Proxy]
-* xref:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
+* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
+* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
+* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
+* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
 * xref:installation:starlight-kafka-quickstart.adoc[Quickstart]

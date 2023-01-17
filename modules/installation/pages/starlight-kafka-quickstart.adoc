@@ -1,35 +1,38 @@
-= {product_name} Quickstart
+= Installing the Starlight for Kafka extension
+
 :navtitle: Installation
 :page-tag: starlight-kafka,quickstart,install,admin,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-quickstart.adoc
 
 This document will help you get started producing and consuming Kafka messages on a Pulsar cluster.
 
+NOTE: This guide is focused on installing the extension into an existing Pulsar cluster. There is also the "xref:streaming-learning:use-cases-architectures:starlight/kafka/index.adoc[]" which provides more options.
+
 * xref:starlight-kafka-quickstart.adoc#prerequisites[Check prerequisites]
 * xref:starlight-kafka-quickstart.adoc#download[Download protocol handler]
 * xref:starlight-kafka-quickstart.adoc#build[Build protocol handler from source (optional)]
 * xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler]
-* xref:starlight-kafka-quickstart.adoc#test[Test {product_name}]
+* xref:starlight-kafka-quickstart.adoc#test[Test Starlight for Kafka]
 
 [#prerequisites]
 == Prerequisites
 
-{product_name} requires the following Pulsar versions and Kafka clients.
+Starlight for Kafka requires the following Pulsar versions and Kafka clients.
 
 [cols="3,3,3"]
 |===
-|{product_name} Version |Compatible Pulsar version |Supported Kafka client
+|Starlight for Kafka Version |Compatible Pulsar version |Supported Kafka client
 
 | 2.10 | 2.10.x | 0.10, 1.x, 2.x, 3.x 
 | 2.8  | 2.8.x  | 0.10, 1.x, 2.x, 3.x
 
 |===
 
-{product_name} supports *all major Kafka clients* (0.10, 1.x, 2.x, 3.x).
+Starlight for Kafka supports *all major Kafka clients* (0.10, 1.x, 2.x, 3.x).
 
-{product_name} supports *Kafka Streams* and the *Kafka CLI*.
+Starlight for Kafka supports *Kafka Streams* and the *Kafka CLI*.
 
-{product_name} requires *JDK11*.
+Starlight for Kafka requires *JDK11*.
 
 [#download]
 == Download 
@@ -40,11 +43,11 @@ This document will help you get started producing and consuming Kafka messages o
 . Proceed to xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler].
 
 [#build]
-== Build {product_name} protocol handler from source (optional)
+== Build Starlight for Kafka protocol handler from source (optional)
 
 If you prefer, build the protocol handler `.nar` from source.
 
-. Clone the {product_name} GitHub repo to your local machine and change directory into the repo. 
+. Clone the Starlight for Kafka GitHub repo to your local machine and change directory into the repo.
 +
 [source,bash]
 ----  
@@ -54,7 +57,7 @@ cd starlight-for-kafka
 +
 [NOTE]
 ====
-{product_name} requires JDK11. Set `jenv global 11` to use JDK 11. 
+Starlight for Kafka requires JDK11. Set `jenv global 11` to use JDK 11.
 ====
 
 . Build the Maven project.
@@ -81,7 +84,7 @@ You will get an output like this:
 [#configure]
 == Configure protocol handler
 
-Configure the Pulsar broker to run the {product_name} protocol handler as a plugin by adding configurations in the Pulsar configuration file `broker.conf`.
+Configure the Pulsar broker to run the Starlight for Kafka protocol handler as a plugin by adding configurations in the Pulsar configuration file `broker.conf`.
 
 [NOTE]
 ====
@@ -104,7 +107,7 @@ allowAutoTopicCreationType=partitioned
 |Suggested Value
 
 | `messagingProtocols` |  | kafka 
-| `protocolHandlerDirectory`| ./protocols  | Location of {product_name} NAR file 
+| `protocolHandlerDirectory`| ./protocols  | Location of Starlight for Kafka NAR file
 | `allowAutoTopicCreationType`| non-partitioned | partitioned 
 |===    
 +
@@ -128,16 +131,16 @@ kafkaListeners=PLAINTEXT://127.0.0.1:9092
 kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
 ----
 
-. Set offset management. Offset management is *required* because {product_name} depends upon Pulsar broker-level entry metadata.
+. Set offset management. Offset management is *required* because Starlight for Kafka depends upon Pulsar broker-level entry metadata.
 +
 [source,yaml]
 ----
 brokerEntryMetadataInterceptors=org.apache.pulsar.common.intercept.AppendIndexMetadataInterceptor
 ----
 
-. Disable the deletion of inactive topics. This is not required but *very important* in {product_name}. +
+. Disable the deletion of inactive topics. This is not required but *very important* in Starlight for Kafka. +
 By default, Pulsar deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic is not deleted. +
-{product_name} cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
+Starlight for Kafka cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
 +
 [source,yaml]
 ----
@@ -146,16 +149,16 @@ brokerDeleteInactiveTopicsEnabled=false
 
 === Additional configurations
 
-* Set both retention *and* time to live policies http://pulsar.apache.org/docs/en/cookbooks-retention-expiry/[TTL] for {product_name} namespaces. If you only configure retention *without* configuring TTL, all messages on {product_name} topics cannot be deleted because {product_name} does not update a durable cursor.
+* Set both retention *and* time to live policies http://pulsar.apache.org/docs/en/cookbooks-retention-expiry/[TTL] for Starlight for Kafka namespaces. If you only configure retention *without* configuring TTL, all messages on Starlight for Kafka topics cannot be deleted because Starlight for Kafka does not update a durable cursor.
 
 * If a Pulsar consumer and a Kafka consumer both subscribe to the same topic with the same subscription (or group) name, the two consumers consume messages independently and they do not share the same subscription, even though the subscription name of a Pulsar client is the same with the group name of a Kafka client.
 
-* {product_name} supports interaction between Pulsar client and Kafka client by default. If your topic is used only by the Pulsar client or only by the Kafka client, you can set `entryFormat=kafka` in `broker.conf` for better performance.
+* Starlight for Kafka supports interaction between Pulsar client and Kafka client by default. If your topic is used only by the Pulsar client or only by the Kafka client, you can set `entryFormat=kafka` in `broker.conf` for better performance.
 
 [#test]
 == Test 
 
-After you have installed the {product_name} protocol handler and modified the Pulsar broker configuration, verify your {product_name} deployment works by running a Kafka client and consuming the messages on Pulsar.
+After you have installed the Starlight for Kafka protocol handler and modified the Pulsar broker configuration, verify your Starlight for Kafka deployment works by running a Kafka client and consuming the messages on Pulsar.
 
 . Restart your Pulsar brokers. 
 
@@ -189,7 +192,7 @@ bin/kafka-console-producer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --to
 >hi pulsar, it's me, kafka!
 ----
 
-. If {product_name} is working, your message will appear on your Pulsar consumer. 
+. If Starlight for Kafka is working, your message will appear on your Pulsar consumer.
 +
 [source,text]
 ----
@@ -199,11 +202,11 @@ key:[null], properties:[], content:hi pulsar, it's me, kafka!
 
 == What's next?
 
-You can configure and manage {product_name} based on your requirements. Check the following guides for more details.
+You can configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
 
-* xref:configuration:starlight-kafka-configuration.adoc[{product_name} Configuration]
-* xref:operations:starlight-kafka-implementation.adoc[{product_name} Implementation]
-* xref:operations:starlight-kafka-monitor.adoc[Monitor {product_name}]
-* xref:operations:starlight-kafka-security.adoc[{product_name} Security]
-* xref:operations:starlight-kafka-proxy.adoc[{product_name} Proxy]
-* xref:operations:starlight-kafka-schema-registry.adoc[{product_name} Schema Registry]
+* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
+* xref:operations:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
+* xref:operations:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
+* xref:operations:starlight-kafka-security.adoc[Starlight for Kafka Security]
+* xref:operations:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
+* xref:operations:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
