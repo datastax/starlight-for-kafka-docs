@@ -2,7 +2,7 @@
 
 :navtitle: Configuration
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
-:page-aliases: docs@starlight-kafka::starlight-kafka-configuration.adoc
+
 
 This page describes configuration options for Starlight for Kafka:
 

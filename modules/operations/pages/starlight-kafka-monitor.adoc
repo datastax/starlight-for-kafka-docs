@@ -2,7 +2,6 @@
 
 :navtitle: Monitoring
 :page-tag: starlight-kafka,admin,manage,pulsar,kafka
-:page-aliases: docs@starlight-kafka::starlight-kafka-monitor.adoc
 
 Starlight for Kafka exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
 
