@@ -1,4 +1,4 @@
-= Messaging implementation of Starlight for Kafka
+= Starlight for Kafka protocol handler
 
 :navtitle: Implementation
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka

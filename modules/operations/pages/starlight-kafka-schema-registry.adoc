@@ -1,4 +1,4 @@
-= Starlight for Kafka Schema Registry
+= Starlight for Kafka schema registry
 :navtitle: Schema registry
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-schema-registry.adoc

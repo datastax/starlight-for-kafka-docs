@@ -1,9 +1,9 @@
-= Starlight for Kafka Proxy
+= Starlight for Kafka proxy extension
 :navtitle: Proxy extension
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 :page-aliases: docs@starlight-kafka::starlight-kafka-proxy.adoc
 
-Starlight for Kafka allows you to deploy a proxy extension on the Pulsar proxy component. This allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
+Starlight for Kafka allows you to deploy a https://github.com/apache/pulsar/wiki/PIP-99:-Pulsar-Proxy-Extensions[proxy extension^]{external-link-icon} on the Pulsar proxy component. This allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
 This is particularly useful in Kubernetes environments where you already have the Pulsar proxy.
 
 == Configuration:

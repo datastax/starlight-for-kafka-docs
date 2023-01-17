@@ -3,14 +3,14 @@
 :page-tag: starlight-kafka,dev,admin,pulsar,kafka
 :page-aliases: docs@starlight-kafka::index.adoc
 
-Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka protocol handler on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar’s powerful features, such as:
+Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[protocol handler^]{external-link-icon} on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar’s powerful features, such as:
 
 - Streamlined operations with enterprise-grade multi-tenancy
 - Simplified operations with a rebalance-free architecture
 - Infinite event stream retention with Apache BookKeeper and tiered storage
 - Serverless event processing with Pulsar Functions
 
-Starlight for Kafka, implemented as a Pulsar https://github.com/apache/pulsar/blob/master/pulsar-broker/src/main/java/org/apache/pulsar/broker/protocol/ProtocolHandler.java[protocol handler] plugin with the protocol name "kafka", is loaded when Pulsar broker starts. It helps reduce the barriers for people adopting Pulsar to achieve their business success by providing a native Kafka protocol support on Apache Pulsar. By integrating the two popular event streaming ecosystems, Starlight for Kafka unlocks new use cases. To accelerate your development of real-time applications and services, you can leverage these advantages from each ecosystem and build a truly unified event streaming platform with Apache Pulsar.
+Starlight for Kafka, implemented as a Pulsar protocol handler plugin with the protocol name "kafka", is loaded when Pulsar broker starts. It helps reduce the barriers for people adopting Pulsar to achieve their business success by providing a native Kafka protocol support on Apache Pulsar. By integrating the two popular event streaming ecosystems, Starlight for Kafka unlocks new use cases. To accelerate your development of real-time applications and services, you can leverage these advantages from each ecosystem and build a truly unified event streaming platform with Apache Pulsar.
 
 Starlight for Kafka implements the Kafka wire protocol on Pulsar by leveraging the existing components (such as topic discovery, the distributed log library - ManagedLedger, cursors and so on) that Pulsar already has.
 
