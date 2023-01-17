@@ -1,7 +1,6 @@
 = Kafka streams in Starlight for Kafka
 
 :navtitle: Kafka Streams
-:page-aliases: docs@starlight-kafka::starlight-kafka-kstreams.adoc
 
 {} can run Kafka® Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with Starlight for Kafka.
 
