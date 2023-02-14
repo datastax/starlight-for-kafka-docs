@@ -16,6 +16,8 @@ Currently, these features are **only available in Java**.
 
 Starlight for Kafka authentication uses the https://docs.confluent.io/platform/current/kafka/overview-authentication-methods.html[Kafka SASL/PLAIN mechanisms] and https://pulsar.apache.org/docs/en/security-overview/[Pulsar token-based mechanisms].
 
+<<oauthbearer>> is also available.
+
 Enabling authentication for Starlight for Kafka requires enabling authentication for the following components:
 
 * Pulsar brokers
@@ -26,9 +28,9 @@ Enabling authentication for Starlight for Kafka requires enabling authentication
 
 Currently, Starlight for Kafka only supports the https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_plain.html#kafka-sasl-auth-plain[`PLAIN`] SASL mechanism, but there are more to come.
 
-=== Enable `PLAIN` authentication
+=== `PLAIN` authentication
 
-To enable authentication with the `PLAIN` SASL mechanism, follow the steps below.
+Authenticate Starlight for Kafka with the `PLAIN` SASL mechanism, follow the steps below.
 
 . Enable authentication on the Pulsar broker. For the `PLAIN` mechanism, Kafka authentication is forwarded to the https://pulsar.apache.org/docs/en/security-jwt/[JWT authentication] of Pulsar, so you need to configure the JWT authentication by setting the following properties in `conf/broker.conf`.
 +
@@ -101,7 +103,7 @@ The token can be created by Pulsar token tools. The role is the `subject` for th
 
 [source,java]
 ----
-security.protocol=SASL_PLAINTEXT  
+security.protocol=SASL_PLAINTEXT
 # or security.protocol=SASL_SSL if SSL connection is used
 sasl.mechanism=PLAIN
 sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule \
@@ -109,6 +111,186 @@ required username="public/default" password="token:xxx";
 ----
 
 For more on passing credentials with JAAS, see https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_plain.html#clients[Configuring SASL/PLAIN].
+
+[#oauthbearer]
+=== OAUTHBEARER authentication
+
+Authenticate Starlight for Kafka using the `OAUTHBEARER` mechanism by following the steps below.
+
+. Enable authentication on the Pulsar broker.
+Set the following properties in the `conf/broker.conf` or `conf/standalone.conf` file.
++
+The properties are the same as `PLAIN` authentication except for `brokerClientAuthenticationPlugin` and `brokerClientAuthenticationParameters`.
++
+[cols="2,3,1,3",options=header]
+|===
+|Property
+|Description
+|Required or optional
+|Example value
+
+|`audience`
+|An OAuth 2.0 "resource server" identifier for the Pulsar cluster
+|Optional
+|https://broker.example.com
+
+|`issuerUrl`
+|URL of the authentication provider which allows the Pulsar client to obtain an access token
+|Required
+|https://accounts.google.com
+
+|`privateKey`
+a|URL to a JSON credential file +
+The following pattern formats are supported: +
+* file:///path/to/file +
+* file:/path/to/file +
+* data:application/json;base64,<base64-encoded value>
+|Required
+|file:///path/to/credentials_file.json
+
+|`scope`
+|The scope of the access request that is expressed as a list of space-delimited, case-sensitive strings
+|Optional
+|api://pulsar-cluster-1/.default
+
+|`type`
+|OAuth 2.0 authentication type +
+The **default** value is client_credentials
+|Optional
+|client_credentials
+
+|===
++
+Here is an example `conf/broker.conf` file.
++
+[source,properties]
+----
+authenticationEnabled=true
+authenticationProviders=org.apache.pulsar.broker.authentication.AuthenticationProviderToken
+superUserRoles=<super-user-roles>
+brokerClientAuthenticationPlugin=org.apache.pulsar.client.impl.auth.oauth2.AuthenticationOAuth2
+brokerClientAuthenticationParameters={"type":"client_credentials","privateKey":"file:///path/to/credentials_file.json""issuerUrl":"<issuer-url>","audience":"<audience>"}
+tokenPublicKey=<token-public-key>
+----
+. Enable authentication on S4K.
+Set the following property in the `conf/broker.conf` or `conf/standalone.conf` file.
++
+[source,properties]
+----
+saslAllowedMechanisms=OAUTHBEARER
+----
+
+. Specify the Kafka server callback handler.
+For the `OAUTHBEARER` mechanism, use `AuthenticationProviderToken` or customize your authentication provider to process the access tokens from an OAuth 2.0 server.
+S4K provides a built-in `AuthenticateCallbackHandler` that uses the authentication provider of Pulsar for authentication. You need to configure the following properties in the `conf/kop-handler.properties` file.
++
+[source,properties]
+----
+# Use S4K's built-in handler:
+kopOauth2AuthenticateCallbackHandler=io.streamnative.pulsar.handlers.kop.security.oauth.OauthValidatorCallbackHandler
+# Java property configuration file of OauthValidatorCallbackHandler
+kopOauth2ConfigFile=conf/kop-handler.properties
+----
+. Specify the authentication method name of the provider (`oauth.validate.method`) in the `conf/kop-handler.properties` file.
+By default, it uses the `token` authentication method.
+
+* If you have configured the `token` authentication  method, you do not need to specify the authentication method name.
+
+* If you use `AuthenticationProviderToken`, since `AuthenticationProviderToken#getAuthMethodName()` returns `token`, set the `oauth.validate.method` as the token.
+
+* If you use other providers, set the `oauth.validate.method` as the result of `getAuthMethodName()`.
++
+[source,properties]
+----
+oauth.validate.method=token
+----
+. Enable authentication on Kafka client.
+Install the S4K built-in callback handler to your local Maven repository.
+
+. To retrieve an access token from an OAuth 2.0 server, use the S4K built-in callback handler instead of the Kafka login callback handler.
++
+[source,bash]
+----
+mvn clean install -pl oauth-client -DskipTests
+----
+. Add the following dependencies to the `pom.xml` file.
+For stable releases, the `pulsar.version` is the same as the `kop.version`.
++
+[source,xml]
+----
+<dependency>
+    <groupId>io.streamnative.pulsar.handlers</groupId>
+    <artifactId>oauth-client</artifactId>
+    <version>${protocol_version}</version>
+</dependency>
+----
+
+. Configure the producer or consumer with the following **required** properties.
++
+[cols="2,2,3,2",options=header]
+|===
+|Property
+|Description
+|Example value
+|Note
+
+|sasl.login.callback.handler.class
+|Class of SASL login callback handler
+|io.streamnative.pulsar.handlers.kop.security.oauth.OauthLoginCallbackHandler
+|Set this value to the value in the example properties configuration below.
+
+|security.protocol
+|Security protocol
+|SASL_PLAINTEXT
+|
+
+|sasl.mechanism
+|SASL mechanism
+|OAUTHBEARER
+|
+
+|sasl.jaas.config
+|JAAS configuration
+|org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule
+|
+
+|oauth.issuer.url
+|URL of the authentication provider which allows the Pulsar client to obtain an access token.
+|https://accounts.google.com
+|This property is the same to the issuerUrl property as http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[Pulsar client credentials]
+
+|oauth.credentials.url
+|URL to a JSON credentials file.
+a|The following pattern formats are supported: +
+* file:///path/to/file +
+* file:/path/to/file +
+* data:application/json;base64,<base64-encoded value> +
+* file:///path/to/credentials_file.json
+|This property is the same as the privateKey property in http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[Pulsar client credentials]
+
+|oauth.audience
+|OAuth 2.0 "resource server" identifier for the Pulsar cluster.
+|https://broker.example.com
+|This property is the same as the audience property in <a href="http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types">Pulsar client credentials
+
+|oauth.scope
+|The scope of the access request that is expressed as a list of space-delimited, case-sensitive strings.
+|api://pulsar-cluster-1/.default
+|This property is the same as the scope property in http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[Pulsar client credentials]
+
+|===
+
+Here is an example properties configuration.
+[source,properties]
+----
+sasl.login.callback.handler.class=io.streamnative.pulsar.handlers.kop.security.oauth.OauthLoginCallbackHandler
+security.protocol=SASL_PLAINTEXT # or security.protocol=SASL_SSL if SSL connection is used
+sasl.mechanism=OAUTHBEARER
+sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule \
+   required oauth.issuer.url="https://accounts.google.com"\
+   oauth.credentials.url="file:///path/to/credentials_file.json"\
+   oauth.audience="https://broker.example.com";
+----
 
 [#authorization]
 == Authorization
