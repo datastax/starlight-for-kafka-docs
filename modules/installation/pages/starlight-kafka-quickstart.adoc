@@ -22,7 +22,7 @@ Starlight for Kafka requires the following Pulsar versions and Kafka clients.
 |===
 |Starlight for Kafka Version |Compatible Pulsar version |Supported Kafka client
 
-| 2.10 | 2.10.x | 0.10, 1.x, 2.x, 3.x 
+| 2.10 | 2.10.x | 0.10, 1.x, 2.x, 3.x
 | 2.8  | 2.8.x  | 0.10, 1.x, 2.x, 3.x
 
 |===
@@ -34,7 +34,7 @@ Starlight for Kafka supports *Kafka Streams* and the *Kafka CLI*.
 Starlight for Kafka requires *JDK11*.
 
 [#download]
-== Download 
+== Download
 
 . If this is the first time you've used protocol handlers with your Pulsar deployment, create a `protocols` folder in the root of your Pulsar directory.
 . Download `pulsar-protocol-handler-kafka-{protocol_version}.nar` https://github.com/datastax/starlight-for-kafka/releases/tag/v2.10.0.3[here].
@@ -49,7 +49,7 @@ If you prefer, build the protocol handler `.nar` from source.
 . Clone the Starlight for Kafka GitHub repo to your local machine and change directory into the repo.
 +
 [source,bash]
-----  
+----
 git clone https://github.com/datastax/starlight-for-kafka.git
 cd starlight-for-kafka
 ----
@@ -66,7 +66,7 @@ Starlight for Kafka requires JDK11. Set `jenv global 11` to use JDK 11.
 mvn clean install -DskipTests
 ----
 +
-You will get an output like this: 
+You will get an output like this:
 +
 [source,java]
 ----
@@ -78,7 +78,7 @@ You will get an output like this:
 
 . If this is the first time you've used protocol handlers with your Pulsar deployment, create a `protocols` folder in the root of your Pulsar directory.
 . The protocol handler `.nar` is now available at `starlight-for-kafka/kafka-impl/target/pulsar-protocol-handler-kafka-{protocol_version}.nar`.
-. Copy the `.nar` file to your Pulsar `protocols` directory and proceed to xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler]
+. Copy the `.nar` file to your Pulsar `protocols` directory and proceed to xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler].
 
 [#configure]
 == Configure protocol handler
@@ -93,7 +93,7 @@ Modify `standalone.conf` if you're running Pulsar standalone.
 . Add these configuration values to `broker.conf`:
 +
 [source,yaml]
-----    
+----
 messagingProtocols=kafka
 protocolHandlerDirectory=./protocols
 allowAutoTopicCreationType=partitioned
@@ -105,17 +105,17 @@ allowAutoTopicCreationType=partitioned
 |Default Value
 |Suggested Value
 
-| `messagingProtocols` |  | kafka 
+| `messagingProtocols` |  | kafka
 | `protocolHandlerDirectory`| ./protocols  | Location of Starlight for Kafka NAR file
-| `allowAutoTopicCreationType`| non-partitioned | partitioned 
-|===    
+| `allowAutoTopicCreationType`| non-partitioned | partitioned
+|===
 +
 [NOTE]
 ====
 `allowAutoTopicCreationType` is set to `non-partitioned` by default. Since topics are partitioned by default in Kafka, it's better to avoid creating non-partitioned topics unless Kafka clients need to interact with existing non-partitioned topics.
 ====
 
-. Set Kafka listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which Kafka binds to for listening. 
+. Set Kafka listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which Kafka binds to for listening.
 +
 [source,yaml]
 ----
@@ -155,11 +155,11 @@ brokerDeleteInactiveTopicsEnabled=false
 * Starlight for Kafka supports interaction between Pulsar client and Kafka client by default. If your topic is used only by the Pulsar client or only by the Kafka client, you can set `entryFormat=kafka` in `broker.conf` for better performance.
 
 [#test]
-== Test 
+== Test
 
 After you have installed the Starlight for Kafka protocol handler and modified the Pulsar broker configuration, verify your Starlight for Kafka deployment works by running a Kafka client and consuming the messages on Pulsar.
 
-. Restart your Pulsar brokers. 
+. Restart your Pulsar brokers.
 
 . Download https://kafka.apache.org/downloads[Kafka 3.0.0] and untar the release package.
 +
@@ -176,7 +176,7 @@ cd kafka-3.0.0
 bin/kafka-console-consumer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --topic test --from-beginning
 ----
 
-. Create a consumer on Pulsar to consume messages. Here we're adding `-n 0` to tell Pulsar to continue running instead of closing the connection after consuming a message. 
+. Create a consumer on Pulsar to consume messages. Here we're adding `-n 0` to tell Pulsar to continue running instead of closing the connection after consuming a message.
 +
 [source,bash]
 ----
