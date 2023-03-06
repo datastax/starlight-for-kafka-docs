@@ -219,7 +219,7 @@ For stable releases, the `pulsar.version` is the same as the `kop.version`.
 [source,xml]
 ----
 <dependency>
-    <groupId>io.streamnative.pulsar.handlers</groupId>
+    <groupId>com.datastax.oss</groupId>
     <artifactId>oauth-client</artifactId>
     <version>${protocol_version}</version>
 </dependency>
@@ -236,7 +236,7 @@ For stable releases, the `pulsar.version` is the same as the `kop.version`.
 
 |sasl.login.callback.handler.class
 |Class of SASL login callback handler
-|io.streamnative.pulsar.handlers.kop.security.oauth.OauthLoginCallbackHandler
+|com.datastax.oss.kafka.oauth.OauthLoginCallbackHandler
 |Set this value to the value in the example properties configuration below.
 
 |security.protocol
@@ -283,7 +283,7 @@ a|The following pattern formats are supported: +
 Here is an example properties configuration.
 [source,properties]
 ----
-sasl.login.callback.handler.class=io.streamnative.pulsar.handlers.kop.security.oauth.OauthLoginCallbackHandler
+sasl.login.callback.handler.class=com.datastax.oss.kafka.oauth.OauthLoginCallbackHandler
 security.protocol=SASL_PLAINTEXT # or security.protocol=SASL_SSL if SSL connection is used
 sasl.mechanism=OAUTHBEARER
 sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule \
