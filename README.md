@@ -1,1 +1,0 @@
-# starlight-for-kafka-docs
