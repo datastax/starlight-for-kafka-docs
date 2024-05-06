@@ -2,7 +2,7 @@
 :navtitle: Starlight for Kafka
 :page-tag: starlight-kafka,dev,admin,pulsar,kafka
 
-Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[protocol handler^]{external-link-icon} on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar’s powerful features, such as:
+Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[protocol handler^] on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar’s powerful features, such as:
 
 - Streamlined operations with enterprise-grade multi-tenancy
 - Simplified operations with a rebalance-free architecture
@@ -13,7 +13,7 @@ Starlight for Kafka, implemented as a Pulsar protocol handler plugin with the pr
 
 Starlight for Kafka implements the Kafka wire protocol on Pulsar by leveraging the existing components (such as topic discovery, the distributed log library - ManagedLedger, cursors and so on) that Pulsar already has.
 
-== Features 
+== Features
 
 Starlight for Kafka adds additional features to make native Kafka protocol support even better.
 
@@ -22,7 +22,7 @@ Starlight for Kafka adds additional features to make native Kafka protocol suppo
 * xref:operations:starlight-kafka-proxy.adoc[Proxy extension] - allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
 
 * Integrated support for the Pulsar schema registry. +
-//* xref:starlight-cdc.adoc[AVRO consumption] - consume AVRO schema from a Kafka client. 
+//* xref:starlight-cdc.adoc[AVRO consumption] - consume AVRO schema from a Kafka client.
 
 == What's next?
 
