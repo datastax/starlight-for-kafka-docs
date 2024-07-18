@@ -1,7 +1,6 @@
 = Starlight for Kafka
 :navtitle: Starlight for Kafka
 :page-tag: starlight-kafka,dev,admin,pulsar,kafka
-:page-aliases: docs@starlight-kafka::index.adoc
 
 Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka protocol handler on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar’s powerful features, such as:
 
@@ -14,7 +13,7 @@ Starlight for Kafka, implemented as a Pulsar https://github.com/apache/pulsar/bl
 
 Starlight for Kafka implements the Kafka wire protocol on Pulsar by leveraging the existing components (such as topic discovery, the distributed log library - ManagedLedger, cursors and so on) that Pulsar already has.
 
-== Features 
+== Features
 
 Starlight for Kafka adds additional features to make native Kafka protocol support even better.
 
@@ -23,7 +22,7 @@ Starlight for Kafka adds additional features to make native Kafka protocol suppo
 * xref:operations:starlight-kafka-proxy.adoc[Proxy extension] - allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
 
 * Integrated support for the Pulsar schema registry. +
-//* xref:starlight-cdc.adoc[AVRO consumption] - consume AVRO schema from a Kafka client. 
+//* xref:starlight-cdc.adoc[AVRO consumption] - consume AVRO schema from a Kafka client.
 
 == What's next?
 
