@@ -1,5 +1,4 @@
 = Kafka streams in Starlight for Kafka
-
 :navtitle: Kafka Streams
 
 {} can run Kafka® Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with Starlight for Kafka.
@@ -16,7 +15,7 @@ To use the username and password authentication in Kstreams, set the following p
 
 [source,bash]
 ----
-sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="tenantname" 
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="tenantname"
  password="token:XXXX-JWT-TOKEN;"
 security.protocol=SASL_PLAINTEXT
 # security.protocol=SASL_SSL if SSL connection is being used
@@ -28,14 +27,14 @@ sasl.mechanism=PLAIN
 
 In Starlight for Kafka, the replication factor is handled by BookKeeper and set at the namespace level. +
 Kafka Streams sets its own internal `replication.factor` number, but Pulsar will apply its namespace replication factor from BookKeeper. +
-Set `replication.factor=1` in KStreams, or any positive integer. 
+Set `replication.factor=1` in KStreams, or any positive integer.
 
 [#sample-app]
 == Application code
 
-This Java application will accept a stream of words from a KStreams input, process them, and print the number of occurences of each word to the KStreams output. 
+This Java application will accept a stream of words from a KStreams input, process them, and print the number of occurences of each word to the KStreams output.
 
-. Create two topics in the `kafka` namespace of your Pulsar tenant called `streams-plaintext-input` and `streams-plaintext-output`: 
+. Create two topics in the `kafka` namespace of your Pulsar tenant called `streams-plaintext-input` and `streams-plaintext-output`:
 +
 [source,bash]
 ----
@@ -187,7 +186,7 @@ public class WordCountExample {
 }
 ----
 
-. Running the program will generate an output like this: 
+. Running the program will generate an output like this:
 +
 [source,bash]
 ----
@@ -203,7 +202,7 @@ public class WordCountExample {
 
 [NOTE]
 ====
-If you are on an M1 Mac and encounter a jnilib error, add this dependency to the example application's `pom.xml` file: 
+If you are on an M1 Mac and encounter a jnilib error, add this dependency to the example application's `pom.xml` file:
 [source,xml]
 ----
 <dependency>
@@ -217,11 +216,11 @@ If you are on an M1 Mac and encounter a jnilib error, add this dependency to the
 [#video]
 == Starlight for Kafka video
 
-Follow along with this video from our *Five Minutes About Pulsar* series to migrate from Kafka to Pulsar. 
+Follow along with this video from our *Five Minutes About Pulsar* series to migrate from Kafka to Pulsar.
 
 video::Qy2ZlelLjXg[youtube, list=PL2g2h-wyI4SqeKH16czlcQ5x4Q_z-X7_m]
 
-== What's next? 
+== What's next?
 You can configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
 
 * xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]

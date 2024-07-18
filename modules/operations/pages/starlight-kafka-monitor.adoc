@@ -1,5 +1,4 @@
 = Monitoring Starlight for Kafka
-
 :navtitle: Monitoring
 :page-tag: starlight-kafka,admin,manage,pulsar,kafka
 

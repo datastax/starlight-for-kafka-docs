@@ -1,5 +1,4 @@
 = Starlight for Kafka security
-
 :navtitle: Security
 :page-tag: starlight-kafka,security,secure,dev,pulsar,kafka
 
@@ -339,7 +338,7 @@ This section explains connecting and configuring Starlight for Kafka with SSL. T
 * Create dedicated TLS certificates and modify the Pulsar broker and Kafka client. Instructions for this method are xref:starlight-kafka-security.adoc#manual-ssl[here].
 
 [#pulsar-ssl]
-=== Create SSL configuration with Pulsar 
+=== Create SSL configuration with Pulsar
 
 Starlight for Kafka features fast, painless TLS configuration between Pulsar and Kafka. Instead of creating different certificates for the Pulsar broker and Kafka client, simply modify `broker.conf` to pick up the existing Pulsar TLS certifications and configurations.
 
@@ -393,9 +392,9 @@ keytool -keystore server.keystore.jks -alias localhost -import -file cert-signed
 +
 In the above example, we have input four passwords:
 +
-* `server-keystore` for `server.keystore.jks` 
-* `server` for `ca-cert` and `ca-key` 
-* `server-truststore` for `server.truststore.jks` 
+* `server-keystore` for `server.keystore.jks`
+* `server` for `ca-cert` and `ca-key`
+* `server-truststore` for `server.truststore.jks`
 * `client-truststore` for `client.truststore.jks`
 
 . Configure the Pulsar broker. In `conf/broker.conf`, add the related configurations using the JKS configurations created in the previous step.

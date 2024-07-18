@@ -1,5 +1,4 @@
 = Installing the Starlight for Kafka extension
-
 :navtitle: Installation
 :page-tag: starlight-kafka,quickstart,install,admin,dev,pulsar,kafka
 

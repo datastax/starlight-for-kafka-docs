@@ -1,5 +1,4 @@
 = Starlight for Kafka protocol handler
-
 :navtitle: Implementation
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 
@@ -19,9 +18,9 @@ To let Kafka users leverage the multi-tenancy of Apache Pulsar, a Kafka user can
 |Namespace
 |Short topic name
 
-| my-topic | `<kafkaTenant>` | `<kafkaNamespace>` | my-topic 
-| my-tenant/my-ns/my-topic | my-tenant | my-ns | my-topic 
-| persistent://my-tenant/my-ns/my-topic | my-tenant | my-ns | my-topic 
+| my-topic | `<kafkaTenant>` | `<kafkaNamespace>` | my-topic
+| my-tenant/my-ns/my-topic | my-tenant | my-ns | my-topic
+| persistent://my-tenant/my-ns/my-topic | my-tenant | my-ns | my-topic
 
 |===
 
