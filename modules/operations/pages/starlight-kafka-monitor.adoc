@@ -18,130 +18,195 @@ The Starlight for Kafka metrics are exposed under `/metrics`` at port `8000` alo
 
 === Request metrics
 
-[cols=3*,options=header]
-
+[cols=3*]
 |===
-|Name
-|Type
-|Description
+|Name |Type |Description
 
-| kop_server_ALIVE_CHANNEL_COUNT | Gauge | The number of alive request channels
-| kop_server_ACTIVE_CHANNEL_COUNT | Gauge | The number of active request channels |
+|kop_server_ALIVE_CHANNEL_COUNT
+|Gauge
+|The number of alive request channels.
 
+|kop_server_ACTIVE_CHANNEL_COUNT
+|Gauge
+|The number of active request channels.
 |===
 
 === Request metrics
 
-[cols=3*,options=header]
-
+[cols=3*]
 |===
-|Name
-|Type
-|Description
+|Name |Type |Description
 
-| kop_server_REQUEST_QUEUE_SIZE | Gauge | The number of requests in S4K request processing queue of the total request channel. 
-| kop_server_REQUEST_QUEUED_LATENCY | Summary | The requests queued latency calculated in milliseconds +
- Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, ListOffsets, OffsetFetch, OffsetCommit, Fetch, JoinGroup, SyncGroup, Heartbeat, LeaveGroup, DescribeGroups, ListGroups, DeleteGroups, SaslHandshake, SaslAuthenticate, CreateTopics, InitProducerId, AddPartitionsToTxn, AddOffsetsToTxn, TxnOffsetCommit, EndTxn, WriteTxnMarkers, DescribeConfigs, DeleteTopics)
-| kop_server_REQUEST_PARSE_LATENCY | Summary | The requests parse latency from `byteBuf` to `MemoryRecords` calculated in milliseconds
-| kop_server_REQUEST_LATENCY | Summary | The requests processing total latency for all Kafka APIs +
- Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, ListOffsets, OffsetFetch, OffsetCommit, Fetch, JoinGroup, SyncGroup, Heartbeat, LeaveGroup, DescribeGroups, ListGroups, DeleteGroups, SaslHandshake, SaslAuthenticate, CreateTopics, InitProducerId, AddPartitionsToTxn, AddOffsetsToTxn, TxnOffsetCommit, EndTxn, WriteTxnMarkers, DescribeConfigs, DeleteTopics)|
+|kop_server_REQUEST_QUEUE_SIZE
+|Gauge
+|The number of requests in S4K request processing queue of the total request channel.
 
+|kop_server_REQUEST_QUEUED_LATENCY
+|Summary
+|The requests queued latency calculated in milliseconds.
+
+Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, ListOffsets, OffsetFetch, OffsetCommit, Fetch, JoinGroup, SyncGroup, Heartbeat, LeaveGroup, DescribeGroups, ListGroups, DeleteGroups, SaslHandshake, SaslAuthenticate, CreateTopics, InitProducerId, AddPartitionsToTxn, AddOffsetsToTxn, TxnOffsetCommit, EndTxn, WriteTxnMarkers, DescribeConfigs, DeleteTopics).
+
+|kop_server_REQUEST_PARSE_LATENCY
+|Summary
+|The requests parse latency from `byteBuf` to `MemoryRecords` calculated in milliseconds.
+
+|kop_server_REQUEST_LATENCY
+|Summary
+|The requests processing total latency for all Kafka APIs.
+
+Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, ListOffsets, OffsetFetch, OffsetCommit, Fetch, JoinGroup, SyncGroup, Heartbeat, LeaveGroup, DescribeGroups, ListGroups, DeleteGroups, SaslHandshake, SaslAuthenticate, CreateTopics, InitProducerId, AddPartitionsToTxn, AddOffsetsToTxn, TxnOffsetCommit, EndTxn, WriteTxnMarkers, DescribeConfigs, DeleteTopics).
 |===
 
 === Response metrics
 
-[cols=3*,options=header]
+[cols=3*]
 
 |===
-|Name
-|Type
-|Description
+|Name |Type |Description
 
-| kop_server_RESPONSE_BLOCKED_TIMES | Counter | The response blocked times due to waiting for process completes
-| kop_server_RESPONSE_BLOCKED_LATENCY | Summary | The response blocked latency calculated in milliseconds|
+|kop_server_RESPONSE_BLOCKED_TIMES
+|Counter
+|The response blocked times due to waiting for process completes.
 
+|kop_server_RESPONSE_BLOCKED_LATENCY
+|Summary
+|The response blocked latency calculated in milliseconds.
 |===
 
 === Producer metrics
 
-[cols=3*,options=header]
-
+[cols=3*]
 |===
-|Name
-|Type
-|Description
+|Name |Type |Description
 
-| kop_server_PRODUCE_ENCODE | Summary | The memory record encode latency 
-| kop_server_MESSAGE_PUBLISH | Summary | The message publish latency to Pulsar ManagedLedger
-| kop_server_MESSAGE_QUEUED_LATENCY | Summary | The message queued latency in S4K message publish queue
-| kop_server_BYTES_IN | Counter | The producer bytes in stats. +
- Available labels: *topic*, *partition*. +
- *topic*: the topic name to produce. +
- *partition*: the partition id for the topic to produce 
-| kop_server_MESSAGE_IN | Counter | The producer message in stats. +
- Available labels: *topic*, *partition*. +
- *topic*: the topic name to produce. +
- *partition*: the partition id for the topic to produce 
-| kop_server_BATCH_COUNT_PER_MEMORYRECORDS | Gauge | The number of batches in each memory records
-| kop_server_PRODUCE_MESSAGE_CONVERSIONS | Counter | The producer message conversions in stats. +
- Available labels: *topic*, *partition*. +
- *topic*: the topic name to produce. +
- *partition*: the partition id for the topic to produce
+|kop_server_PRODUCE_ENCODE
+|Summary
+|The memory record encode latency.
 
+|kop_server_MESSAGE_PUBLISH
+|Summary
+|The message publish latency to Pulsar ManagedLedger.
+
+|kop_server_MESSAGE_QUEUED_LATENCY
+|Summary
+|The message queued latency in S4K message publish queue.
+
+|kop_server_BYTES_IN
+|Counter
+a|The producer bytes in stats.
+
+Available labels: *topic*, *partition*.
+
+* *topic*: the topic name to produce.
+* *partition*: the partition id for the topic to produce.
+
+|kop_server_MESSAGE_IN
+|Counter
+a|The producer message in stats.
+
+Available labels: *topic*, *partition*.
+
+* *topic*: the topic name to produce.
+* *partition*: the partition id for the topic to produce.
+
+|kop_server_BATCH_COUNT_PER_MEMORYRECORDS
+|Gauge
+|The number of batches in each memory records.
+
+|kop_server_PRODUCE_MESSAGE_CONVERSIONS
+|Counter
+a|The producer message conversions in stats.
+
+Available labels: *topic*, *partition*.
+
+* *topic*: the topic name to produce.
+* *partition*: the partition id for the topic to produce.
 |===
 
 === Consumer metrics
 
-[cols=3*,options=header]
-
+[cols=3*]
 |===
-|Name
-|Type
-|Description
+|Name |Type |Description
 
-| kop_server_PREPARE_METADATA | Summary | The prepare metadata latency in milliseconds before starting fetch from Pulsar ManagedLedger 
-| kop_server_TOTAL_MESSAGE_READ | Summary | The total message read latency in milliseconds in this fetch request
-| kop_server_MESSAGE_READ | Summary | The message read latency in milliseconds for one cursor read entry request
-| kop_server_FETCH_DECODE | Summary | The message decode latency in milliseconds
-| kop_server_BYTES_OUT | Counter | The consumer bytes out stats +
- Available labels: *topic*, *partition*, *group* +
- *topic*: the topic name to consume. +
- *partition*: the partition id for the topic to consume +
- *group*: the group id for consumer to consumer message from topic-partition 
-| kop_server_MESSAGE_OUT | Counter | The consumer message out stats +
- Available labels: *topic*, *partition*, *group* +
- *topic*: the topic name to consume +
- *partition*: the partition id for the topic to consume +
- *group*: the group id for consumer to consumer message from topic-partition
-| kop_server_ENTRIES_OUT | Counter | The consumer entries out stats +
-Available labels: *topic*, *partition*, *group* +
-*topic*: the topic name to consume +
-*partition*: the partition id for the topic to consume +
-*group*: the group id for consumer to consumer message from topic-partition
-| kop_server_CONSUME_MESSAGE_CONVERSIONS | Counter | The consumer message conversions in stats +
-Available labels: *topic*, *partition* +
-*topic*: the topic name to consume +
-*partition*: the partition id for the topic to consume
+|kop_server_PREPARE_METADATA
+|Summary
+|The prepare metadata latency in milliseconds before starting fetch from Pulsar ManagedLedger.
 
+|kop_server_TOTAL_MESSAGE_READ
+|Summary
+|The total message read latency in milliseconds in this fetch request.
+
+|kop_server_MESSAGE_READ
+|Summary
+|The message read latency in milliseconds for one cursor read entry request.
+
+|kop_server_FETCH_DECODE
+|Summary
+|The message decode latency in milliseconds.
+
+|kop_server_BYTES_OUT
+|Counter
+a|The consumer bytes out stats.
+
+Available labels: *topic*, *partition*, *group*.
+
+* *topic*: the topic name to consume.
+* *partition*: the partition id for the topic to consume.
+* *group*: the group id for consumer to consumer message from topic-partition.
+
+|kop_server_MESSAGE_OUT
+|Counter
+a|The consumer message out stats.
+
+Available labels: *topic*, *partition*, *group*.
+
+* *topic*: the topic name to consume.
+* *partition*: the partition id for the topic to consume.
+* *group*: the group id for consumer to consumer message from topic-partition.
+
+|kop_server_ENTRIES_OUT
+|Counter
+a|The consumer entries out stats.
+
+Available labels: *topic*, *partition*, *group*.
+
+* *topic*: the topic name to consume.
+* *partition*: the partition id for the topic to consume.
+* *group*: the group id for consumer to consumer message from topic-partition.
+
+|kop_server_CONSUME_MESSAGE_CONVERSIONS
+|Counter
+a|The consumer message conversions in stats.
+
+Available labels: *topic*, *partition*.
+
+* *topic*: the topic name to consume.
+* *partition*: the partition id for the topic to consume.
 |===
 
 === S4K event metrics
 
-[cols=3*,options=header]
-
+[cols=3*]
 |===
-|Name
-|Type
-|Description
+|Name |Type |Description
 
-// | Name | Type | Description |
-// |---|---|---|
-| kop_server_KOP_EVENT_QUEUE_SIZE | Gauge | The total number of events in S4K event processing queue. 
-| kop_server_KOP_EVENT_QUEUED_LATENCY | Summary | The events queued latency calculated in milliseconds. +
- Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread). 
-| kop_server_KOP_EVENT_LATENCY | Summary | The events processing total latency for all S4K event types. +
-Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread). 
+|kop_server_KOP_EVENT_QUEUE_SIZE
+|Gauge
+|The total number of events in S4K event processing queue.
 
+|kop_server_KOP_EVENT_QUEUED_LATENCY
+|Summary
+|The events queued latency calculated in milliseconds.
+
+Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread).
+
+|kop_server_KOP_EVENT_LATENCY
+|Summary
+|The events processing total latency for all S4K event types.
+
+Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread).
 |===
 
 == What's next?
