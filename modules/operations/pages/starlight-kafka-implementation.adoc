@@ -1,5 +1,5 @@
 = Messaging implementation of Starlight for Kafka
-:navtitle: Implementation
+:navtitle: Messaging implementation
 :page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 
 This document describes how to implement the Starlight for Kafka protocol handler.
