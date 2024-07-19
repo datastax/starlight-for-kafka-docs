@@ -57,21 +57,21 @@ superUserRoles=<super-user-roles>
 
 * If using a *secret key*, set the property as below.
 +
-[source,plain]
+[source,console]
 ----
 tokenSecretKey=file:///path/to/secret.key
 ----
 
 * To pass the key inline, set the property as below.
 +
-[source,plain]
+[source,console]
 ----
 tokenSecretKey=data:;base64,FLFyW0oLJ2Fi22KKCm21J18mbAdztfSHN/lAT5ucEKU=
 ----
 
 * If using a public/private key, set the property as below.
 +
-[source,plain]
+[source,console]
 ----
 tokenPublicKey=file:///path/to/public.key
 ----

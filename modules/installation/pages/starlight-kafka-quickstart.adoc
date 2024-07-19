@@ -184,7 +184,7 @@ pulsar-client consume test -s "my-subscription" -n 0
 
 . Run the Kafka command-line producer to send messages to the server, and send a message.
 +
-[source,text]
+[source,console]
 ----
 bin/kafka-console-producer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --topic test
 >hi pulsar, it's me, kafka!
@@ -192,7 +192,7 @@ bin/kafka-console-producer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --to
 
 . If Starlight for Kafka is working, your message will appear on your Pulsar consumer.
 +
-[source,text]
+[source,console]
 ----
 ----- got message -----
 key:[null], properties:[], content:hi pulsar, it's me, kafka!
