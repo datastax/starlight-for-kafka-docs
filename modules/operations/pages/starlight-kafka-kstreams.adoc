@@ -1,7 +1,7 @@
 = Kafka streams in Starlight for Kafka
 :navtitle: Kafka streams
 
-{} can run Kafka® Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with Starlight for Kafka.
+{} can run Kafka(R) Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with Starlight for Kafka.
 
 * xref:starlight-kafka-kstreams.adoc#configure-auth[Configure authentication]
 * xref:starlight-kafka-kstreams.adoc#configure-rep[Configure replication factor]
