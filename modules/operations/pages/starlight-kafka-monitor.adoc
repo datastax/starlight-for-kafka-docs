@@ -1,6 +1,5 @@
 = Monitoring the Starlight for Kafka extension
 :navtitle: Monitoring the extension
-:page-tag: starlight-kafka,admin,manage,pulsar,kafka
 
 Starlight for Kafka exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
 
