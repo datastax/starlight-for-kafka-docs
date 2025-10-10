@@ -1,7 +1,5 @@
 = Configuring the Starlight for Kafka extension
 :navtitle: Configuration
-:page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
-
 
 This page describes configuration options for Starlight for Kafka:
 
