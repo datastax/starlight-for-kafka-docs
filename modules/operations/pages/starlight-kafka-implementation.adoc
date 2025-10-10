@@ -1,6 +1,5 @@
 = Starlight for Kafka protocol handler
 :navtitle: Protocol handler
-:page-tag: starlight-kafka,admin,manage,dev,pulsar,kafka
 
 This document describes how to implement the Starlight for Kafka protocol handler.
 
