@@ -120,7 +120,8 @@ allowAutoTopicCreationType=partitioned
 kafkaListeners=PLAINTEXT://127.0.0.1:9092
 ----
 
-. Set Kafka advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port. +
+. Set Kafka advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
++
 `kafkaAdvertisedListeners` is not required unless you want to expose another address to the Kafka client. It defaults to the same address as `kafkaListeners` by default.
 +
 [source,yaml]
@@ -135,8 +136,10 @@ kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
 brokerEntryMetadataInterceptors=org.apache.pulsar.common.intercept.AppendIndexMetadataInterceptor
 ----
 
-. Disable the deletion of inactive topics. This is not required but *very important* in Starlight for Kafka. +
-By default, Pulsar deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic is not deleted. +
+. Disable the deletion of inactive topics. This is not required but *very important* in Starlight for Kafka.
++
+By default, Pulsar deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic is not deleted.
++
 Starlight for Kafka cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
 +
 [source,yaml]

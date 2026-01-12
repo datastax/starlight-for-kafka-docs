@@ -19,14 +19,14 @@ You can use `kopSchemaRegistryNamespace` configuration parameter to set the name
 
 . To enable the Schema Registry, add this configuration in `conf/broker.conf`:
 +
-[source,yaml]
+[source,conf]
 ----
 kopSchemaRegistryEnable=true
 kopSchemaRegistryProxyPort=8001
 ----
 
 . If you're using the Kafka xref:starlight-kafka-proxy.adoc[proxy], add this configuration in `conf/proxy.conf`:
-[source,yaml]
+[source,conf]
 +
 ----
 kopSchemaRegistryEnable=true
@@ -49,10 +49,11 @@ The Proxy works only if the broker is working properly, because it simply forwar
 
 == Enable TLS on schema registry
 
-. To enable TLS on the schema registry, you must use the Kafka proxy. +
+. To enable TLS on the schema registry, you must use the Kafka proxy.
++
 To set the SchemaRegistry endpoint on the *broker* to use TLS, add this configuration in `conf/broker.conf`:
 +
-[source,yaml]
+[source,conf]
 ----
 kopSchemaRegistryEnableTls=true
 kopSchemaRegistryProxyEnableTls=true
@@ -60,7 +61,7 @@ kopSchemaRegistryProxyEnableTls=true
 
 . To set the SchemaRegistry endpoint on the *proxy* to use TLS, add this configuration in `conf/proxy.conf`:
 +
-[source,yaml]
+[source,conf]
 ----
 kopSchemaRegistryEnableTls=true
 kopSchemaRegistryProxyEnableTls=true
@@ -71,14 +72,16 @@ kopSchemaRegistryProxyEnableTls=true
 == Authentication for the schema registry
 
 If authentication is enabled, you can only use the schema registry with HTTP Basic Authentication:
-[source,yaml]
+
+[source,conf]
 ----
-Username: the name of the “tenant” to connect to
+Username: the name of the tenant to connect to
 Password: token:xxxxxxxx (the JWT token used to connect to Pulsar/Kafka)
 ----
 
 If you are using the Confluent Java client or the Kafka Tools, set these properties:
-[source,yaml]
+
+[source,conf]
 ----
 basic.auth.credentials.source=USER_INFO
 basic.auth.user.info=TENANTNAME:token:xxxxxxxx

@@ -17,9 +17,9 @@ image:ROOT:s4k-architecture.png[{starlight-kafka} Architecture]
 
 Starlight for Kafka adds additional features to make native Kafka protocol support even better.
 
-* xref:operations:starlight-kafka-schema-registry.adoc[Schema registry] - A schema registry compatible with both the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry(R)] and the https://www.apicur.io/registry[Apicurio Schema Registry]. +
+* xref:operations:starlight-kafka-schema-registry.adoc[Schema registry] - A schema registry compatible with both the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry(R)] and the https://www.apicur.io/registry[Apicurio Schema Registry].
 
-* xref:operations:starlight-kafka-proxy.adoc[Proxy extension] - allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do. +
+* xref:operations:starlight-kafka-proxy.adoc[Proxy extension] - allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do.
 
 * Integrated support for the Pulsar schema registry.
 

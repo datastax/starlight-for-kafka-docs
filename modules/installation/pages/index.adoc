@@ -2,6 +2,7 @@
 :navtitle: {starlight-kafka}
 :description: Use the {starlight-kafka} extension with {pulsar-reg}.
 
+//Combine w/ configure and test sections on starlight-kafka-quickstart.adoc.
 The https://github.com/datastax/starlight-for-kafka[{starlight-kafka} extension] brings the native Apache Kafka(R) protocol support to {pulsar-reg} by introducing a Kafka protocol handler on {pulsar-short} brokers.
 
 By adding the {starlight-kafka} protocol handler to your existing {pulsar-short} cluster, you can migrate your existing Kafka applications and services to {pulsar-short} without modifying the code.

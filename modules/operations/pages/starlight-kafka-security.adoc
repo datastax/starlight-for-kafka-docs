@@ -1,13 +1,16 @@
 = Starlight for Kafka security
 :navtitle: Security
 
-This page covers enabling authentication features for Starlight for Kafka. +
+This page covers enabling authentication features for Starlight for Kafka.
 
-Starlight for Kafka supports xref:starlight-kafka-security.adoc#authentication[SASL/PLAIN authentication], xref:starlight-kafka-security.adoc#authorization[JWT authorization], and xref:starlight-kafka-security.adoc#ssl[SSL encryption]. +
+Starlight for Kafka supports xref:starlight-kafka-security.adoc#authentication[SASL/PLAIN authentication], xref:starlight-kafka-security.adoc#authorization[JWT authorization], and xref:starlight-kafka-security.adoc#ssl[SSL encryption].
 
-Starlight for Kafka is installed with no authentication, authorization, or encryption, but these can be enabled to improve security. +
+Starlight for Kafka is installed with no authentication, authorization, or encryption, but these can be enabled to improve security.
 
-Currently, these features are **only available in Java**.
+[IMPORTANT]
+====
+These features are only available in Java.
+====
 
 [#authentication]
 == Authentication
@@ -82,19 +85,23 @@ tokenPublicKey=file:///path/to/public.key
 saslAllowedMechanisms=PLAIN
 ----
 
-. Enable authentication on the Kafka client. To forward your credentials, `SASL-PLAIN` is used on the Kafka client side. To enable `SASL-PLAIN`, set the following properties through Kafka JAAS. +
+. Enable authentication on the Kafka client. To forward your credentials, `SASL-PLAIN` is used on the Kafka client side. To enable `SASL-PLAIN`, set the following properties through Kafka JAAS.
 
-[cols=3*,options=header]
+[cols=3]
 
 |===
-|Property
-|Description
-|Example Value
+|Property |Description |Example Value
 
-| `username` | `username` | The `username` of Kafka JAAS is `tenant/namespace` or `tenant`, where Kafka’s topics are stored in Pulsar.
-| `password`| `password` must be your token authentication parameters from Pulsar. +
-The token can be created by Pulsar token tools. The role is the `subject` for the token. It is embedded in the created token and the broker can get `role` by parsing this token.|`token:xxx`
+|`username`
+|`username`
+|The `username` of Kafka JAAS is `tenant/namespace` or `tenant`, where Kafka's topics are stored in Pulsar.
 
+|`password`
+|`password` must be your token authentication parameters from Pulsar.
+The token can be created by Pulsar token tools.
+The role is the `subject` for the token.
+It is embedded in the created token and the broker can get `role` by parsing this token.
+|`token:xxx`
 |===
 
 [source,java]
@@ -115,14 +122,16 @@ To enable authorization on Starlight for Kafka, ensure that authentication is en
 
 For more on authorization in Pulsar, see http://pulsar.apache.org/docs/en/security-jwt/#authorization[Pulsar Authorization].
 
-. Enable authorization and assign superusers for the Pulsar broker.
+. Enable authorization and assign superusers for the Pulsar broker:
 +
-[source,yaml]
+[source,conf]
 ----
 authorizationEnabled=true
 ----
 
-. Generate JWT tokens. A token is the credential associated with a user. The association is done through the `principal` or `role`. In the case of JWT tokens, this field is typically referred as `subject`, though they are exactly the same concept. +
+. Generate JWT tokens.
+A token is the credential associated with a user. The association is done through the `principal` or `role`.
+In the case of JWT tokens, this field is typically referred as `subject`, though they are exactly the same concept.
 +
 Use this command to require the generated token to have a `subject` field set:
 +
@@ -132,9 +141,13 @@ bin/pulsar tokens create --secret-key file:///path/to/secret.key \
  --subject <user-role>
 ----
 +
-This command will print the token string on `stdout`.
+This command prints the token string on `stdout`.
 
-. Grant permission to a specific role. The token itself does not have any permissions associated with it. The authorization engine determines whether the token should have permissions or not. Once you have created the token, you can grant permission for this token. +
+. Grant permission to a specific role.
+The token itself does not have any permissions associated with it.
+The authorization engine determines whether the token should have permissions or not.
+Once you have created the token, you can grant permission for this token.
++
 For example, to grant a role to the `user-role` created above:
 +
 [source,bash]
@@ -148,44 +161,49 @@ bin/pulsar-admin --auth-plugin "org.apache.pulsar.client.impl.auth.Authenticatio
 [#ssl]
 == SSL encryption
 
-This section explains connecting and configuring Starlight for Kafka with SSL. There are two methods available: +
+This section explains connecting and configuring Starlight for Kafka with SSL. There are two methods available:
 
-* (*Recommended*) Use the TLS certificates already configured for the Pulsar TLS endpoint to also connect the Kafka client. This is a new feature of Starlight for Kafka designed to make TLS connection fast and painless. Proceed to xref:starlight-kafka-security.adoc#pulsar-ssl[Create SSL connection with Pulsar].
+* **Existing TLS certificates (Recommended)**: Use the TLS certificates already configured for the Pulsar TLS endpoint to also connect the Kafka client. This is a new feature of Starlight for Kafka designed to make TLS connection fast and painless. Proceed to xref:starlight-kafka-security.adoc#pulsar-ssl[Create SSL connection with Pulsar].
 
-* Create dedicated TLS certificates and modify the Pulsar broker and Kafka client. Instructions for this method are xref:starlight-kafka-security.adoc#manual-ssl[here].
+* **Dedicated TLS certificates**: Create dedicated TLS certificates and modify the Pulsar broker and Kafka client. Instructions for this method are xref:starlight-kafka-security.adoc#manual-ssl[here].
 
 [#pulsar-ssl]
 === Create SSL configuration with Pulsar
 
 Starlight for Kafka features fast, painless TLS configuration between Pulsar and Kafka. Instead of creating different certificates for the Pulsar broker and Kafka client, simply modify `broker.conf` to pick up the existing Pulsar TLS certifications and configurations.
 
-. Configure TLS on the Pulsar broker. For more, see https://pulsar.apache.org/docs/security-tls-transport/#create-tls-certificates[Create TLS certificates].
+. Configure TLS on the Pulsar broker.
+For more information, see https://pulsar.apache.org/docs/security-tls-transport/#create-tls-certificates[Create TLS certificates].
+
 . Expose TLS endpoints by adding the following configurations to `broker.conf`:
 +
-[source,yaml]
+[source,conf]
 ----
 kopTlsEnabledWithBroker=true
 kafkaListeners=PLAINTEXT://127.0.0.1:9092, SSL://PRIVATE-HOSTNAME-OF-THE-BROKER:9093
 kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092, SSL://PUBLIC-HOSTNAME-OF-THE-BROKER:9093
 ----
 +
-These settings will enable TLS on the broker, and Starlight for Kafka will pick up the TLS certificates automatically. +
+These settings enable TLS on the broker, and then Starlight for Kafka picks up the TLS certificates automatically.
 
 . Proceed to xref:installation:starlight-kafka-quickstart.adoc#test[Test Starlight for Kafka] to test your configuration.
 
 [#manual-ssl]
 === Create SSL configuration manually
+
 The following example shows how to manually configure Starlight for Kafka with SSL.
 
-Starlight for Kafka supports `PLAINTEXT` and `SSL` configuration types for Kafka listeners. SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as below.
-[source,bash]
+Starlight for Kafka supports `PLAINTEXT` and `SSL` configuration types for Kafka listeners. SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as follows:
+
+[source,conf]
 ----
 kafkalisteners=PLAINTEXT://localhost:9092,SSL://localhost:9093
 ----
 
 For more on generating SSL keys for Kafka brokers, see https://kafka.apache.org/documentation/#security_ssl[Kafka SSL].
 
-. Create SSL related keys. This example creates the related CA and JKS files.
+. Create SSL related keys.
+This example creates the related CA and JKS files:
 +
 [source,bash]
 ----
@@ -207,16 +225,16 @@ keytool -keystore server.keystore.jks -alias CARoot -import -file ca-cert
 keytool -keystore server.keystore.jks -alias localhost -import -file cert-signed
 ----
 +
-In the above example, we have input four passwords:
+In the above example, there are four passwords provided:
 +
 * `server-keystore` for `server.keystore.jks`
 * `server` for `ca-cert` and `ca-key`
 * `server-truststore` for `server.truststore.jks`
 * `client-truststore` for `client.truststore.jks`
 
-. Configure the Pulsar broker. In `conf/broker.conf`, add the related configurations using the JKS configurations created in the previous step.
+. Configure the Pulsar broker. In `conf/broker.conf`, add the related configurations using the JKS configurations created in the previous step:
 +
-[source,bash]
+[source,conf]
 ----
 listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093
 
@@ -229,9 +247,10 @@ kopSslTruststoreLocation=server.truststore.jks
 kopSslTruststorePassword=server-truststore
 ----
 
-. Configure the Kafka client. Create a file named `client-ssl.properties` in `kafka/config` with the following configuration:
+. Configure the Kafka client.
+Create a file named `client-ssl.properties` in `kafka/config` with the following configuration:
 +
-[source,bash]
+[source,conf]
 ----
 security.protocol=SSL
 # Include the full path of client.truststore.jks
@@ -242,7 +261,7 @@ ssl.endpoint.identification.algorithm=
 ----
 
 . Verify the console-producer and the console-consumer send messages when started with `client-ssl.properties`:
-
++
 [source,bash]
 ----
 kafka-console-producer.sh --broker-list localhost:9093 --topic test --producer.config client-ssl.properties
