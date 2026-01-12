@@ -15,9 +15,9 @@ The Starlight for Kafka adapter creates automatically the $<tenant>/__kafka__sch
 
 You can use `kopSchemaRegistryNamespace` configuration parameter to set the name of the namespace to be used.
 
-== Starlight for Kafka Schema Registry Implementation
+== Enable the schema registry
 
-. To enable the Schema Registry, add this configuration in `conf/broker.conf`:
+. To enable the schema registry, add this configuration in `conf/broker.conf`:
 +
 [source,conf]
 ----
@@ -26,8 +26,8 @@ kopSchemaRegistryProxyPort=8001
 ----
 
 . If you're using the Kafka xref:starlight-kafka-proxy.adoc[proxy], add this configuration in `conf/proxy.conf`:
-[source,conf]
 +
+[source,conf]
 ----
 kopSchemaRegistryEnable=true
 kopSchemaRegistryProxyPort=8081
@@ -41,13 +41,13 @@ kopSchemaRegistryProxyPort=8081
   "compatibilityLevel" : "NONE"
 }
 ----
-
++
 [NOTE]
 ====
 The Proxy works only if the broker is working properly, because it simply forwards the requests to a broker. If the broker fails or it is not accessible, the Proxy will answer with an error message.
 ====
 
-== Enable TLS on schema registry
+== Enable TLS on the schema registry
 
 . To enable TLS on the schema registry, you must use the Kafka proxy.
 +
@@ -88,13 +88,9 @@ basic.auth.user.info=TENANTNAME:token:xxxxxxxx
 schema.registry.url=http://pulsar-proxy:8081
 ----
 
-== What's next?
+== See also
 
-You can configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
-
-* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
-* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
-* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
-* xref:starlight-kafka-security.adoc[Starlight for Kafka Security]
-* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-
+* xref:configuration:starlight-kafka-configuration.adoc[]
+* xref:starlight-kafka-implementation.adoc[]
+* xref:starlight-kafka-security.adoc[]
+* xref:starlight-kafka-proxy.adoc[]

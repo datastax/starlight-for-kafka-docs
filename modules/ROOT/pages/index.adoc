@@ -1,6 +1,6 @@
 = Starlight for Kafka
 
-Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka protocol handler on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar’s powerful features, such as:
+Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[protocol handler^] on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar's powerful features, such as:
 
 - Streamlined operations with enterprise-grade multi-tenancy
 - Simplified operations with a rebalance-free architecture
@@ -17,13 +17,13 @@ image:ROOT:s4k-architecture.png[{starlight-kafka} Architecture]
 
 Starlight for Kafka adds additional features to make native Kafka protocol support even better.
 
-* xref:operations:starlight-kafka-schema-registry.adoc[Schema registry] - A schema registry compatible with both the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry(R)] and the https://www.apicur.io/registry[Apicurio Schema Registry].
+* xref:operations:starlight-kafka-schema-registry.adoc[Schema registry]: A schema registry compatible with both the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry(R)] and the https://www.apicur.io/registry[Apicurio Schema Registry].
 
-* xref:operations:starlight-kafka-proxy.adoc[Proxy extension] - allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do.
+* xref:operations:starlight-kafka-proxy.adoc[Proxy extension]: Allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do.
 
 * Integrated support for the Pulsar schema registry.
 
-== What's next?
+== Get started with Starlight for Kafka
 
-* xref:installation:starlight-kafka-quickstart.adoc[Starlight for Kafka Quickstart]
-* xref:operations:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
+* xref:installation:starlight-kafka-quickstart.adoc[]
+* xref:operations:starlight-kafka-implementation.adoc[]

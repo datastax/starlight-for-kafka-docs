@@ -14,7 +14,7 @@ The following types of metrics are available:
 
 The Starlight for Kafka metrics are exposed under `/metrics`` at port `8000` along with Pulsar metrics. Use a different port by configuring the `stats_server_port` system property.
 
-=== Request metrics
+=== Alive channel metrics
 
 [cols=3*]
 |===
@@ -184,7 +184,7 @@ Available labels: *topic*, *partition*.
 * *partition*: the partition id for the topic to consume.
 |===
 
-=== S4K event metrics
+=== Event metrics
 
 [cols=3*]
 |===
@@ -207,12 +207,9 @@ Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventT
 Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread).
 |===
 
-== What's next?
+== See also
 
-For more on Starlight for Kafka, see:
-
-* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
-* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
-* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
-* xref:installation:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:configuration:starlight-kafka-configuration.adoc[]
+* xref:starlight-kafka-implementation.adoc[]
+* xref:starlight-kafka-proxy.adoc[]
+* xref:starlight-kafka-schema-registry.adoc[]
