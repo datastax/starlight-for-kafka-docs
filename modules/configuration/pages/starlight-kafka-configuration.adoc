@@ -348,12 +348,10 @@ This section lists configurations for SSL encryption.
 |
 |===
 
-== What's next?
+== See also
 
-Configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
-
-* xref:operations:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
-* xref:operations:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
-* xref:operations:starlight-kafka-security.adoc[Starlight for Kafka Security]
-* xref:operations:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-* xref:operations:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
+* xref:operations:starlight-kafka-implementation.adoc[]
+* xref:operations:starlight-kafka-monitor.adoc[]
+* xref:operations:starlight-kafka-security.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-schema-registry.adoc[]

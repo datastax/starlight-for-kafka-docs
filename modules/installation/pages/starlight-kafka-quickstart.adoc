@@ -3,13 +3,9 @@
 
 This document will help you get started producing and consuming Kafka messages on a Pulsar cluster.
 
-NOTE: This guide is focused on installing the extension into an existing Pulsar cluster. There is also the "xref:streaming-learning:use-cases-architectures:starlight/kafka/index.adoc[]" which provides more options.
+This guide is focused on installing the extension into an existing Pulsar cluster.
 
-* xref:starlight-kafka-quickstart.adoc#prerequisites[Check prerequisites]
-* xref:starlight-kafka-quickstart.adoc#download[Download protocol handler]
-* xref:starlight-kafka-quickstart.adoc#build[Build protocol handler from source (optional)]
-* xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler]
-* xref:starlight-kafka-quickstart.adoc#test[Test Starlight for Kafka]
+To install Starlight for Kafka as a proxy extension, see xref:operations:starlight-kafka-proxy.adoc[].
 
 [#prerequisites]
 == Prerequisites
@@ -200,13 +196,6 @@ bin/kafka-console-producer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --to
 key:[null], properties:[], content:hi pulsar, it's me, kafka!
 ----
 
-== What's next?
+== Next steps
 
-You can configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
-
-* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
-* xref:operations:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
-* xref:operations:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
-* xref:operations:starlight-kafka-security.adoc[Starlight for Kafka Security]
-* xref:operations:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-* xref:operations:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
+Learn how to xref:configuration:starlight-kafka-configuration.adoc[configure and manage Starlight for Kafka].

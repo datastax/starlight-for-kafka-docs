@@ -130,12 +130,9 @@ To be fully compatible with Kafka clients, Starlight for Kafka implements the Ka
 
 This bridges the gap between Pulsar and Kafka and allows use of existing Pulsar tools and policies to manage subscriptions and monitor Kafka consumers. Starlight for Kafka adds a background thread in the implemented group coordinator to periodically synchronize offset updates from the system topic to Pulsar cursors. Therefore, a Kafka consumer group is effectively treated as a Pulsar subscription to allow existing Pulsar tools to be used for managing Kafka consumer groups.
 
-== What's next?
+== See also
 
-For more on Starlight for Kafka, see:
-
-* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
-* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
-* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
-* xref:installation:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:configuration:starlight-kafka-configuration.adoc[]
+* xref:starlight-kafka-monitor.adoc[]
+* xref:starlight-kafka-proxy.adoc[]
+* xref:starlight-kafka-schema-registry.adoc[]
