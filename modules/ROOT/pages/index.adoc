@@ -11,6 +11,8 @@ Starlight for Kafka, implemented as a Pulsar protocol handler plugin with the pr
 
 Starlight for Kafka implements the Kafka wire protocol on Pulsar by leveraging the existing components (such as topic discovery, the distributed log library - ManagedLedger, cursors and so on) that Pulsar already has.
 
+image:ROOT:s4k-architecture.png[{starlight-kafka} Architecture]
+
 == Features
 
 Starlight for Kafka adds additional features to make native Kafka protocol support even better.
