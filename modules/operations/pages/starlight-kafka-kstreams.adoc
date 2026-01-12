@@ -1,12 +1,8 @@
 = Kafka streams in Starlight for Kafka
 :navtitle: Kafka streams
 
-Starlight for Kafka can run Kafka(R) Streams applications with minimal configuration changes. This document will show you how to make those changes and provide an example Java application to try out Kstreams with Starlight for Kafka.
-
-* xref:starlight-kafka-kstreams.adoc#configure-auth[Configure authentication]
-* xref:starlight-kafka-kstreams.adoc#configure-rep[Configure replication factor]
-* xref:starlight-kafka-kstreams.adoc#sample-app[Example Java application]
-* xref:starlight-kafka-kstreams.adoc#video[]
+Starlight for Kafka can run Apache Kafka(R) Streams applications with minimal configuration changes.
+This guide explains how to make those changes, and it provides an example Java application to try out Kstreams with Starlight for Kafka.
 
 [#configure-auth]
 == Configure username and password authentication (SASL with PLAIN mechanism)
@@ -27,14 +23,14 @@ sasl.mechanism=PLAIN
 
 In Starlight for Kafka, the replication factor is handled by BookKeeper and set at the namespace level.
 
-Kafka Streams sets its own internal `replication.factor` number, but Pulsar will apply its namespace replication factor from BookKeeper.
+Kafka Streams sets its own internal `replication.factor` number, but Pulsar applies its namespace replication factor from BookKeeper.
 
 Set `replication.factor=1` in KStreams, or any positive integer.
 
 [#sample-app]
 == Application code
 
-This Java application will accept a stream of words from a KStreams input, process them, and print the number of occurences of each word to the KStreams output.
+This Java application accepts a stream of words from a KStreams input, processes them, and prints the number of occurrences of each word to the KStreams output.
 
 . Create two topics in the `kafka` namespace of your Pulsar tenant called `streams-plaintext-input` and `streams-plaintext-output`:
 +
@@ -76,36 +72,34 @@ public class WordCountExample {
     static final String inputTopic = "streams-plaintext-input";
     static final String outputTopic = "streams-wordcount-output";
 
-    /**
-     * The Streams application as a whole can be launched like any normal Java application that has a `main()` method.
-     */
+    //The Streams application as a whole can be launched like any normal Java application that has a `main()` method
     public static void main(final String[] args) {
         final String bootstrapServers = args.length > 0 ? args[0] : broker;
 
-        // Configure the Streams application.
+        // Configure the Streams application
         final Properties streamsConfiguration = getStreamsConfiguration(bootstrapServers);
 
-        // Define the processing topology of the Streams application.
+        // Define the processing topology of the Streams application
         final StreamsBuilder builder = new StreamsBuilder();
         createWordCountStream(builder);
         final KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
 
         // Always (and unconditionally) clean local state prior to starting the processing topology.
-        // We opt for this unconditional call here because this will make it easier for you to play around with the example
-        // when resetting the application for doing a re-run (via the Application Reset Tool,
-        // https://docs.confluent.io/platform/current/streams/developer-guide/app-reset-tool.html).
+        // An unconditional call is used because it makes it easier for you to manipulate this example
+        // when resetting the application for doing a re-run with the Application Reset Tool:
+        // https://docs.confluent.io/platform/current/streams/developer-guide/app-reset-tool.html
         //
-        // The drawback of cleaning up local state prior is that your app must rebuilt its local state from scratch, which
-        // will take time and will require reading all the state-relevant data from the Kafka cluster over the network.
-        // Thus in a production scenario you typically don't want to clean up always as we do here but rather only when it
-        // is truly needed, i.e., only under certain conditions (e.g., the presence of a command line flag for your app).
+        // The drawback of cleaning up local state prior is that your app must rebuilt its local state from scratch.
+        // This takes time and requires reading all the state-relevant data from the Kafka cluster over the network.
+        // In a typical production scenario, you don't want to clean up always as done here, but rather only when needed.
+        // For example, only under certain conditions like the presence of a command line flag for your app.
         // See `ApplicationResetExample.java` for a production-like example.
         streams.cleanUp();
 
-        // Now run the processing topology via `start()` to begin processing its input data.
+        // Run the processing topology with `start()` to begin processing its input data
         streams.start();
 
-        // Add shutdown hook to respond to SIGTERM and gracefully close the Streams application.
+        // Add shutdown hook to respond to SIGTERM and gracefully close the Streams application
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
     }
 
@@ -146,7 +140,7 @@ public class WordCountExample {
         // in Starlight for Kafka replication is handled by BookKeeper
         // and you usually set it at namespace level
         // in KStreams you can set it to 1, but the Broker
-        // will apply the namespace policies
+        // applies the namespace policies
         streamsConfiguration.put("replication.factor","1");
 
 
@@ -159,9 +153,10 @@ public class WordCountExample {
      * @param builder StreamsBuilder to use
      */
     static void createWordCountStream(final StreamsBuilder builder) {
-        // Construct a `KStream` from the input topic "streams-plaintext-input", where message values
-        // represent lines of text (for the sake of this example, we ignore whatever may be stored
-        // in the message keys).  The default key and value serdes will be used.
+        // Construct a `KStream` from the input topic "streams-plaintext-input"
+        // Here, message values represent lines of text.
+        // This example ignores whatever is stored in the message keys.
+        // The default key and value serdes are used.
         final KStream<String, String> textLines = builder.stream(inputTopic);
 
         final Pattern pattern = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
@@ -188,9 +183,10 @@ public class WordCountExample {
 }
 ----
 
-. Running the program will generate an output like this:
+. Run the program.
+The output is similar to the following:
 +
-[source,bash]
+[source,console]
 ----
 [wordcount-lambda-example-client-StreamThread-1] INFO org.apache.kafka.clients.consumer.KafkaConsumer - [Consumer clientId=wordcount-lambda-example-client-StreamThread-1-consumer, groupId=wordcount-lambda-example] Requesting the log end offset for streams-plaintext-input-0 in order to compute lag
 [wordcount-lambda-example-client-StreamThread-1] INFO org.apache.kafka.clients.consumer.KafkaConsumer - [Consumer clientId=wordcount-lambda-example-client-StreamThread-1-consumer, groupId=wordcount-lambda-example] Requesting the log end offset for wordcount-lambda-example-KSTREAM-AGGREGATE-STATE-STORE-0000000003-repartition-0 in order to compute lag
@@ -202,9 +198,11 @@ public class WordCountExample {
 [KTABLE-TOSTREAM-0000000010]: again, 2
 ----
 
-[NOTE]
-====
-If you are on an M1 Mac and encounter a jnilib error, add this dependency to the example application's `pom.xml` file:
+== Troubleshoot the Kstreams demo
+
+If you are on an M1 Mac and encounter a `jnilib` error, add the following dependency to the example application's `pom.xml` file:
+
+.pom.xml
 [source,xml]
 ----
 <dependency>
@@ -213,7 +211,6 @@ If you are on an M1 Mac and encounter a jnilib error, add this dependency to the
     <version>3.2.0</version>
 </dependency>
 ----
-====
 
 == See also
 

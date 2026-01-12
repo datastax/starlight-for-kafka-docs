@@ -46,7 +46,7 @@ The proxy always uses PLAINTEXT connection while connecting to the internal brok
 == Authentication and authorization for the Proxy
 
 In order to configure authentication and authorization for the proxy you must enable authentication and authorization on the Pulsar proxy.
-The Kafka proxy will use the same configuration as the Pulsar proxy.
+The Kafka proxy uses the same configuration as the Pulsar proxy.
 
 Add these lines to the Pulsar proxy:
 
@@ -75,7 +75,7 @@ You can override this mapping by using the `kafkaProxyBrokerPortToKopMapping` co
 kafkaProxyBrokerPortToKopMapping=6650=19092,6651=19093
 ----
 
-This means that a broker on port *6650* for Pulsar protocol will be mapped to Kafka port *19092* and port *6651* is mapped to *19093*.
+This means that a broker on port 6650 for Pulsar protocol is mapped to Kafka port 19092, and port 6651 is mapped to 19093.
 Typically, this isn't needed for standard deployments that use default ports.
 
 == See also

@@ -1,7 +1,7 @@
 = Installing the Starlight for Kafka extension
 :navtitle: Installation
 
-This document will help you get started producing and consuming Kafka messages on a Pulsar cluster.
+This guide helps you get started producing and consuming Kafka messages on a Pulsar cluster.
 
 This guide is focused on installing the extension into an existing Pulsar cluster.
 
@@ -40,34 +40,21 @@ Starlight for Kafka requires *JDK11*.
 
 If you prefer, build the protocol handler `.nar` from source.
 
-. Clone the Starlight for Kafka GitHub repo to your local machine and change directory into the repo.
+. Clone the Starlight for Kafka GitHub repo to your local machine and change directory into the repo:
 +
 [source,bash]
 ----
 git clone https://github.com/datastax/starlight-for-kafka.git
 cd starlight-for-kafka
 ----
-+
-[NOTE]
-====
-Starlight for Kafka requires JDK11. Set `jenv global 11` to use JDK 11.
-====
+
+. If needed, set `jenv global 11` to use JDK 11 because Starlight for Kafka requires JDK11.
 
 . Build the Maven project.
 +
 [source,java]
 ----
 mvn clean install -DskipTests
-----
-+
-You will get an output like this:
-+
-[source,java]
-----
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  03:51 min
-[INFO] Finished at: 2022-06-24T12:04:14-04:00
 ----
 
 . If this is the first time you've used protocol handlers with your Pulsar deployment, create a `protocols` folder in the root of your Pulsar directory.
@@ -193,7 +180,7 @@ bin/kafka-console-producer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --to
 >hi pulsar, it's me, kafka!
 ----
 
-. If Starlight for Kafka is working, your message will appear on your Pulsar consumer.
+. If Starlight for Kafka is working, your message appears on your Pulsar consumer:
 +
 [source,console]
 ----
