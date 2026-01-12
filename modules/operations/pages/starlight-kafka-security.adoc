@@ -33,7 +33,7 @@ To enable authentication with the `PLAIN` SASL mechanism, follow the steps below
 
 . Enable authentication on the Pulsar broker. For the `PLAIN` mechanism, Kafka authentication is forwarded to the https://pulsar.apache.org/docs/en/security-jwt/[JWT authentication] of Pulsar, so you need to configure the JWT authentication by setting the following properties in `conf/broker.conf`.
 +
-[NOTE]
+[TIP]
 ====
 Modify `conf/standalone.conf` if you're using a standalone Pulsar deployment.
 ====

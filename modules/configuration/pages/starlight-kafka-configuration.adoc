@@ -1,16 +1,7 @@
 = Configuring the Starlight for Kafka extension
 :navtitle: Configuration
 
-This page describes configuration options for Starlight for Kafka:
-
-* xref:starlight-kafka-configuration.adoc#listeners[Listeners]
-* xref:starlight-kafka-configuration.adoc#logger[Logger]
-* xref:starlight-kafka-configuration.adoc#namespace[Namespace]
-* xref:starlight-kafka-configuration.adoc#performance[Performance]
-* xref:starlight-kafka-configuration.adoc#network[Network]
-* xref:starlight-kafka-configuration.adoc#group-coordinator[Group Coordinator]
-* xref:starlight-kafka-configuration.adoc[Transactions]
-* xref:starlight-kafka-configuration.adoc#ssl[SSL]
+This page describes configuration options for Starlight for Kafka.
 
 [#listeners]
 == Listeners
@@ -22,7 +13,7 @@ This section lists configurations for topic listeners.
 |Name |Description
 
 |kafkaListeners
-|Comma-separated list of URIs that Starlight for Kafka listens on and the listener names.
+|Required comma-separated list of URIs that Starlight for Kafka listens on and the listener names.
 For example: `PLAINTEXT://localhost:9092,SSL://localhost:9093`
 
 Each URI's scheme represents a listener name if `kafkaProtocolMap` is configured.
@@ -31,20 +22,17 @@ Otherwise, the scheme must be a valid protocol in `PLAINTEXT`, `SSL`, `SASL_PLAI
 If the hostname isn't set, it is bound to the default interface.
 
 |kafkaAdvertisedListeners
-|Listeners to publish to ZooKeeper for clients to use. The format is the same as `kafkaListeners`.
+|Optional listeners to publish to ZooKeeper for clients to use.
+The format is the same as `kafkaListeners`.
 
 |kafkaProtocolMap
-|Comma-separated map of listener name and protocol. For example: PRIVATE:PLAINTEXT,PRIVATE_SSL:SSL,PUBLIC:PLAINTEXT,PUBLIC_SSL:SSL.
+|Optional comma-separated map of listener name and protocol.
+For example: `PRIVATE:PLAINTEXT,PRIVATE_SSL:SSL,PUBLIC:PLAINTEXT,PUBLIC_SSL:SSL`
 
 |listeners
-|*Deprecated*.
-`kafkaListeners` is used.
+|Deprecated.
+Use `kafkaListeners` instead.
 |===
-
-[NOTE]
-====
-Among all configurations, only `kafkaListeners` or `listeners` (deprecated) is required.
-====
 
 === Multiple listeners
 
@@ -129,7 +117,7 @@ This enhancement results in fully isolated tenants in the Pulsar cluster, which 
 [#performance]
 == Performance
 
-This section lists configurations that may affect performance.
+This section lists configurations that can affect performance.
 
 [cols=3*]
 |===
@@ -137,11 +125,12 @@ This section lists configurations that may affect performance.
 
 |maxReadEntriesNum
 a|The maximum number of entries that are read from the cursor once per time.
-Increasing this value can make FETCH request read more bytes each time.
+Increasing this value can make FETCH requests read more bytes each time.
 
-[NOTE]
+[IMPORTANT]
 ====
-Currently, Starlight for Kafka doesn't check the maximum byte limit. Therefore, if the value is too great, the response size may be over the network limit.
+Starlight for Kafka doesn't check the maximum byte limit.
+Therefore, if this value is too large, then the response size can exceed the network limit.
 ====
 |5
 |===

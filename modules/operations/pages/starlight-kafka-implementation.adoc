@@ -7,23 +7,31 @@ This document describes how to implement the Starlight for Kafka protocol handle
 
 In Kafka, all topics are stored in one flat namespace, but in Pulsar, topics are organized in hierarchical multi-tenant namespaces. Starlight for Kafka introduces a setting `kafkaNamespace` in the broker configuration which allows administrators to map Kafka topics to Pulsar topics.
 
-To let Kafka users leverage the multi-tenancy of Apache Pulsar, a Kafka user can specify a Pulsar tenant and namespace as the topic prefix like Pulsar topics:
+To let Kafka users leverage the multi-tenancy of Apache Pulsar, a Kafka user can specify a Pulsar tenant and namespace as the topic prefix like Pulsar topics.
+For example:
 
-[cols=4*,options=header]
+[cols=4]
+|===
+|Kafka topic name |Tenant |Namespace |Short topic name
+
+| my-topic
+| `<kafkaTenant>`
+| `<kafkaNamespace>`
+| my-topic
+
+| my-tenant/my-ns/my-topic
+| my-tenant
+| my-ns
+| my-topic
+
+| persistent://my-tenant/my-ns/my-topic
+| my-tenant
+| my-ns
+| my-topic
 
 |===
-|Kafka topic name
-|Tenant
-|Namespace
-|Short topic name
 
-| my-topic | `<kafkaTenant>` | `<kafkaNamespace>` | my-topic
-| my-tenant/my-ns/my-topic | my-tenant | my-ns | my-topic
-| persistent://my-tenant/my-ns/my-topic | my-tenant | my-ns | my-topic
-
-|===
-
-[NOTE]
+[TIP]
 ====
 When `kafkaEnableMultiTenantMetadata` is enabled, `<kafkaTenant>` is the Pulsar tenant defined by the `username` passed during login.
 ====
@@ -43,7 +51,6 @@ fields automatically between Kafka messages and Pulsar messages. The mapping rel
 === Pulsar to Kafka message field mapping relationships
 
 [cols=3]
-
 |===
 |Pulsar |Kafka |Note
 

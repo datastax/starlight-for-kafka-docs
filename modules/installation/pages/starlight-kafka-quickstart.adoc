@@ -12,7 +12,7 @@ To install Starlight for Kafka as a proxy extension, see xref:operations:starlig
 
 Starlight for Kafka requires the following Pulsar versions and Kafka clients.
 
-[cols="3,3,3"]
+[cols=3]
 |===
 |Starlight for Kafka Version |Compatible Pulsar version |Supported Kafka client
 
@@ -21,11 +21,11 @@ Starlight for Kafka requires the following Pulsar versions and Kafka clients.
 
 |===
 
-Starlight for Kafka supports *all major Kafka clients* (0.10, 1.x, 2.x, 3.x).
+Starlight for Kafka supports all major Kafka clients (0.10, 1.x, 2.x, 3.x).
 
-Starlight for Kafka supports *Kafka Streams* and the *Kafka CLI*.
+Starlight for Kafka supports Kafka Streams and the Kafka CLI.
 
-Starlight for Kafka requires *JDK11*.
+Starlight for Kafka requires JDK 11.
 
 [#download]
 == Download
@@ -66,39 +66,47 @@ mvn clean install -DskipTests
 
 Configure the Pulsar broker to run the Starlight for Kafka protocol handler as a plugin by adding configurations in the Pulsar configuration file `broker.conf`.
 
-[NOTE]
+[TIP]
 ====
 Modify `standalone.conf` if you're running Pulsar standalone.
 ====
 
 . Add these configuration values to `broker.conf`:
 +
-[source,yaml]
+[source,conf]
 ----
 messagingProtocols=kafka
 protocolHandlerDirectory=./protocols
 allowAutoTopicCreationType=partitioned
 ----
 +
-[cols=3*,options=header]
+[cols=3]
 |===
-|Property
-|Default Value
-|Suggested Value
+|Property |Default Value |Suggested Value
 
-| `messagingProtocols` |  | kafka
-| `protocolHandlerDirectory`| ./protocols  | Location of Starlight for Kafka NAR file
-| `allowAutoTopicCreationType`| non-partitioned | partitioned
+|`messagingProtocols`
+|
+|`kafka`
+
+|`protocolHandlerDirectory`
+| `./protocols`
+|Location of Starlight for Kafka NAR file
+
+|`allowAutoTopicCreationType`
+|`non-partitioned`
+|`partitioned`
+
 |===
 +
-[NOTE]
+[IMPORTANT]
 ====
-`allowAutoTopicCreationType` is set to `non-partitioned` by default. Since topics are partitioned by default in Kafka, it's better to avoid creating non-partitioned topics unless Kafka clients need to interact with existing non-partitioned topics.
+`allowAutoTopicCreationType` is set to `non-partitioned` by default.
+Since topics are partitioned by default in Kafka, it's better to avoid creating non-partitioned topics unless Kafka clients need to interact with existing non-partitioned topics.
 ====
 
 . Set Kafka listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which Kafka binds to for listening.
 +
-[source,yaml]
+[source,conf]
 ----
 kafkaListeners=PLAINTEXT://127.0.0.1:9092
 ----
@@ -107,21 +115,21 @@ kafkaListeners=PLAINTEXT://127.0.0.1:9092
 +
 `kafkaAdvertisedListeners` isn't required unless you want to expose another address to the Kafka client. It defaults to the same address as `kafkaListeners` by default.
 +
-[source,yaml]
+[source,conf]
 ----
 kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
 ----
 
 . Set offset management. Offset management is *required* because Starlight for Kafka depends upon Pulsar broker-level entry metadata.
 +
-[source,yaml]
+[source,conf]
 ----
 brokerEntryMetadataInterceptors=org.apache.pulsar.common.intercept.AppendIndexMetadataInterceptor
 ----
 
 . Disable the deletion of inactive topics:
 +
-[source,yaml]
+[source,conf]
 ----
 brokerDeleteInactiveTopicsEnabled=false
 ----
