@@ -11,7 +11,7 @@ Starlight for Kafka can run Kafka(R) Streams applications with minimal configura
 [#configure-auth]
 == Configuring username and password authentication (SASL with PLAIN mechanism)
 
-To use the username and password authentication in Kstreams, set the following properties through Kafka JAAS. +
+To use the username and password authentication in Kstreams, set the following properties through Kafka JAAS:
 
 [source,bash]
 ----
@@ -25,8 +25,10 @@ sasl.mechanism=PLAIN
 [#configure-rep]
 == Configuring replication factor
 
-In Starlight for Kafka, the replication factor is handled by BookKeeper and set at the namespace level. +
-Kafka Streams sets its own internal `replication.factor` number, but Pulsar will apply its namespace replication factor from BookKeeper. +
+In Starlight for Kafka, the replication factor is handled by BookKeeper and set at the namespace level.
+
+Kafka Streams sets its own internal `replication.factor` number, but Pulsar will apply its namespace replication factor from BookKeeper.
+
 Set `replication.factor=1` in KStreams, or any positive integer.
 
 [#sample-app]
