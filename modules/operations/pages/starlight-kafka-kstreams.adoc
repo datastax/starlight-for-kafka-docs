@@ -97,7 +97,7 @@ public class WordCountExample {
         //
         // The drawback of cleaning up local state prior is that your app must rebuilt its local state from scratch, which
         // will take time and will require reading all the state-relevant data from the Kafka cluster over the network.
-        // Thus in a production scenario you typically do not want to clean up always as we do here but rather only when it
+        // Thus in a production scenario you typically don't want to clean up always as we do here but rather only when it
         // is truly needed, i.e., only under certain conditions (e.g., the presence of a command line flag for your app).
         // See `ApplicationResetExample.java` for a production-like example.
         streams.cleanUp();

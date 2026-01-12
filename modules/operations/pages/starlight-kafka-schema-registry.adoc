@@ -44,7 +44,7 @@ kopSchemaRegistryProxyPort=8081
 +
 [NOTE]
 ====
-The Proxy works only if the broker is working properly, because it simply forwards the requests to a broker. If the broker fails or it is not accessible, the Proxy will answer with an error message.
+The Proxy works only if the broker is working properly, because it simply forwards the requests to a broker. If the broker fails or it isn't accessible, then the Proxy answers with an error message.
 ====
 
 == Enable TLS on the schema registry

@@ -144,7 +144,7 @@ bin/pulsar tokens create --secret-key file:///path/to/secret.key \
 This command prints the token string on `stdout`.
 
 . Grant permission to a specific role.
-The token itself does not have any permissions associated with it.
+The token itself doesn't have any permissions associated with it.
 The authorization engine determines whether the token should have permissions or not.
 Once you have created the token, you can grant permission for this token.
 +
