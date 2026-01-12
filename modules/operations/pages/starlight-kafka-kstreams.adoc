@@ -126,7 +126,7 @@ public class WordCountExample {
         // Records should be flushed every 10 seconds. This is less than the default
         // in order to keep this example interactive.
         streamsConfiguration.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10 * 1000);
-        // For illustrative purposes we disable record caches.
+        // For this example, record caches are disabled.
         streamsConfiguration.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);
         streamsConfiguration.put(StreamsConfig.topicPrefix(TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG), 1);
 
@@ -137,7 +137,7 @@ public class WordCountExample {
         streamsConfiguration.put("security.protocol","SASL_SSL");
         streamsConfiguration.put("sasl.mechanism","PLAIN");
 
-        // in Starlight for Kafka replication is handled by BookKeeper
+        // In Starlight for Kafka replication is handled by BookKeeper
         // and you usually set it at namespace level
         // in KStreams you can set it to 1, but the Broker
         // applies the namespace policies
@@ -162,13 +162,13 @@ public class WordCountExample {
         final Pattern pattern = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
 
         final KTable<String, Long> wordCounts = textLines
-                // Split each text line, by whitespace, into words.  The text lines are the record
-                // values, i.e. we can ignore whatever data is in the record keys and thus invoke
-                // `flatMapValues()` instead of the more generic `flatMap()`.
+                // Split each text line, by whitespace, into words.
+                // The text lines are the record values, the data in the record keys is ignored.
+                // Then, the program can invoke `flatMapValues()` instead of the more generic `flatMap()`.
                 .flatMapValues(value -> Arrays.asList(pattern.split(value.toLowerCase())))
-                // Group the split data by word so that we can subsequently count the occurrences per word.
-                // This step re-keys (re-partitions) the input data, with the new record key being the words.
-                // Note: No need to specify explicit serdes because the resulting key and value types
+                // Group the split data by word so the program can subsequently count the occurrences per word.
+                // This step re-keys (re-partitions) the input data with the new record key being the words.
+                // There is no need to specify explicit serdes because the resulting key and value types
                 // (String and String) match the application's default serdes.
                 .groupBy((keyIgnored, word) -> word)
                 // Count the occurrences of each word (record key).

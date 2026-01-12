@@ -6,12 +6,13 @@ Starlight for Kafka implements a schema registry that is compatible with the htt
 The Kafka Schema Registry stores schemas in the `$<tenant>/__kafka/__schema-registry` topic.
 It is automatically created as a non-partitioned topic with infinite retention.
 
-[NOTE]
+[IMPORTANT]
 ====
-To avoid losing data, it is very important to disable retention on the `__kafka` namespace, or set it only for that topic if you have “topic level policies” enabled in your Pulsar system.
+To avoid losing data, it is critical that you disable retention on the `+__kafka+` namespace.
+Or, if you have topic-level policies enabled in your Pulsar environment, set it for that topic only.
 ====
 
-The Starlight for Kafka adapter creates automatically the $<tenant>/__kafka__schemaregistry namespace and sets infinite retention for you.
+The Starlight for Kafka adapter creates automatically the `+$<tenant>/__kafka__schemaregistry+` namespace and sets infinite retention for you.
 
 You can use `kopSchemaRegistryNamespace` configuration parameter to set the name of the namespace to be used.
 
@@ -42,10 +43,8 @@ kopSchemaRegistryProxyPort=8081
 }
 ----
 +
-[NOTE]
-====
-The Proxy works only if the broker is working properly, because it simply forwards the requests to a broker. If the broker fails or it isn't accessible, then the Proxy answers with an error message.
-====
+The Proxy works only if the broker is working properly because it only forwards the requests to a broker.
+If the broker fails or it isn't accessible, then the Proxy answers with an error message.
 
 == Enable TLS on the schema registry
 
