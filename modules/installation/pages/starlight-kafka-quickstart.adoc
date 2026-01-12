@@ -118,7 +118,7 @@ kafkaListeners=PLAINTEXT://127.0.0.1:9092
 
 . Set Kafka advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
 +
-`kafkaAdvertisedListeners` is not required unless you want to expose another address to the Kafka client. It defaults to the same address as `kafkaListeners` by default.
+`kafkaAdvertisedListeners` isn't required unless you want to expose another address to the Kafka client. It defaults to the same address as `kafkaListeners` by default.
 +
 [source,yaml]
 ----
@@ -132,22 +132,27 @@ kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
 brokerEntryMetadataInterceptors=org.apache.pulsar.common.intercept.AppendIndexMetadataInterceptor
 ----
 
-. Disable the deletion of inactive topics. This is not required but *very important* in Starlight for Kafka.
-+
-By default, Pulsar deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic is not deleted.
-+
-Starlight for Kafka cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
+. Disable the deletion of inactive topics:
 +
 [source,yaml]
 ----
 brokerDeleteInactiveTopicsEnabled=false
 ----
++
+[IMPORTANT]
+====
+This isn't required but it is critical in Starlight for Kafka.
+
+By default, Pulsar deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic isn't deleted.
+
+Starlight for Kafka cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
+====
 
 === Additional configurations
 
-* Set both retention *and* time to live policies http://pulsar.apache.org/docs/en/cookbooks-retention-expiry/[TTL] for Starlight for Kafka namespaces. If you only configure retention *without* configuring TTL, all messages on Starlight for Kafka topics cannot be deleted because Starlight for Kafka does not update a durable cursor.
+* Set both retention *and* time to live policies http://pulsar.apache.org/docs/en/cookbooks-retention-expiry/[TTL] for Starlight for Kafka namespaces. If you only configure retention *without* configuring TTL, all messages on Starlight for Kafka topics cannot be deleted because Starlight for Kafka doesn't update a durable cursor.
 
-* If a Pulsar consumer and a Kafka consumer both subscribe to the same topic with the same subscription (or group) name, the two consumers consume messages independently and they do not share the same subscription, even though the subscription name of a Pulsar client is the same with the group name of a Kafka client.
+* If a Pulsar consumer and a Kafka consumer both subscribe to the same topic with the same subscription (or group) name, the two consumers consume messages independently and they don't share the same subscription, even though the subscription name of a Pulsar client is the same with the group name of a Kafka client.
 
 * Starlight for Kafka supports interaction between Pulsar client and Kafka client by default. If your topic is used only by the Pulsar client or only by the Kafka client, you can set `entryFormat=kafka` in `broker.conf` for better performance.
 

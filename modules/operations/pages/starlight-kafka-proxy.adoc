@@ -64,7 +64,7 @@ If you enable authentication and authorization on the proxy then you must also e
 == Discover Pulsar Brokers from the Proxy
 
 The proxy uses the broker discovery service to discover the brokers.
-The Pulsar broker does not advertise the address of the Kafka listeners, so the mapping between a broker and the actual TCP port that is listening for Kafka connections is done per convention.
+The Pulsar broker doesn't advertise the address of the Kafka listeners, so the mapping between a broker and the actual TCP port that is listening for Kafka connections is done per convention.
 
 If a Pulsar broker exposes the Pulsar endpoint at port 6650, the proxy assumes that it is exposing the Kafka endpoint at port 9092. The same applies for TLS communications, where port 6651 is mapped to 9093.
 
@@ -76,7 +76,7 @@ kafkaProxyBrokerPortToKopMapping=6650=19092,6651=19093
 ----
 
 This means that a broker on port *6650* for Pulsar protocol will be mapped to Kafka port *19092* and port *6651* is mapped to *19093*.
-This is usually not needed for standard deployments that use default ports.
+Typically, this isn't needed for standard deployments that use default ports.
 
 == See also
 

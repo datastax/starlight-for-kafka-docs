@@ -26,7 +26,7 @@ This section lists configurations for topic listeners.
 
 Each URI's scheme represents a listener name if `kafkaProtocolMap` is configured. Otherwise, the scheme must be a valid protocol in `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, or `SASL_SSL`.
 
-If the hostname is not set, it will be bound to the default interface.
+If the hostname isn't set, it is bound to the default interface.
 
 |kafkaAdvertisedListeners
 |Listeners to publish to ZooKeeper for clients to use. The format is the same as `kafkaListeners`.
@@ -118,11 +118,11 @@ Pulsar is a multi-tenant system that requires users to specify the http://pulsar
 
 |kopAllowedNamespaces
 |The allowed namespace to list topics with a comma separator. e.g. `public/default,public/kafka`.
-|If it's not set or empty, the allowed namespaces will be `<kafkaTenant>/<kafkaNamespace>`.
+|If empty or not set, then the allowed namespaces are `<kafkaTenant>/<kafkaNamespace>`.
 |===
 
 Enable `kafkaEnableMultiTenantMetadata` to use separate tenants when handling system metadata.
-This enhancement results in fully isolated tenants in the Pulsar cluster, which is not available in pure Kafka where the system metadata is shared among all users.
+This enhancement results in fully isolated tenants in the Pulsar cluster, which isn't available in pure Kafka where the system metadata is shared among all users.
 
 [#performance]
 == Performance
@@ -139,7 +139,7 @@ Increasing this value can make FETCH request read more bytes each time.
 
 [NOTE]
 ====
-Currently, Starlight for Kafka does not check the maximum byte limit. Therefore, if the value is too great, the response size may be over the network limit.
+Currently, Starlight for Kafka doesn't check the maximum byte limit. Therefore, if the value is too great, the response size may be over the network limit.
 ====
 |5
 |===
@@ -159,7 +159,7 @@ This section lists configurations for network communication.
 
 |requestTimeoutMs
 |Limit the timeout in milliseconds for request, like `request.timeout.ms` in Kafka client.
-If a request was not processed in the timeout, Starlight for Kafka would return an error response to client.
+If a request wasn't processed within the timeout limit, then Starlight for Kafka returns an error response to the client.
 |30000
 
 |connectionMaxIdleMs
