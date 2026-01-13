@@ -1,29 +1,38 @@
-= Starlight for Kafka
+= {product}
 
-Starlight for Kafka brings the native Apache Kafka protocol support to Apache Pulsar by introducing a Kafka https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[protocol handler] on Pulsar brokers. By adding the Starlight for Kafka protocol handler to your existing Pulsar cluster, you can migrate your existing Kafka applications and services to Pulsar without modifying the code. This enables Kafka applications to leverage Pulsar's powerful features, such as:
+The https://github.com/datastax/starlight-for-kafka[{product} extension] brings native {kafka-reg} protocol support to {pulsar-reg} by introducing a https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[{kafka-short} protocol handler] on {pulsar-short} brokers.
+
+By adding the {product} protocol handler to your existing {pulsar-short} cluster, you can migrate your existing {kafka-short} applications and services to {pulsar-short} without modifying the code.
+
+This enables {kafka-short} applications to leverage {pulsar-short}'s powerful features, such as:
 
 - Streamlined operations with enterprise-grade multi-tenancy
 - Simplified operations with a rebalance-free architecture
 - Infinite event stream retention with Apache BookKeeper and tiered storage
-- Serverless event processing with Pulsar Functions
+- Serverless event processing with {pulsar-short} Functions
 
-Starlight for Kafka, implemented as a Pulsar protocol handler plugin with the protocol name "kafka", is loaded when Pulsar broker starts. It helps reduce the barriers for people adopting Pulsar to achieve their business success by providing a native Kafka protocol support on Apache Pulsar. By integrating the two popular event streaming ecosystems, Starlight for Kafka unlocks new use cases. To accelerate your development of real-time applications and services, you can leverage these advantages from each ecosystem and build a truly unified event streaming platform with Apache Pulsar.
+== Architecture
 
-Starlight for Kafka implements the Kafka wire protocol on Pulsar by leveraging the existing components (such as topic discovery, the distributed log library - ManagedLedger, cursors and so on) that Pulsar already has.
+{product}, implemented as a {pulsar-short} protocol handler plugin with the protocol name `kafka`, is loaded when the {pulsar-short} broker starts.
+It helps reduce the barriers for using {pulsar-short} by providing native {kafka-short} protocol support on {pulsar}.
+By integrating the two popular event streaming ecosystems, {product} unlocks new use cases.
+To accelerate your development of real-time applications and services, you can leverage these advantages from each ecosystem and build a truly unified event streaming platform with {pulsar}.
 
-image:ROOT:s4k-architecture.png[{starlight-kafka} Architecture]
+image:ROOT:s4k-architecture.png[{product} Architecture]
 
 == Features
 
-Starlight for Kafka adds additional features to make native Kafka protocol support even better.
+{product} implements the {kafka-short} wire protocol on {pulsar-short} by leveraging the existing components that {pulsar-short} already has, such as topic discovery, the distributed log library (`ManagedLedger`), and cursors.
+
+{product} adds additional features to make native {kafka-short} protocol support even better.
 
 * xref:operations:starlight-kafka-schema-registry.adoc[Schema registry]: A schema registry compatible with both the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry(R)] and the https://www.apicur.io/registry[Apicurio Schema Registry].
 
-* xref:operations:starlight-kafka-proxy.adoc[Proxy extension]: Allows the Kafka client to access your Pulsar cluster the same way as Pulsar clients do.
+* xref:operations:starlight-kafka-proxy.adoc[Proxy extension]: Allows the {kafka-short} client to access your {pulsar-short} cluster the same way as {pulsar-short} clients do.
 
-* Integrated support for the Pulsar schema registry.
+* Integrated support for the {pulsar-short} schema registry.
 
-== Get started with Starlight for Kafka
+== Get started with {product}
 
 * xref:installation:starlight-kafka-quickstart.adoc[]
 * xref:operations:starlight-kafka-implementation.adoc[]

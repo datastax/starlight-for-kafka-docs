@@ -8,3 +8,15 @@ nav:
 
 asciidoc:
   attributes:
+    product: 'Starlight for Kafka'
+    astra-ui: 'Astra Portal'
+    astra-url: 'https://astra.datastax.com'
+    astra-ui-link: '{astra-url}[{astra-ui}^]'
+    pulsar-reg: 'Apache Pulsar(TM)'
+    pulsar: 'Apache Pulsar'
+    pulsar-short: 'Pulsar'
+    kafka-reg: 'Apache Kafka(R)'
+    kafka: 'Apache Kafka'
+    kafka-short: 'Kafka'
+    luna-streaming: 'Luna Streaming'
+    astra-streaming: 'Astra Streaming'

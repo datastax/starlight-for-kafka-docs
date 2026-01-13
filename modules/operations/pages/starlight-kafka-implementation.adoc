@@ -1,18 +1,18 @@
-= Starlight for Kafka protocol handler
+= {product} protocol handler
 :navtitle: Protocol handler
 
-This document describes how to implement the Starlight for Kafka protocol handler.
+This document describes how to implement the {product} protocol handler.
 
 == Topic
 
-In Kafka, all topics are stored in one flat namespace, but in Pulsar, topics are organized in hierarchical multi-tenant namespaces. Starlight for Kafka introduces a setting `kafkaNamespace` in the broker configuration which allows administrators to map Kafka topics to Pulsar topics.
+In {kafka-short}, all topics are stored in one flat namespace, but in {pulsar-short}, topics are organized in hierarchical multi-tenant namespaces. {product} introduces a setting `kafkaNamespace` in the broker configuration which allows administrators to map {kafka-short} topics to {pulsar-short} topics.
 
-To let Kafka users leverage the multi-tenancy of Apache Pulsar, a Kafka user can specify a Pulsar tenant and namespace as the topic prefix like Pulsar topics.
+To let {kafka-short} users leverage the multi-tenancy of {pulsar}, a {kafka-short} user can specify a {pulsar-short} tenant and namespace as the topic prefix like {pulsar-short} topics.
 For example:
 
 [cols=4]
 |===
-|Kafka topic name |Tenant |Namespace |Short topic name
+|{kafka-short} topic name |Tenant |Namespace |Short topic name
 
 | my-topic
 | `<kafkaTenant>`
@@ -33,26 +33,26 @@ For example:
 
 [TIP]
 ====
-When `kafkaEnableMultiTenantMetadata` is enabled, `<kafkaTenant>` is the Pulsar tenant defined by the `username` passed during login.
+When `kafkaEnableMultiTenantMetadata` is enabled, `<kafkaTenant>` is the {pulsar-short} tenant defined by the `username` passed during login.
 ====
 
 == Topic lookup
 
-Starlight for Kafka uses the same topic lookup approach for the Kafka request handler and the Pulsar request handler. The request handler does topic discovery to look up all ownerships for the requested topic partitions, and responds with the ownership information as part of the Kafka `TopicMetadata` returned to Kafka clients.
+{product} uses the same topic lookup approach for the {kafka-short} request handler and the {pulsar-short} request handler. The request handler does topic discovery to look up all ownerships for the requested topic partitions, and responds with the ownership information as part of the {kafka-short} `TopicMetadata` returned to {kafka-short} clients.
 
 When you are using the xref:starlight-kafka-proxy.adoc[Proxy] module, the proxy answers its own advertised address as owner of every topic. The Proxy automatically
-dispatches every request to the Broker that owns the topic, so Kafka clients don't have knowledge of the internal topology of the cluster.
+dispatches every request to the Broker that owns the topic, so {kafka-short} clients don't have knowledge of the internal topology of the cluster.
 
 == Message
 
-Kafka and Pulsar messages have keys, values, timestamps, and headers, but in Pulsar the `headers` are called `properties`. Starlight for Kafka converts these
-fields automatically between Kafka messages and Pulsar messages. The mapping relationships are as below.
+{kafka-short} and {pulsar-short} messages have keys, values, timestamps, and headers, but in {pulsar-short} the `headers` are called `properties`. {product} converts these
+fields automatically between {kafka-short} messages and {pulsar-short} messages. The mapping relationships are as below.
 
-=== Pulsar to Kafka message field mapping relationships
+=== {pulsar-short} to {kafka-short} message field mapping relationships
 
 [cols=3]
 |===
-|Pulsar |Kafka |Note
+|{pulsar-short} |{kafka-short} |Note
 
 |`Ordering key`
 
@@ -60,13 +60,13 @@ fields automatically between Kafka messages and Pulsar messages. The mapping rel
 | `Key`
 a| Ordering key has higher priority, which means:
 
-- If a Pulsar message has an `ordering key`, the `ordering key` is converted to a `key`.
-- If a Pulsar message doesn't have an `ordering key`, then the `partition key` is converted to a `key`.
+- If a {pulsar-short} message has an `ordering key`, the `ordering key` is converted to a `key`.
+- If a {pulsar-short} message doesn't have an `ordering key`, then the `partition key` is converted to a `key`.
 
 For example:
 
-- If a Pulsar message has an `ordering key (xxx)` and a `partition key (yyy)`, the message key of the converted Kafka message is `xxx` rather than `yyy`.
-- If a Pulsar message doesn't have an `ordering key` but it has a `partition key (yyy)`, then the message key of the converted Kafka message is `yyy`.
+- If a {pulsar-short} message has an `ordering key (xxx)` and a `partition key (yyy)`, the message key of the converted {kafka-short} message is `xxx` rather than `yyy`.
+- If a {pulsar-short} message doesn't have an `ordering key` but it has a `partition key (yyy)`, then the message key of the converted {kafka-short} message is `yyy`.
 
 |`Event time`
 
@@ -74,68 +74,68 @@ For example:
 | `Timestamp`
 a|Event time has higher priority, which means:
 
-- If a Pulsar message has an `event time`, the `event time` is converted to `timestamp`.
-- If a Pulsar message doesn't have an `event time`, then the `publish time` is converted to `timestamp`.
+- If a {pulsar-short} message has an `event time`, the `event time` is converted to `timestamp`.
+- If a {pulsar-short} message doesn't have an `event time`, then the `publish time` is converted to `timestamp`.
 
 For example:
 
-- If a Pulsar message has an `event time (1628826964820)` and a `publish time (1628826964821)`, the message key of the converted Kafka message is `1628826964820` rather than `1628826964821`.
+- If a {pulsar-short} message has an `event time (1628826964820)` and a `publish time (1628826964821)`, the message key of the converted {kafka-short} message is `1628826964820` rather than `1628826964821`.
 
-- If a Pulsar message doesn't have an `event time` but it has a `publish time (1628826964821)`, then the message key of the converted Kafka message is `1628826964821`.
+- If a {pulsar-short} message doesn't have an `event time` but it has a `publish time (1628826964821)`, then the message key of the converted {kafka-short} message is `1628826964821`.
 
 | NULL value
 | NULL value
-|If the field of a Pulsar message is NULL, the converted Kafka message is NULL.
+|If the field of a {pulsar-short} message is NULL, the converted {kafka-short} message is NULL.
 
 |===
 
-=== Kafka to Pulsar message field mapping relationships
+=== {kafka-short} to {pulsar-short} message field mapping relationships
 
 [cols=3]
 |===
-|Pulsar |Kafka |Note
+|{pulsar-short} |{kafka-short} |Note
 
 |`Key`
 |Ordering key and partition key
-|If a Kafka message has a `key`, both `ordering key` and `partition key` are set for the converted Pulsar message.
+|If a {kafka-short} message has a `key`, both `ordering key` and `partition key` are set for the converted {pulsar-short} message.
 
-If a Kafka message doesn't have a `key`, then `ordering key` and `partition key` aren't set for the converted Pulsar message.
+If a {kafka-short} message doesn't have a `key`, then `ordering key` and `partition key` aren't set for the converted {pulsar-short} message.
 
 |`Timestamp`
 |Event time and publish time
-|If a Kafka message has a `timestamp`, both `event time` and `publish time` are set for the converted Pulsar message.
+|If a {kafka-short} message has a `timestamp`, both `event time` and `publish time` are set for the converted {pulsar-short} message.
 
-If a Kafka message doesn't have a `timestamp`, then `event time` and `publish time` aren't set for the converted Pulsar message.
+If a {kafka-short} message doesn't have a `timestamp`, then `event time` and `publish time` aren't set for the converted {pulsar-short} message.
 
 |NULL value
 |NULL value
-|If the field of a Kafka message is NULL, the converted Pulsar message is NULL.
+|If the field of a {kafka-short} message is NULL, the converted {pulsar-short} message is NULL.
 
 |===
 
 == Message ID and offset
 
-In Kafka, each message is assigned with an offset once the message is successfully produced to a topic partition.
+In {kafka-short}, each message is assigned with an offset once the message is successfully produced to a topic partition.
 
-In Pulsar, each message is assigned with a `MessageID`. The message ID consists of `ledger-id`, `entry-id`, and `batch-index` components.
+In {pulsar-short}, each message is assigned with a `MessageID`. The message ID consists of `ledger-id`, `entry-id`, and `batch-index` components.
 
-Starlight for Kafka uses the same approach in the Pulsar-Kafka wrapper to convert a Pulsar `MessageID` to an offset, and vice versa.
+{product} uses the same approach in the {pulsar-short}-{kafka-short} wrapper to convert a {pulsar-short} `MessageID` to an offset, and vice versa.
 
 == Produce Messages
 
-When the Kafka request handler receives produced messages from a Kafka client, it converts Kafka messages to Pulsar messages by mapping the fields (such as the key, value, timestamp and headers) one by one, and uses the ManagedLedger append API to append those converted Pulsar messages to BookKeeper. Converting Kafka messages to Pulsar messages allows existing Pulsar applications to consume messages produced by Kafka clients.
+When the {kafka-short} request handler receives produced messages from a {kafka-short} client, it converts {kafka-short} messages to {pulsar-short} messages by mapping the fields (such as the key, value, timestamp and headers) one by one, and uses the ManagedLedger append API to append those converted {pulsar-short} messages to BookKeeper. Converting {kafka-short} messages to {pulsar-short} messages allows existing {pulsar-short} applications to consume messages produced by {kafka-short} clients.
 
 == Consume Messages
 
-When the Kafka request handler receives a consumer request from a Kafka client, it opens a non-durable cursor to read the entries starting from the requested offset. The Kafka request handler converts the Pulsar messages back to Kafka messages to allow existing Kafka applications to consume the messages produced by Pulsar clients.
+When the {kafka-short} request handler receives a consumer request from a {kafka-short} client, it opens a non-durable cursor to read the entries starting from the requested offset. The {kafka-short} request handler converts the {pulsar-short} messages back to {kafka-short} messages to allow existing {kafka-short} applications to consume the messages produced by {pulsar-short} clients.
 
 == Group coordinator & offset management
 
-Pulsar doesn't have a centralized group coordinator for assigning partitions to consumers of a consumer group or managing offsets for each consumer group. In Pulsar, partition assignment is managed by the broker on a per-partition basis, and the offset management is done by storing the acknowledgements in cursors by the owner broker of that partition.
+{pulsar-short} doesn't have a centralized group coordinator for assigning partitions to consumers of a consumer group or managing offsets for each consumer group. In {pulsar-short}, partition assignment is managed by the broker on a per-partition basis, and the offset management is done by storing the acknowledgements in cursors by the owner broker of that partition.
 
-To be fully compatible with Kafka clients, Starlight for Kafka implements the Kafka group coordinator by storing the coordinator group changes and offsets in a system topic called `kafkaTenant/kafka/consumer_offsets` in Pulsar.
+To be fully compatible with {kafka-short} clients, {product} implements the {kafka-short} group coordinator by storing the coordinator group changes and offsets in a system topic called `kafkaTenant/kafka/consumer_offsets` in {pulsar-short}.
 
-This bridges the gap between Pulsar and Kafka and allows use of existing Pulsar tools and policies to manage subscriptions and monitor Kafka consumers. Starlight for Kafka adds a background thread in the implemented group coordinator to periodically synchronize offset updates from the system topic to Pulsar cursors. Therefore, a Kafka consumer group is effectively treated as a Pulsar subscription to allow existing Pulsar tools to be used for managing Kafka consumer groups.
+This bridges the gap between {pulsar-short} and {kafka-short} and allows use of existing {pulsar-short} tools and policies to manage subscriptions and monitor {kafka-short} consumers. {product} adds a background thread in the implemented group coordinator to periodically synchronize offset updates from the system topic to {pulsar-short} cursors. Therefore, a {kafka-short} consumer group is effectively treated as a {pulsar-short} subscription to allow existing {pulsar-short} tools to be used for managing {kafka-short} consumer groups.
 
 == See also
 
