@@ -25,6 +25,7 @@ To use {product}, you need a {pulsar-short} cluster from {astra-streaming}, {lun
 Before a {kafka-short} client can interact with your {pulsar-short} cluster, you need the {product} protocol handler installed in the cluster.
 
 [tabs]
+======
 {astra-streaming}::
 +
 --
@@ -220,6 +221,7 @@ After building the project, the `.nar` file is available at `starlight-for-kafka
 
 include::ROOT:partial$self-managed-config.adoc[]
 --
+======
 
 [#produce-and-consume-messages-with-starlight-for-kafka]
 == Produce and consume messages with {product}
