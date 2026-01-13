@@ -1,13 +1,13 @@
-= Kafka streams in Starlight for Kafka
-:navtitle: Kafka streams
+= {kafka-short} streams in {product}
+:navtitle: {kafka-short} streams
 
-Starlight for Kafka can run Apache Kafka(R) Streams applications with minimal configuration changes.
-This guide explains how to make those changes, and it provides an example Java application to try out Kstreams with Starlight for Kafka.
+{product} can run {kafka-reg} Streams applications with minimal configuration changes.
+This guide explains how to make those changes, and it provides an example Java application to try out Kstreams with {product}.
 
 [#configure-auth]
 == Configure username and password authentication (SASL with PLAIN mechanism)
 
-To use the username and password authentication in Kstreams, set the following properties through Kafka JAAS:
+To use the username and password authentication in Kstreams, set the following properties through {kafka-short} JAAS:
 
 [source,bash]
 ----
@@ -21,9 +21,9 @@ sasl.mechanism=PLAIN
 [#configure-rep]
 == Configure replication factor
 
-In Starlight for Kafka, the replication factor is handled by BookKeeper and set at the namespace level.
+In {product}, the replication factor is handled by BookKeeper and set at the namespace level.
 
-Kafka Streams sets its own internal `replication.factor` number, but Pulsar applies its namespace replication factor from BookKeeper.
+{kafka-short} Streams sets its own internal `replication.factor` number, but {pulsar-short} applies its namespace replication factor from BookKeeper.
 
 Set `replication.factor=1` in KStreams, or any positive integer.
 
@@ -32,7 +32,7 @@ Set `replication.factor=1` in KStreams, or any positive integer.
 
 This Java application accepts a stream of words from a KStreams input, processes them, and prints the number of occurrences of each word to the KStreams output.
 
-. Create two topics in the `kafka` namespace of your Pulsar tenant called `streams-plaintext-input` and `streams-plaintext-output`:
+. Create two topics in the `kafka` namespace of your {pulsar-short} tenant called `streams-plaintext-input` and `streams-plaintext-output`:
 +
 [source,bash]
 ----
@@ -45,7 +45,7 @@ bin/pulsar-admin topics create-partitioned-topic \
   --partitions 4
 ----
 
-. Add your username (Pulsar tenant), auth token, and broker URL, and run the program.
+. Add your username ({pulsar-short} tenant), auth token, and broker URL, and run the program.
 +
 [source,java]
 ----

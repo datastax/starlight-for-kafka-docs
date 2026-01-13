@@ -1,46 +1,46 @@
-= Installing the Starlight for Kafka extension
+= Install the {product} extension
 :navtitle: Installation
 
-This guide helps you get started producing and consuming Kafka messages on a Pulsar cluster.
+This guide helps you get started producing and consuming {kafka-short} messages on a {pulsar-short} cluster.
 
-This guide is focused on installing the extension into an existing Pulsar cluster.
+This guide is focused on installing the extension into an existing {pulsar-short} cluster.
 
-To install Starlight for Kafka as a proxy extension, see xref:operations:starlight-kafka-proxy.adoc[].
+To install {product} as a proxy extension, see xref:operations:starlight-kafka-proxy.adoc[].
 
 [#prerequisites]
 == Prerequisites
 
-Starlight for Kafka requires the following Pulsar versions and Kafka clients.
+{product} requires the following {pulsar-short} versions and {kafka-short} clients.
 
 [cols=3]
 |===
-|Starlight for Kafka Version |Compatible Pulsar version |Supported Kafka client
+|{product} version |Compatible {pulsar-short} version |Supported {kafka-short} client
 
 | 2.10 | 2.10.x | 0.10, 1.x, 2.x, 3.x
 | 2.8  | 2.8.x  | 0.10, 1.x, 2.x, 3.x
 
 |===
 
-Starlight for Kafka supports all major Kafka clients (0.10, 1.x, 2.x, 3.x).
+{product} supports all major {kafka-short} clients (0.10, 1.x, 2.x, 3.x).
 
-Starlight for Kafka supports Kafka Streams and the Kafka CLI.
+{product} supports {kafka-short} Streams and the {kafka-short} CLI.
 
-Starlight for Kafka requires JDK 11.
+{product} requires JDK 11.
 
 [#download]
 == Download
 
-. If this is the first time you've used protocol handlers with your Pulsar deployment, create a `protocols` folder in the root of your Pulsar directory.
-. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the https://github.com/datastax/starlight-for-kafka/releases[Starlight for Kafka GitHub repository].
-. Copy the `.nar` file to your `Pulsar/protocols` directory.
+. If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
+. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the https://github.com/datastax/starlight-for-kafka/releases[{product} GitHub repository].
+. Copy the `.nar` file to your `{pulsar-short}/protocols` directory.
 . Proceed to xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler].
 
 [#build]
-== Build Starlight for Kafka protocol handler from source (optional)
+== Build {product} protocol handler from source (optional)
 
 If you prefer, build the protocol handler `.nar` from source.
 
-. Clone the Starlight for Kafka GitHub repository to your local machine:
+. Clone the {product} GitHub repository to your local machine:
 +
 [source,bash]
 ----
@@ -54,7 +54,7 @@ git clone https://github.com/datastax/starlight-for-kafka.git
 cd starlight-for-kafka
 ----
 
-. If needed, set `jenv global 11` to use JDK 11 because Starlight for Kafka requires JDK11.
+. If needed, set `jenv global 11` to use JDK 11 because {product} requires JDK11.
 
 . Build the Maven project:
 +
@@ -63,9 +63,9 @@ cd starlight-for-kafka
 mvn clean install -DskipTests
 ----
 
-. If this is the first time you've used protocol handlers with your Pulsar deployment, create a `protocols` folder in the root of your Pulsar directory.
+. If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
 
-. Copy the protocol handler `.nar` file to your Pulsar `protocols` directory.
+. Copy the protocol handler `.nar` file to your {pulsar-short} `protocols` directory.
 After building the project, the `.nar` file is available at `starlight-for-kafka/kafka-impl/target/pulsar-protocol-handler-kafka-**VERSION**.nar`.
 
 . Continue with xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler].
@@ -73,11 +73,11 @@ After building the project, the `.nar` file is available at `starlight-for-kafka
 [#configure]
 == Configure protocol handler
 
-Configure the Pulsar broker to run the Starlight for Kafka protocol handler as a plugin by adding configurations in the Pulsar configuration file `broker.conf`.
+Configure the {pulsar-short} broker to run the {product} protocol handler as a plugin by adding configurations in the {pulsar-short} configuration file `broker.conf`.
 
 [TIP]
 ====
-Modify `standalone.conf` if you're running Pulsar standalone.
+Modify `standalone.conf` if you're running {pulsar-short} standalone.
 ====
 
 . Add these configuration values to `broker.conf`:
@@ -99,7 +99,7 @@ allowAutoTopicCreationType=partitioned
 
 |`protocolHandlerDirectory`
 | `./protocols`
-|Location of Starlight for Kafka NAR file
+|Location of {product} `.nar` file
 
 |`allowAutoTopicCreationType`
 |`non-partitioned`
@@ -110,26 +110,26 @@ allowAutoTopicCreationType=partitioned
 [IMPORTANT]
 ====
 `allowAutoTopicCreationType` is set to `non-partitioned` by default.
-Since topics are partitioned by default in Kafka, it's better to avoid creating non-partitioned topics unless Kafka clients need to interact with existing non-partitioned topics.
+Since topics are partitioned by default in {kafka-short}, it's better to avoid creating non-partitioned topics unless {kafka-short} clients need to interact with existing non-partitioned topics.
 ====
 
-. Set Kafka listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which Kafka binds to for listening.
+. Set {kafka-short} listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which {kafka-short} binds to for listening.
 +
 [source,conf]
 ----
 kafkaListeners=PLAINTEXT://127.0.0.1:9092
 ----
 
-. Set Kafka advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
+. Set {kafka-short} advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
 +
-`kafkaAdvertisedListeners` isn't required unless you want to expose another address to the Kafka client. It defaults to the same address as `kafkaListeners` by default.
+`kafkaAdvertisedListeners` isn't required unless you want to expose another address to the {kafka-short} client. It defaults to the same address as `kafkaListeners` by default.
 +
 [source,conf]
 ----
 kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
 ----
 
-. Set offset management. Offset management is *required* because Starlight for Kafka depends upon Pulsar broker-level entry metadata.
+. Set offset management. Offset management is *required* because {product} depends upon {pulsar-short} broker-level entry metadata.
 +
 [source,conf]
 ----
@@ -145,29 +145,29 @@ brokerDeleteInactiveTopicsEnabled=false
 +
 [IMPORTANT]
 ====
-This isn't required but it is critical in Starlight for Kafka.
+This isn't required but it is critical in {product}.
 
-By default, Pulsar deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic isn't deleted.
+By default, {pulsar-short} deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic isn't deleted.
 
-Starlight for Kafka cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
+{product} cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
 ====
 
 === Additional configurations
 
-* Set both retention *and* time to live policies http://pulsar.apache.org/docs/en/cookbooks-retention-expiry/[TTL] for Starlight for Kafka namespaces. If you only configure retention *without* configuring TTL, all messages on Starlight for Kafka topics cannot be deleted because Starlight for Kafka doesn't update a durable cursor.
+* Set both retention *and* time to live policies http://pulsar.apache.org/docs/en/cookbooks-retention-expiry/[TTL] for {product} namespaces. If you only configure retention *without* configuring TTL, all messages on {product} topics cannot be deleted because {product} doesn't update a durable cursor.
 
-* If a Pulsar consumer and a Kafka consumer both subscribe to the same topic with the same subscription (or group) name, the two consumers consume messages independently and they don't share the same subscription, even though the subscription name of a Pulsar client is the same with the group name of a Kafka client.
+* If a {pulsar-short} consumer and a {kafka-short} consumer both subscribe to the same topic with the same subscription (or group) name, the two consumers consume messages independently and they don't share the same subscription, even though the subscription name of a {pulsar-short} client is the same with the group name of a {kafka-short} client.
 
-* Starlight for Kafka supports interaction between Pulsar client and Kafka client by default. If your topic is used only by the Pulsar client or only by the Kafka client, you can set `entryFormat=kafka` in `broker.conf` for better performance.
+* {product} supports interaction between {pulsar-short} client and {kafka-short} client by default. If your topic is used only by the {pulsar-short} client or only by the {kafka-short} client, you can set `entryFormat=kafka` in `broker.conf` for better performance.
 
 [#test]
 == Test
 
-After you have installed the Starlight for Kafka protocol handler and modified the Pulsar broker configuration, verify your Starlight for Kafka deployment works by running a Kafka client and consuming the messages on Pulsar.
+After you have installed the {product} protocol handler and modified the {pulsar-short} broker configuration, verify your {product} deployment works by running a {kafka-short} client and consuming the messages on {pulsar-short}.
 
-. Restart your Pulsar brokers.
+. Restart your {pulsar-short} brokers.
 
-. Download https://kafka.apache.org/downloads[Kafka 3.0.0] and untar the release package.
+. Download https://kafka.apache.org/downloads[{kafka-short} 3.0.0] and untar the release package.
 +
 [source,bash]
 ----
@@ -175,21 +175,21 @@ tar -xzf kafka-3.0.0.tgz
 cd kafka-3.0.0
 ----
 
-. Run the Kafka command-line consumer to listen for messages from the server. Here we're using localhost and Pulsar standalone.
+. Run the {kafka-short} command-line consumer to listen for messages from the server. Here we're using localhost and {pulsar-short} standalone.
 +
 [source,bash]
 ----
 bin/kafka-console-consumer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --topic test --from-beginning
 ----
 
-. Create a consumer on Pulsar to consume messages. Here we're adding `-n 0` to tell Pulsar to continue running instead of closing the connection after consuming a message.
+. Create a consumer on {pulsar-short} to consume messages. Here we're adding `-n 0` to tell {pulsar-short} to continue running instead of closing the connection after consuming a message.
 +
 [source,bash]
 ----
 pulsar-client consume test -s "my-subscription" -n 0
 ----
 
-. Run the Kafka command-line producer to send messages to the server, and send a message.
+. Run the {kafka-short} command-line producer to send messages to the server, and send a message.
 +
 [source,console]
 ----
@@ -197,7 +197,7 @@ bin/kafka-console-producer.sh --bootstrap-server PLAINTEXT://127.0.0.1:9092 --to
 >hi pulsar, it's me, kafka!
 ----
 
-. If Starlight for Kafka is working, your message appears on your Pulsar consumer:
+. If {product} is working, your message appears on your {pulsar-short} consumer:
 +
 [source,console]
 ----
@@ -207,4 +207,4 @@ key:[null], properties:[], content:hi pulsar, it's me, kafka!
 
 == Next steps
 
-Learn how to xref:configuration:starlight-kafka-configuration.adoc[configure and manage Starlight for Kafka].
+Learn how to xref:configuration:starlight-kafka-configuration.adoc[configure and manage {product}].

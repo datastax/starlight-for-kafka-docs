@@ -1,9 +1,9 @@
-= Monitoring the Starlight for Kafka extension
-:navtitle: Monitoring the extension
+= Monitoring {product}
+:navtitle: Monitoring
 
-Starlight for Kafka exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
+{product} exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
 
-The Starlight for Kafka metrics are exposed under `/metrics` at port `8000` along with Pulsar metrics.
+The {product} metrics are exposed under `/metrics` at port `8000` along with {pulsar-short} metrics.
 To use a different port, configure the `stats_server_port` system property.
 
 == Metric types
@@ -59,7 +59,7 @@ Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, Li
 
 |kop_server_REQUEST_LATENCY
 |Summary
-|The requests processing total latency for all Kafka APIs.
+|The requests processing total latency for all {kafka-short} APIs.
 
 Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, ListOffsets, OffsetFetch, OffsetCommit, Fetch, JoinGroup, SyncGroup, Heartbeat, LeaveGroup, DescribeGroups, ListGroups, DeleteGroups, SaslHandshake, SaslAuthenticate, CreateTopics, InitProducerId, AddPartitionsToTxn, AddOffsetsToTxn, TxnOffsetCommit, EndTxn, WriteTxnMarkers, DescribeConfigs, DeleteTopics).
 |===
@@ -91,7 +91,7 @@ Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, Li
 
 |kop_server_MESSAGE_PUBLISH
 |Summary
-|The message publish latency to Pulsar ManagedLedger.
+|The message publish latency to {pulsar-short} ManagedLedger.
 
 |kop_server_MESSAGE_QUEUED_LATENCY
 |Summary
@@ -137,7 +137,7 @@ Available labels:
 
 |kop_server_PREPARE_METADATA
 |Summary
-|The prepare metadata latency in milliseconds before starting fetch from Pulsar ManagedLedger.
+|The prepare metadata latency in milliseconds before starting fetch from {pulsar-short} ManagedLedger.
 
 |kop_server_TOTAL_MESSAGE_READ
 |Summary

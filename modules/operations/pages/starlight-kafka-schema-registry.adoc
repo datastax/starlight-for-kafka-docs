@@ -1,18 +1,18 @@
-= Starlight for Kafka Schema Registry
+= {product} schema registry
 :navtitle: Schema registry
 
-Starlight for Kafka implements a schema registry that is compatible with the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry(R)] and the https://www.apicur.io/registry[Apicurio Schema Registry], the most commonly used schema registries in the Kafka ecosystem.
+{product} implements a schema registry that is compatible with the https://docs.confluent.io/platform/current/schema-registry/index.html[Confluent Schema Registry(R)] and the https://www.apicur.io/registry[Apicurio Schema Registry], the most commonly used schema registries in the {kafka-short} ecosystem.
 
-The Kafka Schema Registry stores schemas in the `+$<tenant>/__kafka/__schema-registry+` topic.
+The {kafka-short} Schema Registry stores schemas in the `+$<tenant>/__kafka/__schema-registry+` topic.
 It is automatically created as a non-partitioned topic with infinite retention.
 
 [IMPORTANT]
 ====
 To avoid losing data, it is critical that you disable retention on the `+__kafka+` namespace.
-Or, if you have topic-level policies enabled in your Pulsar environment, set it for that topic only.
+Or, if you have topic-level policies enabled in your {pulsar-short} environment, set it for that topic only.
 ====
 
-The Starlight for Kafka adapter creates automatically the `+$<tenant>/__kafka__schemaregistry+` namespace and sets infinite retention for you.
+The {product} adapter creates automatically the `+$<tenant>/__kafka__schemaregistry+` namespace and sets infinite retention for you.
 
 You can use `kopSchemaRegistryNamespace` configuration parameter to set the name of the namespace to be used.
 
@@ -26,7 +26,7 @@ kopSchemaRegistryEnable=true
 kopSchemaRegistryProxyPort=8001
 ----
 
-. If you're using the Kafka xref:starlight-kafka-proxy.adoc[proxy], add this configuration in `conf/proxy.conf`:
+. If you're using the {kafka-short} xref:starlight-kafka-proxy.adoc[proxy], add this configuration in `conf/proxy.conf`:
 +
 [source,conf]
 ----
@@ -48,7 +48,7 @@ If the broker fails or it isn't accessible, then the Proxy answers with an error
 
 == Enable TLS on the schema registry
 
-. To enable TLS on the schema registry, you must use the Kafka proxy.
+. To enable TLS on the schema registry, you must use the {kafka-short} proxy.
 +
 To set the SchemaRegistry endpoint on the *broker* to use TLS, add this configuration in `conf/broker.conf`:
 +
@@ -66,7 +66,7 @@ kopSchemaRegistryEnableTls=true
 kopSchemaRegistryProxyEnableTls=true
 ----
 
-. TLS configuration is then picked up automatically by the Pulsar proxy configuration.
+. TLS configuration is then picked up automatically by the {pulsar-short} proxy configuration.
 
 == Authentication for the schema registry
 
@@ -78,7 +78,7 @@ Username: the name of the tenant to connect to
 Password: token:xxxxxxxx (the JWT token used to connect to Pulsar/Kafka)
 ----
 
-If you are using the Confluent Java client or the Kafka Tools, set these properties:
+If you are using the Confluent Java client or the {kafka-short} Tools, set these properties:
 
 [source,conf]
 ----
