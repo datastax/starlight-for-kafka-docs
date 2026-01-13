@@ -31,7 +31,7 @@ Starlight for Kafka requires JDK 11.
 == Download
 
 . If this is the first time you've used protocol handlers with your Pulsar deployment, create a `protocols` folder in the root of your Pulsar directory.
-. Download `pulsar-protocol-handler-kafka-{protocol_version}.nar` https://github.com/datastax/starlight-for-kafka/releases/tag/v2.10.0.3[here].
+. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the https://github.com/datastax/starlight-for-kafka/releases[Starlight for Kafka GitHub repository].
 . Copy the `.nar` file to your `Pulsar/protocols` directory.
 . Proceed to xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler].
 
@@ -40,17 +40,23 @@ Starlight for Kafka requires JDK 11.
 
 If you prefer, build the protocol handler `.nar` from source.
 
-. Clone the Starlight for Kafka GitHub repo to your local machine and change directory into the repo:
+. Clone the Starlight for Kafka GitHub repository to your local machine:
 +
 [source,bash]
 ----
 git clone https://github.com/datastax/starlight-for-kafka.git
+----
+
+. Change to the local repository directory:
++
+[source,bash]
+----
 cd starlight-for-kafka
 ----
 
 . If needed, set `jenv global 11` to use JDK 11 because Starlight for Kafka requires JDK11.
 
-. Build the Maven project.
+. Build the Maven project:
 +
 [source,java]
 ----
@@ -58,8 +64,11 @@ mvn clean install -DskipTests
 ----
 
 . If this is the first time you've used protocol handlers with your Pulsar deployment, create a `protocols` folder in the root of your Pulsar directory.
-. The protocol handler `.nar` is now available at `starlight-for-kafka/kafka-impl/target/pulsar-protocol-handler-kafka-{protocol_version}.nar`.
-. Copy the `.nar` file to your Pulsar `protocols` directory and proceed to xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler].
+
+. Copy the protocol handler `.nar` file to your Pulsar `protocols` directory.
+After building the project, the `.nar` file is available at `starlight-for-kafka/kafka-impl/target/pulsar-protocol-handler-kafka-**VERSION**.nar`.
+
+. Continue with xref:starlight-kafka-quickstart.adoc#configure[Configure protocol handler].
 
 [#configure]
 == Configure protocol handler

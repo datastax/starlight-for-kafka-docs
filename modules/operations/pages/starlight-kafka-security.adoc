@@ -227,7 +227,7 @@ For stable releases, the `pulsar.version` is the same as the `kop.version`.
 <dependency>
     <groupId>com.datastax.oss</groupId>
     <artifactId>oauth-client</artifactId>
-    <version>${protocol_version}</version>
+    <version>${version}</version>
 </dependency>
 ----
 
