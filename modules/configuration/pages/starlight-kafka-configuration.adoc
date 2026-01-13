@@ -189,7 +189,7 @@ This section lists configurations for Prometheus metrics.
 [#group-coordinator]
 == Group Coordinator
 
-This section lists configurations about the group coordinator and the `__consumer_offsets` topic that is used to store committed offsets.
+This section lists configurations about the group coordinator and the `+__consumer_offsets+` topic that is used to store committed offsets.
 
 [cols=3*]
 |===
