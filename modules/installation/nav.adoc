@@ -1,1 +1,0 @@
-* xref:starlight-kafka-quickstart.adoc[]

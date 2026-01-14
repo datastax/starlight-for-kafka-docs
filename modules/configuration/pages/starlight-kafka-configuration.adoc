@@ -1,16 +1,7 @@
-= Configuring the Starlight for Kafka extension
+= Configure the {product} extension
 :navtitle: Configuration
 
-This page describes configuration options for Starlight for Kafka:
-
-* xref:starlight-kafka-configuration.adoc#listeners[Listeners]
-* xref:starlight-kafka-configuration.adoc#logger[Logger]
-* xref:starlight-kafka-configuration.adoc#namespace[Namespace]
-* xref:starlight-kafka-configuration.adoc#performance[Performance]
-* xref:starlight-kafka-configuration.adoc#network[Network]
-* xref:starlight-kafka-configuration.adoc#group-coordinator[Group Coordinator]
-* xref:starlight-kafka-configuration.adoc[Transactions]
-* xref:starlight-kafka-configuration.adoc#ssl[SSL]
+This page describes configuration options for {product}.
 
 [#listeners]
 == Listeners
@@ -22,27 +13,26 @@ This section lists configurations for topic listeners.
 |Name |Description
 
 |kafkaListeners
-|Comma-separated list of URIs that we will listen on and the listener names. For example: `PLAINTEXT://localhost:9092,SSL://localhost:9093`.
+|Required comma-separated list of URIs that {product} listens on and the listener names.
+For example: `PLAINTEXT://localhost:9092,SSL://localhost:9093`
 
-Each URI's scheme represents a listener name if `kafkaProtocolMap` is configured. Otherwise, the scheme must be a valid protocol in `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, or `SASL_SSL`.
+Each URI's scheme represents a listener name if `kafkaProtocolMap` is configured.
+Otherwise, the scheme must be a valid protocol in `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, or `SASL_SSL`.
 
-If the hostname is not set, it will be bound to the default interface.
+If the hostname isn't set, it is bound to the default interface.
 
 |kafkaAdvertisedListeners
-|Listeners to publish to ZooKeeper for clients to use. The format is the same as `kafkaListeners`.
+|Optional listeners to publish to ZooKeeper for clients to use.
+The format is the same as `kafkaListeners`.
 
 |kafkaProtocolMap
-|Comma-separated map of listener name and protocol. For example: PRIVATE:PLAINTEXT,PRIVATE_SSL:SSL,PUBLIC:PLAINTEXT,PUBLIC_SSL:SSL.
+|Optional comma-separated map of listener name and protocol.
+For example: `PRIVATE:PLAINTEXT,PRIVATE_SSL:SSL,PUBLIC:PLAINTEXT,PUBLIC_SSL:SSL`
 
 |listeners
-|*Deprecated*.
-`kafkaListeners` is used.
+|Deprecated.
+Use `kafkaListeners` instead.
 |===
-
-[NOTE]
-====
-Among all configurations, only `kafkaListeners` or `listeners` (deprecated) is required.
-====
 
 === Multiple listeners
 
@@ -68,7 +58,7 @@ In the above example,
 [#logger]
 == Logger
 
-Starlight for Kafka shares the same configuration files with the Pulsar broker, e.g. `conf/broker.conf` or `conf/standalone.conf`. The log configuration is modified in `conf/log4j2.yaml` file as below:
+{product} shares the same configuration files with the {pulsar-short} broker, e.g. `conf/broker.conf` or `conf/standalone.conf`. The log configuration is modified in `conf/log4j2.yaml` file as below:
 [source,yaml]
 ----
 Logger:
@@ -82,22 +72,22 @@ Logger:
 [#namespace]
 == Namespace
 
-Pulsar is a multi-tenant system that requires users to specify the http://pulsar.apache.org/docs/en/concepts-multi-tenancy/[tenant and namespace]. While most Kafka users just specify the short topic name, Starlight for Kafka provides the following configurations to specify the default namespace.
+{pulsar-short} is a multi-tenant system that requires users to specify the http://pulsar.apache.org/docs/en/concepts-multi-tenancy/[tenant and namespace]. While most {kafka-short} users just specify the short topic name, {product} provides the following configurations to specify the default namespace.
 
 [cols=3*]
 |===
 |Name |Description |Default
 
 |kafkaTenant
-|The default tenant of Kafka topics
+|The default tenant of {kafka-short} topics
 |public
 
 |kafkaNamespace
-|The default namespace of Kafka topics
+|The default namespace of {kafka-short} topics
 |default
 
 |kafkaMetadataTenant
-|The tenant used for storing Kafka metadata topics
+|The tenant used for storing {kafka-short} metadata topics
 |public
 
 |kafkaEnableMultiTenantMetadata
@@ -105,11 +95,11 @@ Pulsar is a multi-tenant system that requires users to specify the http://pulsar
 |true
 
 |kafkaMetadataNamespace
-|The namespace used for storing Kafka metadata topics
+|The namespace used for storing {kafka-short} metadata topics
 |kafka
 
 |kopSchemaRegistryNamespace
-|The namespace used for storing Kafka metadata topics
+|The namespace used for storing {kafka-short} metadata topics
 |kafka_schemaregistry
 
 |kafkaManageSystemNamespaces
@@ -118,16 +108,16 @@ Pulsar is a multi-tenant system that requires users to specify the http://pulsar
 
 |kopAllowedNamespaces
 |The allowed namespace to list topics with a comma separator. e.g. `public/default,public/kafka`.
-|If it's not set or empty, the allowed namespaces will be `<kafkaTenant>/<kafkaNamespace>`.
+|If empty or not set, then the allowed namespaces are `<kafkaTenant>/<kafkaNamespace>`.
 |===
 
 Enable `kafkaEnableMultiTenantMetadata` to use separate tenants when handling system metadata.
-This enhancement results in fully isolated tenants in the Pulsar cluster, which is not available in pure Kafka where the system metadata is shared among all users.
+This enhancement results in fully isolated tenants in the {pulsar-short} cluster, which isn't available in pure {kafka-short} where the system metadata is shared among all users.
 
 [#performance]
 == Performance
 
-This section lists configurations that may affect performance.
+This section lists configurations that can affect performance.
 
 [cols=3*]
 |===
@@ -135,11 +125,12 @@ This section lists configurations that may affect performance.
 
 |maxReadEntriesNum
 a|The maximum number of entries that are read from the cursor once per time.
-Increasing this value can make FETCH request read more bytes each time.
+Increasing this value can make FETCH requests read more bytes each time.
 
-[NOTE]
+[IMPORTANT]
 ====
-Currently, Starlight for Kafka does not check the maximum byte limit. Therefore, if the value is too great, the response size may be over the network limit.
+{product} doesn't check the maximum byte limit.
+Therefore, if this value is too large, then the response size can exceed the network limit.
 ====
 |5
 |===
@@ -149,41 +140,37 @@ Currently, Starlight for Kafka does not check the maximum byte limit. Therefore,
 
 This section lists configurations for network communication.
 
+These limits are based on each connection.
+
 [cols=3*]
 |===
 |Name |Description |Default
 
 |maxQueuedRequests
-|Limit the queue size for request, like `queued.max.requests` in Kafka server.
+|Limit the queue size for request, like `queued.max.requests` in {kafka-short} server.
 |500
 
 |requestTimeoutMs
-|Limit the timeout in milliseconds for request, like `request.timeout.ms` in Kafka client.
-If a request was not processed in the timeout, Starlight for Kafka would return an error response to client.
+|Limit the timeout in milliseconds for request, like `request.timeout.ms` in {kafka-short} client.
+If a request wasn't processed within the timeout limit, then {product} returns an error response to the client.
 |30000
 
 |connectionMaxIdleMs
-a|The idle connection timeout in milliseconds. If the idle connection timeout (such as `connections.max.idle.ms` used in the Kafka server) is reached, the server handler will close this idle connection.
+|The idle connection timeout in milliseconds.
+If the idle connection timeout (such as `connections.max.idle.ms` used in the {kafka-short} server) is reached, then the server handler closes this idle connection.
 
-[NOTE]
-====
-If it is set to `-1`, it indicates that the idle connection timeout is disabled.
-====
+If set to `-1`, the idle connection timeout is disabled.
+
 |600000
 
 |failedAuthenticationDelayMs
-|Connection close delay on failed authentication: this is the time (in milliseconds) by which connection close will be delayed on authentication failure, like `connection.failed.authentication.delay.ms` in Kafka server.
+|Connection close delay on failed authentication: This is the time (in milliseconds) by which connection close is delayed on authentication failure, like `connection.failed.authentication.delay.ms` in {kafka-short} server.
 |300
 
 |brokerLookupTimeoutMs
 |The timeout for broker lookups (in milliseconds).
 |30000
 |===
-
-[NOTE]
-====
-These limits are based on each connection.
-====
 
 [#prometheus]
 == Prometheus
@@ -195,14 +182,14 @@ This section lists configurations for Prometheus metrics.
 |Name |Description |Default
 
 |kopPrometheusStatsLatencyRolloverSeconds
-|Starlight for Kafka metrics exposed to prometheus rollover latency in seconds.
+|{product} metrics exposed to prometheus rollover latency in seconds.
 |60
 |===
 
 [#group-coordinator]
 == Group Coordinator
 
-This section lists configurations about the group coordinator and the `__consumer_offsets` topic that is used to store committed offsets.
+This section lists configurations about the group coordinator and the `+__consumer_offsets+` topic that is used to store committed offsets.
 
 [cols=3*]
 |===
@@ -296,64 +283,62 @@ This section lists configurations for SSL encryption.
 |Name |Description |Default
 
 |kopSslProtocol
-|Kafka SSL configuration map with: SSL_PROTOCOL_CONFIG = ssl.protocol
+|{kafka-short} SSL configuration map with: SSL_PROTOCOL_CONFIG = ssl.protocol
 |TLS
 
 |kopSslProvider
-|Kafka SSL configuration map with: SSL_PROVIDER_CONFIG = ssl.provider
+|{kafka-short} SSL configuration map with: SSL_PROVIDER_CONFIG = ssl.provider
 |
 
 |kopSslCipherSuites
-|Kafka SSL configuration map with: SSL_CIPHER_SUITES_CONFIG = ssl.cipher.suites
+|{kafka-short} SSL configuration map with: SSL_CIPHER_SUITES_CONFIG = ssl.cipher.suites
 |
 
 |kopSslEnabledProtocols
-|Kafka SSL configuration map with: SSL_ENABLED_PROTOCOLS_CONFIG = ssl.enabled.protocols
+|{kafka-short} SSL configuration map with: SSL_ENABLED_PROTOCOLS_CONFIG = ssl.enabled.protocols
 |TLSv1.2, TLSv1.1, TLSv1
 
 |kopSslKeystoreType
-|Kafka SSL configuration map with: SSL_KEYSTORE_TYPE_CONFIG = ssl.keystore.type
+|{kafka-short} SSL configuration map with: SSL_KEYSTORE_TYPE_CONFIG = ssl.keystore.type
 |JKS
 
 |kopSslKeystoreLocation
-|Kafka SSL configuration map with: SSL_KEYSTORE_LOCATION_CONFIG = ssl.keystore.location
+|{kafka-short} SSL configuration map with: SSL_KEYSTORE_LOCATION_CONFIG = ssl.keystore.location
 |
 
 |kopSslKeystorePassword
-|Kafka SSL configuration map with: SSL_TRUSTSTORE_PASSWORD_CONFIG = ssl.truststore.password
+|{kafka-short} SSL configuration map with: SSL_TRUSTSTORE_PASSWORD_CONFIG = ssl.truststore.password
 |N/A
 
 |kopSslTruststoreType
-|Kafka SSL configuration map with: SSL_KEYSTORE_TYPE_CONFIG = ssl.keystore.type
+|{kafka-short} SSL configuration map with: SSL_KEYSTORE_TYPE_CONFIG = ssl.keystore.type
 |JKS
 
 |kopSslTruststoreLocation
-|Kafka SSL configuration map with: SSL_TRUSTSTORE_LOCATION_CONFIG = ssl.truststore.location
+|{kafka-short} SSL configuration map with: SSL_TRUSTSTORE_LOCATION_CONFIG = ssl.truststore.location
 |
 
 |kopSslTruststorePassword
-|Kafka SSL configuration map with: SSL_TRUSTSTORE_PASSWORD_CONFIG = ssl.truststore.password
+|{kafka-short} SSL configuration map with: SSL_TRUSTSTORE_PASSWORD_CONFIG = ssl.truststore.password
 |
 
 |kopSslKeymanagerAlgorithm
-|Kafka SSL configuration map with: SSL_KEYMANAGER_ALGORITHM_CONFIG = ssl.keymanager.algorithm
+|{kafka-short} SSL configuration map with: SSL_KEYMANAGER_ALGORITHM_CONFIG = ssl.keymanager.algorithm
 |SunX509
 
 |kopSslTrustmanagerAlgorithm
-|Kafka SSL configuration map with: SSL_TRUSTMANAGER_ALGORITHM_CONFIG = ssl.trustmanager.algorithm
+|{kafka-short} SSL configuration map with: SSL_TRUSTMANAGER_ALGORITHM_CONFIG = ssl.trustmanager.algorithm
 |SunX509
 
 |kopSslSecureRandomImplementation
-|Kafka SSL configuration map with: SSL_SECURE_RANDOM_IMPLEMENTATION_CONFIG = ssl.secure.random.implementation
+|{kafka-short} SSL configuration map with: SSL_SECURE_RANDOM_IMPLEMENTATION_CONFIG = ssl.secure.random.implementation
 |
 |===
 
-== What's next?
+== See also
 
-Configure and manage Starlight for Kafka based on your requirements. Check the following guides for more details.
-
-* xref:operations:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
-* xref:operations:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
-* xref:operations:starlight-kafka-security.adoc[Starlight for Kafka Security]
-* xref:operations:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-* xref:operations:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
+* xref:operations:starlight-kafka-implementation.adoc[]
+* xref:operations:starlight-kafka-monitor.adoc[]
+* xref:operations:starlight-kafka-security.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-schema-registry.adoc[]

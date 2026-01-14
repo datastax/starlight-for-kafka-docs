@@ -1,0 +1,82 @@
+. Configure the {pulsar-short} broker to run the {product} protocol handler as a plugin by adding configurations in the {pulsar-short} configuration file `broker.conf`.
+For standalone deployments, add these configurations to `standalone.conf`.
++
+.. Add the following configuration values to your {pulsar-short} configuration file:
++
+[source,conf]
+----
+messagingProtocols=kafka
+protocolHandlerDirectory=./protocols
+allowAutoTopicCreationType=partitioned
+----
++
+[cols=3]
+|===
+|Property |Default Value |Suggested Value
+
+|`messagingProtocols`
+|
+|`kafka`
+
+|`protocolHandlerDirectory`
+| `./protocols`
+|Location of {product} `.nar` file
+
+|`allowAutoTopicCreationType`
+|`non-partitioned`
+|`partitioned`
+
+|===
++
+[IMPORTANT]
+====
+`allowAutoTopicCreationType` is set to `non-partitioned` by default.
+Since topics are partitioned by default in {kafka-short}, it's better to avoid creating non-partitioned topics unless {kafka-short} clients need to interact with existing non-partitioned topics.
+====
++
+.. Set {kafka-short} listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which {kafka-short} binds to for listening.
++
+[source,conf]
+----
+kafkaListeners=PLAINTEXT://127.0.0.1:9092
+----
++
+.. Set {kafka-short} advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
+`kafkaAdvertisedListeners` isn't required unless you want to expose another address to the {kafka-short} client. It defaults to the same address as `kafkaListeners` by default.
++
+[source,conf]
+----
+kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
+----
++
+.. Set offset management.
+Offset management is required because {product} depends upon {pulsar-short} broker-level entry metadata.
++
+[source,conf]
+----
+brokerEntryMetadataInterceptors=org.apache.pulsar.common.intercept.AppendIndexMetadataInterceptor
+----
++
+.. Disable the deletion of inactive topics:
++
+[source,conf]
+----
+brokerDeleteInactiveTopicsEnabled=false
+----
++
+[IMPORTANT]
+====
+This isn't required but it is critical in {product}.
+
+By default, {pulsar-short} deletes inactive partitions of a partitioned topic, but the metadata of the partitioned topic isn't deleted.
+
+{product} cannot http://pulsar.apache.org/docs/en/admin-api-topics/#create-missed-partitions[create missed partitions] if `brokerDeleteInactiveTopicsEnabled` is set to `true`.
+====
+
+. Set http://pulsar.apache.org/docs/en/cookbooks-retention-expiry/[retention _and_ time-to-live (TTL) policies] for {product} namespaces.
+If you configure retention _without_ configuring TTL, then all messages on {product} topics cannot be deleted because {product} doesn't update a durable cursor.
++
+If a {pulsar-short} consumer and a {kafka-short} consumer both subscribe to the same topic with the same subscription or group name, then the two consumers consume messages independently and they don't share the same subscription, even though the subscription name of a {pulsar-short} client is the same with the group name of a {kafka-short} client.
+
+. If your topic is used by the {pulsar-short} client only or the {kafka-short} client only, then you can set `entryFormat=kafka` in `broker.conf` for better performance.
+{product} supports interaction between the {pulsar-short} client and {kafka-short} client by default.
