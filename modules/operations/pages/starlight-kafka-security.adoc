@@ -1,43 +1,46 @@
-= Starlight for Kafka security
+= {product} security
 :navtitle: Security
 
-This page covers enabling authentication features for Starlight for Kafka. +
+This page covers enabling authentication features for {product}.
 
-Starlight for Kafka supports xref:starlight-kafka-security.adoc#authentication[SASL/PLAIN authentication], xref:starlight-kafka-security.adoc#authorization[JWT authorization], and xref:starlight-kafka-security.adoc#ssl[SSL encryption]. +
+{product} supports xref:starlight-kafka-security.adoc#authentication[SASL/PLAIN authentication], xref:starlight-kafka-security.adoc#authorization[JWT authorization], and xref:starlight-kafka-security.adoc#ssl[SSL encryption].
 
-Starlight for Kafka is installed with no authentication, authorization, or encryption, but these can be enabled to improve security. +
+{product} is installed with no authentication, authorization, or encryption, but these can be enabled to improve security.
 
-Currently, these features are **only available in Java**.
+[IMPORTANT]
+====
+These features are only available in Java.
+====
 
 [#authentication]
 == Authentication
 
-Starlight for Kafka authentication uses the https://docs.confluent.io/platform/current/kafka/overview-authentication-methods.html[Kafka SASL/PLAIN mechanisms] and https://pulsar.apache.org/docs/en/security-overview/[Pulsar token-based mechanisms].
+{product} authentication uses the https://docs.confluent.io/platform/current/kafka/overview-authentication-methods.html[{kafka-short} SASL/PLAIN mechanisms] and https://pulsar.apache.org/docs/en/security-overview/[{pulsar-short} token-based mechanisms].
 
 <<oauthbearer>> is also available.
 
-Enabling authentication for Starlight for Kafka requires enabling authentication for the following components:
+Enabling authentication for {product} requires enabling authentication for the following components:
 
-* Pulsar brokers
+* {pulsar-short} brokers
 
-* Starlight for Kafka (some configurations of S4K rely on the configurations of Pulsar brokers)
+* {product} (some configurations of S4K rely on the configurations of {pulsar-short} brokers)
 
-* Kafka clients
+* {kafka-short} clients
 
-Currently, Starlight for Kafka only supports the https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_plain.html#kafka-sasl-auth-plain[`PLAIN`] SASL mechanism, but there are more to come.
+Currently, {product} only supports the https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_plain.html#kafka-sasl-auth-plain[`PLAIN`] SASL mechanism, but there are more to come.
 
 === `PLAIN` authentication
 
-Authenticate Starlight for Kafka with the `PLAIN` SASL mechanism, follow the steps below.
+Authenticate {product} with the `PLAIN` SASL mechanism, follow the steps below.
 
-. Enable authentication on the Pulsar broker. For the `PLAIN` mechanism, Kafka authentication is forwarded to the https://pulsar.apache.org/docs/en/security-jwt/[JWT authentication] of Pulsar, so you need to configure the JWT authentication by setting the following properties in `conf/broker.conf`.
+. Enable authentication on the {pulsar-short} broker. For the `PLAIN` mechanism, {kafka-short} authentication is forwarded to the https://pulsar.apache.org/docs/en/security-jwt/[JWT authentication] of {pulsar-short}, so you need to configure the JWT authentication by setting the following properties in `conf/broker.conf`.
 +
-[NOTE]
+[TIP]
 ====
-Modify `conf/standalone.conf` if you're using a standalone Pulsar deployment.
+Modify `conf/standalone.conf` if you're using a standalone {pulsar-short} deployment.
 ====
 
-.. Enable authentication for the Pulsar broker.
+.. Enable authentication for the {pulsar-short} broker.
 +
 [source,yaml]
 ----
@@ -45,7 +48,7 @@ authenticationEnabled=true
 authenticationProviders=org.apache.pulsar.broker.authentication.AuthenticationProviderToken
 ----
 
-.. Enable authentication between the Pulsar broker and Starlight for Kafka.
+.. Enable authentication between the {pulsar-short} broker and {product}.
 +
 [source,yaml]
 ----
@@ -77,26 +80,30 @@ tokenSecretKey=data:;base64,FLFyW0oLJ2Fi22KKCm21J18mbAdztfSHN/lAT5ucEKU=
 tokenPublicKey=file:///path/to/public.key
 ----
 
-. Enable authentication on Starlight for Kafka. Set the following property in the `conf/broker.conf`:
+. Enable authentication on {product}. Set the following property in the `conf/broker.conf`:
 +
 [source,yaml]
 ----
 saslAllowedMechanisms=PLAIN
 ----
 
-. Enable authentication on the Kafka client. To forward your credentials, `SASL-PLAIN` is used on the Kafka client side. To enable `SASL-PLAIN`, set the following properties through Kafka JAAS. +
+. Enable authentication on the {kafka-short} client. To forward your credentials, `SASL-PLAIN` is used on the {kafka-short} client side. To enable `SASL-PLAIN`, set the following properties through {kafka-short} JAAS.
 
-[cols=3*,options=header]
+[cols=3]
 
 |===
-|Property
-|Description
-|Example Value
+|Property |Description |Example Value
 
-| `username` | `username` | The `username` of Kafka JAAS is `tenant/namespace` or `tenant`, where Kafka’s topics are stored in Pulsar.
-| `password`| `password` must be your token authentication parameters from Pulsar. +
-The token can be created by Pulsar token tools. The role is the `subject` for the token. It is embedded in the created token and the broker can get `role` by parsing this token.|`token:xxx`
+|`username`
+|`username`
+|The `username` of {kafka-short} JAAS is `tenant/namespace` or `tenant`, where {kafka-short}'s topics are stored in {pulsar-short}.
 
+|`password`
+|`password` must be your token authentication parameters from {pulsar-short}.
+The token can be created by {pulsar-short} token tools.
+The role is the `subject` for the token.
+It is embedded in the created token and the broker can get `role` by parsing this token.
+|`token:xxx`
 |===
 
 [source,java]
@@ -113,55 +120,53 @@ For more on passing credentials with JAAS, see https://docs.confluent.io/platfor
 [#oauthbearer]
 === OAUTHBEARER authentication
 
-Authenticate Starlight for Kafka using the `OAUTHBEARER` mechanism by following the steps below.
+Authenticate {product} using the `OAUTHBEARER` mechanism by following the steps below.
 
-. Enable authentication on the Pulsar broker.
+. Enable authentication on the {pulsar-short} broker.
 Set the following properties in the `conf/broker.conf` or `conf/standalone.conf` file.
 +
 The properties are the same as `PLAIN` authentication except for `brokerClientAuthenticationPlugin` and `brokerClientAuthenticationParameters`.
 +
-[cols="2,3,1,3",options=header]
+[cols="2,3,1,3"]
 |===
-|Property
-|Description
-|Required or optional
-|Example value
+|Property |Description |Required or optional |Example value
 
 |`audience`
-|An OAuth 2.0 "resource server" identifier for the Pulsar cluster
+|An OAuth 2.0 "resource server" identifier for the {pulsar-short} cluster
 |Optional
-|https://broker.example.com
+|`https://broker.example.com`
 
 |`issuerUrl`
-|URL of the authentication provider which allows the Pulsar client to obtain an access token
+|URL of the authentication provider which allows the {pulsar-short} client to obtain an access token
 |Required
-|https://accounts.google.com
+|`https://accounts.google.com`
 
 |`privateKey`
-a|URL to a JSON credential file +
-The following pattern formats are supported: +
-* file:///path/to/file +
-* file:/path/to/file +
-* data:application/json;base64,<base64-encoded value>
+a|URL to a JSON credential file.
+The following pattern formats are supported:
+
+* `file:///path/to/file`
+* `file:/path/to/file`
+* `data:application/json;base64,<base64-encoded value>`
 |Required
 |file:///path/to/credentials_file.json
 
 |`scope`
 |The scope of the access request that is expressed as a list of space-delimited, case-sensitive strings
 |Optional
-|api://pulsar-cluster-1/.default
+|`api://pulsar-cluster-1/.default`
 
 |`type`
-|OAuth 2.0 authentication type +
-The **default** value is client_credentials
-|Optional
-|client_credentials
+|OAuth 2.0 authentication type
 
+Default: `client_credentials`
+|Optional
+|`client_credentials`
 |===
 +
-Here is an example `conf/broker.conf` file.
+Here is an example `conf/broker.conf` file:
 +
-[source,properties]
+[source,conf]
 ----
 authenticationEnabled=true
 authenticationProviders=org.apache.pulsar.broker.authentication.AuthenticationProviderToken
@@ -170,47 +175,50 @@ brokerClientAuthenticationPlugin=org.apache.pulsar.client.impl.auth.oauth2.Authe
 brokerClientAuthenticationParameters={"type":"client_credentials","privateKey":"file:///path/to/credentials_file.json""issuerUrl":"<issuer-url>","audience":"<audience>"}
 tokenPublicKey=<token-public-key>
 ----
+
 . Enable authentication on S4K.
-Set the following property in the `conf/broker.conf` or `conf/standalone.conf` file.
+Set the following property in the `conf/broker.conf` or `conf/standalone.conf` file:
 +
-[source,properties]
+[source,conf]
 ----
 saslAllowedMechanisms=OAUTHBEARER
 ----
 
-. Specify the Kafka server callback handler.
+. Specify the {kafka-short} server callback handler.
 For the `OAUTHBEARER` mechanism, use `AuthenticationProviderToken` or customize your authentication provider to process the access tokens from an OAuth 2.0 server.
-S4K provides a built-in `AuthenticateCallbackHandler` that uses the authentication provider of Pulsar for authentication. You need to configure the following properties in the `conf/kop-handler.properties` file.
+S4K provides a built-in `AuthenticateCallbackHandler` that uses the authentication provider of {pulsar-short} for authentication.
+You need to configure the following properties in the `conf/kop-handler.properties` file:
 +
-[source,properties]
+[source,conf]
 ----
 # Use S4K's built-in handler:
 kopOauth2AuthenticateCallbackHandler=io.streamnative.pulsar.handlers.kop.security.oauth.OauthValidatorCallbackHandler
 # Java property configuration file of OauthValidatorCallbackHandler
 kopOauth2ConfigFile=conf/kop-handler.properties
 ----
+
 . Specify the authentication method name of the provider (`oauth.validate.method`) in the `conf/kop-handler.properties` file.
 By default, it uses the `token` authentication method.
-
-* If you have configured the `token` authentication  method, you do not need to specify the authentication method name.
-
++
+* If you have configured the `token` authentication method, you don't need to specify the authentication method name.
 * If you use `AuthenticationProviderToken`, since `AuthenticationProviderToken#getAuthMethodName()` returns `token`, set the `oauth.validate.method` as the token.
-
 * If you use other providers, set the `oauth.validate.method` as the result of `getAuthMethodName()`.
 +
 [source,properties]
 ----
 oauth.validate.method=token
 ----
-. Enable authentication on Kafka client.
+
+. Enable authentication on {kafka-short} client.
 Install the S4K built-in callback handler to your local Maven repository.
 
-. To retrieve an access token from an OAuth 2.0 server, use the S4K built-in callback handler instead of the Kafka login callback handler.
+. To retrieve an access token from an OAuth 2.0 server, use the S4K built-in callback handler instead of the {kafka-short} login callback handler.
 +
 [source,bash]
 ----
 mvn clean install -pl oauth-client -DskipTests
 ----
+
 . Add the following dependencies to the `pom.xml` file.
 For stable releases, the `pulsar.version` is the same as the `kop.version`.
 +
@@ -219,67 +227,65 @@ For stable releases, the `pulsar.version` is the same as the `kop.version`.
 <dependency>
     <groupId>com.datastax.oss</groupId>
     <artifactId>oauth-client</artifactId>
-    <version>${protocol_version}</version>
+    <version>${version}</version>
 </dependency>
 ----
 
-. Configure the producer or consumer with the following **required** properties.
+. Configure the producer or consumer with the following required properties:
 +
-[cols="2,2,3,2",options=header]
+[cols="2,2,3,2"]
 |===
-|Property
-|Description
-|Example value
-|Note
+|Property |Description |Example value |Note
 
-|sasl.login.callback.handler.class
+|`sasl.login.callback.handler.class`
 |Class of SASL login callback handler
-|com.datastax.oss.kafka.oauth.OauthLoginCallbackHandler
+|`com.datastax.oss.kafka.oauth.OauthLoginCallbackHandler`
 |Set this value to the value in the example properties configuration below.
 
-|security.protocol
+|`security.protocol`
 |Security protocol
-|SASL_PLAINTEXT
+|`SASL_PLAINTEXT`
 |
 
-|sasl.mechanism
+|`sasl.mechanism`
 |SASL mechanism
-|OAUTHBEARER
+|`OAUTHBEARER`
 |
 
-|sasl.jaas.config
+|`sasl.jaas.config`
 |JAAS configuration
-|org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule
+|`org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule`
 |
 
-|oauth.issuer.url
-|URL of the authentication provider which allows the Pulsar client to obtain an access token.
-|https://accounts.google.com
-|This property is the same to the issuerUrl property as http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[Pulsar client credentials]
+|`oauth.issuer.url`
+|URL of the authentication provider which allows the {pulsar-short} client to obtain an access token.
+|`https://accounts.google.com`
+|This property is the same to the issuerUrl property as http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[{pulsar-short} client credentials].
 
-|oauth.credentials.url
+|`oauth.credentials.url`
 |URL to a JSON credentials file.
-a|The following pattern formats are supported: +
-* file:///path/to/file +
-* file:/path/to/file +
-* data:application/json;base64,<base64-encoded value> +
-* file:///path/to/credentials_file.json
-|This property is the same as the privateKey property in http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[Pulsar client credentials]
+a|The following pattern formats are supported:
 
-|oauth.audience
-|OAuth 2.0 "resource server" identifier for the Pulsar cluster.
-|https://broker.example.com
-|This property is the same as the audience property in <a href="http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types">Pulsar client credentials
+* `file:///path/to/file`
+* `file:/path/to/file`
+* `data:application/json;base64,<base64-encoded value>`
+* `file:///path/to/credentials_file.json`
+|This property is the same as the privateKey property in http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[{pulsar-short} client credentials].
 
-|oauth.scope
+|`oauth.audience`
+|OAuth 2.0 "resource server" identifier for the {pulsar-short} cluster.
+|`https://broker.example.com`
+|This property is the same as the audience property in http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[{pulsar-short} client credentials].
+
+|`oauth.scope`
 |The scope of the access request that is expressed as a list of space-delimited, case-sensitive strings.
-|api://pulsar-cluster-1/.default
-|This property is the same as the scope property in http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[Pulsar client credentials]
-
+|`api://pulsar-cluster-1/.default`
+|This property is the same as the scope property in http://pulsar.apache.org/docs/en/security-oauth2/#authentication-types[{pulsar-short} client credentials].
 |===
-
-Here is an example properties configuration.
-[source,properties]
++
+Here is an example properties configuration:
++
+[source,conf]
 ----
 sasl.login.callback.handler.class=com.datastax.oss.kafka.oauth.OauthLoginCallbackHandler
 security.protocol=SASL_PLAINTEXT # or security.protocol=SASL_SSL if SSL connection is used
@@ -293,18 +299,20 @@ sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginMo
 [#authorization]
 == Authorization
 
-To enable authorization on Starlight for Kafka, ensure that authentication is enabled first.
+To enable authorization on {product}, ensure that authentication is enabled first.
 
-For more on authorization in Pulsar, see http://pulsar.apache.org/docs/en/security-jwt/#authorization[Pulsar Authorization].
+For more on authorization in {pulsar-short}, see http://pulsar.apache.org/docs/en/security-jwt/#authorization[{pulsar-short} Authorization].
 
-. Enable authorization and assign superusers for the Pulsar broker.
+. Enable authorization and assign superusers for the {pulsar-short} broker:
 +
-[source,yaml]
+[source,conf]
 ----
 authorizationEnabled=true
 ----
 
-. Generate JWT tokens. A token is the credential associated with a user. The association is done through the `principal` or `role`. In the case of JWT tokens, this field is typically referred as `subject`, though they are exactly the same concept. +
+. Generate JWT tokens.
+A token is the credential associated with a user. The association is done through the `principal` or `role`.
+In the case of JWT tokens, this field is typically referred as `subject`, though they are exactly the same concept.
 +
 Use this command to require the generated token to have a `subject` field set:
 +
@@ -314,9 +322,13 @@ bin/pulsar tokens create --secret-key file:///path/to/secret.key \
  --subject <user-role>
 ----
 +
-This command will print the token string on `stdout`.
+This command prints the token string on `stdout`.
 
-. Grant permission to a specific role. The token itself does not have any permissions associated with it. The authorization engine determines whether the token should have permissions or not. Once you have created the token, you can grant permission for this token. +
+. Grant permission to a specific role.
+The token itself doesn't have any permissions associated with it.
+The authorization engine determines whether the token should have permissions or not.
+Once you have created the token, you can grant permission for this token.
++
 For example, to grant a role to the `user-role` created above:
 +
 [source,bash]
@@ -330,44 +342,49 @@ bin/pulsar-admin --auth-plugin "org.apache.pulsar.client.impl.auth.Authenticatio
 [#ssl]
 == SSL encryption
 
-This section explains connecting and configuring Starlight for Kafka with SSL. There are two methods available: +
+This section explains connecting and configuring {product} with SSL. There are two methods available:
 
-* (*Recommended*) Use the TLS certificates already configured for the Pulsar TLS endpoint to also connect the Kafka client. This is a new feature of Starlight for Kafka designed to make TLS connection fast and painless. Proceed to xref:starlight-kafka-security.adoc#pulsar-ssl[Create SSL connection with Pulsar].
+* **Existing TLS certificates (Recommended)**: Use the TLS certificates already configured for the {pulsar-short} TLS endpoint to also connect the {kafka-short} client. This is a new feature of {product} designed to make TLS connection fast and painless. Proceed to xref:starlight-kafka-security.adoc#pulsar-ssl[Create SSL connection with {pulsar-short}].
 
-* Create dedicated TLS certificates and modify the Pulsar broker and Kafka client. Instructions for this method are xref:starlight-kafka-security.adoc#manual-ssl[here].
+* **Dedicated TLS certificates**: Create dedicated TLS certificates and modify the {pulsar-short} broker and {kafka-short} client. Instructions for this method are xref:starlight-kafka-security.adoc#manual-ssl[here].
 
 [#pulsar-ssl]
-=== Create SSL configuration with Pulsar
+=== Create SSL configuration with {pulsar-short}
 
-Starlight for Kafka features fast, painless TLS configuration between Pulsar and Kafka. Instead of creating different certificates for the Pulsar broker and Kafka client, simply modify `broker.conf` to pick up the existing Pulsar TLS certifications and configurations.
+{product} features fast, painless TLS configuration between {pulsar-short} and {kafka-short}. Instead of creating different certificates for the {pulsar-short} broker and {kafka-short} client, simply modify `broker.conf` to pick up the existing {pulsar-short} TLS certifications and configurations.
 
-. Configure TLS on the Pulsar broker. For more, see https://pulsar.apache.org/docs/security-tls-transport/#create-tls-certificates[Create TLS certificates].
+. Configure TLS on the {pulsar-short} broker.
+For more information, see https://pulsar.apache.org/docs/security-tls-transport/#create-tls-certificates[Create TLS certificates].
+
 . Expose TLS endpoints by adding the following configurations to `broker.conf`:
 +
-[source,yaml]
+[source,conf]
 ----
 kopTlsEnabledWithBroker=true
 kafkaListeners=PLAINTEXT://127.0.0.1:9092, SSL://PRIVATE-HOSTNAME-OF-THE-BROKER:9093
 kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092, SSL://PUBLIC-HOSTNAME-OF-THE-BROKER:9093
 ----
 +
-These settings will enable TLS on the broker, and Starlight for Kafka will pick up the TLS certificates automatically. +
+These settings enable TLS on the broker, and then {product} picks up the TLS certificates automatically.
 
-. Proceed to xref:installation:starlight-kafka-quickstart.adoc#test[Test Starlight for Kafka] to test your configuration.
+. To test your configuration, xref:installation:starlight-kafka-quickstart.adoc#produce-and-consume-messages-with-starlight-for-kafka[produce and consume some messages with {product}].
 
 [#manual-ssl]
 === Create SSL configuration manually
-The following example shows how to manually configure Starlight for Kafka with SSL.
 
-Starlight for Kafka supports `PLAINTEXT` and `SSL` configuration types for Kafka listeners. SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as below.
-[source,bash]
+The following example shows how to manually configure {product} with SSL.
+
+{product} supports `PLAINTEXT` and `SSL` configuration types for {kafka-short} listeners. SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as follows:
+
+[source,conf]
 ----
 kafkalisteners=PLAINTEXT://localhost:9092,SSL://localhost:9093
 ----
 
-For more on generating SSL keys for Kafka brokers, see https://kafka.apache.org/documentation/#security_ssl[Kafka SSL].
+For more on generating SSL keys for {kafka-short} brokers, see https://kafka.apache.org/documentation/#security_ssl[{kafka-short} SSL].
 
-. Create SSL related keys. This example creates the related CA and JKS files.
+. Create SSL related keys.
+This example creates the related CA and JKS files:
 +
 [source,bash]
 ----
@@ -389,16 +406,16 @@ keytool -keystore server.keystore.jks -alias CARoot -import -file ca-cert
 keytool -keystore server.keystore.jks -alias localhost -import -file cert-signed
 ----
 +
-In the above example, we have input four passwords:
+In the above example, there are four passwords provided:
 +
 * `server-keystore` for `server.keystore.jks`
 * `server` for `ca-cert` and `ca-key`
 * `server-truststore` for `server.truststore.jks`
 * `client-truststore` for `client.truststore.jks`
 
-. Configure the Pulsar broker. In `conf/broker.conf`, add the related configurations using the JKS configurations created in the previous step.
+. Configure the {pulsar-short} broker. In `conf/broker.conf`, add the related configurations using the JKS configurations created in the previous step:
 +
-[source,bash]
+[source,conf]
 ----
 listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093
 
@@ -411,9 +428,10 @@ kopSslTruststoreLocation=server.truststore.jks
 kopSslTruststorePassword=server-truststore
 ----
 
-. Configure the Kafka client. Create a file named `client-ssl.properties` in `kafka/config` with the following configuration:
+. Configure the {kafka-short} client.
+Create a file named `client-ssl.properties` in `kafka/config` with the following configuration:
 +
-[source,bash]
+[source,conf]
 ----
 security.protocol=SSL
 # Include the full path of client.truststore.jks
@@ -424,22 +442,20 @@ ssl.endpoint.identification.algorithm=
 ----
 
 . Verify the console-producer and the console-consumer send messages when started with `client-ssl.properties`:
-
++
 [source,bash]
 ----
 kafka-console-producer.sh --broker-list localhost:9093 --topic test --producer.config client-ssl.properties
 kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic test --consumer.config client-ssl.properties
 ----
 
-For more on configuring Kafka, see https://kafka.apache.org/documentation/#security_configclients[Configure Kafka client].
+For more on configuring {kafka-short}, see https://kafka.apache.org/documentation/#security_configclients[Configure {kafka-short} client].
 
-== What's next?
+== See also
 
-For more on Starlight for Kafka, see:
+For more on {product}, see:
 
-* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
-* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
-* xref:starlight-kafka-monitor.adoc[Monitor Starlight for Kafka]
-* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
-* xref:installation:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:configuration:starlight-kafka-configuration.adoc[]
+* xref:starlight-kafka-implementation.adoc[]
+* xref:starlight-kafka-proxy.adoc[]
+* xref:starlight-kafka-schema-registry.adoc[]

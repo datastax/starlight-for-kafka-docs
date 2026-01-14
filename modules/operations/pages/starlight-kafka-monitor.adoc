@@ -1,20 +1,28 @@
-= Monitoring Starlight for Kafka
+= Monitoring {product}
 :navtitle: Monitoring
 
-Starlight for Kafka exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
+{product} exposes the following metrics in Prometheus format. You can monitor your clusters with these metrics.
+
+The {product} metrics are exposed under `/metrics` at port `8000` along with {pulsar-short} metrics.
+To use a different port, configure the `stats_server_port` system property.
+
+== Metric types
 
 The following types of metrics are available:
 
-- https://prometheus.io/docs/concepts/metric_types/#counter[Counter]: a cumulative metric that represents a single monotonically increasing counter. The value increases by default. You can reset the value to zero or restart your cluster.
-- https://prometheus.io/docs/concepts/metric_types/#gauge[Gauge]: a metric that represents a single numerical value that can arbitrarily go up and down.
-- https://prometheus.io/docs/concepts/metric_types/#histogram[Histogram]: a histogram samples observations (usually things like request durations or response sizes) and counts them in configurable buckets.
-- https://prometheus.io/docs/concepts/metric_types/#summary[Summary]: similar to a histogram, a summary samples observations (usually things like request durations and response sizes). While it also provides a total count of observations and a sum of all observed values, it calculates configurable quantiles over a sliding time window.
+- https://prometheus.io/docs/concepts/metric_types/#counter[Counter]: A cumulative metric that represents a single monotonically increasing counter.
+The value increases by default.
+You can reset the value to zero or restart your cluster.
 
-== Starlight for Kafka metrics
+- https://prometheus.io/docs/concepts/metric_types/#gauge[Gauge]: A metric that represents a single numerical value that can arbitrarily go up and down.
 
-The Starlight for Kafka metrics are exposed under `/metrics`` at port `8000` along with Pulsar metrics. Use a different port by configuring the `stats_server_port` system property.
+- https://prometheus.io/docs/concepts/metric_types/#histogram[Histogram]: A histogram samples observations (usually things like request durations or response sizes) and counts them in configurable buckets.
 
-=== Request metrics
+- https://prometheus.io/docs/concepts/metric_types/#summary[Summary]: Similar to a histogram, a summary samples observations (usually things like request durations and response sizes).
+Summaries also provide a total count of observations and a sum of all observed values.
+Calculates configurable quantiles over a sliding time window.
+
+== Alive channel metrics
 
 [cols=3*]
 |===
@@ -29,7 +37,7 @@ The Starlight for Kafka metrics are exposed under `/metrics`` at port `8000` alo
 |The number of active request channels.
 |===
 
-=== Request metrics
+== Request metrics
 
 [cols=3*]
 |===
@@ -51,15 +59,14 @@ Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, Li
 
 |kop_server_REQUEST_LATENCY
 |Summary
-|The requests processing total latency for all Kafka APIs.
+|The requests processing total latency for all {kafka-short} APIs.
 
 Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, ListOffsets, OffsetFetch, OffsetCommit, Fetch, JoinGroup, SyncGroup, Heartbeat, LeaveGroup, DescribeGroups, ListGroups, DeleteGroups, SaslHandshake, SaslAuthenticate, CreateTopics, InitProducerId, AddPartitionsToTxn, AddOffsetsToTxn, TxnOffsetCommit, EndTxn, WriteTxnMarkers, DescribeConfigs, DeleteTopics).
 |===
 
-=== Response metrics
+== Response metrics
 
 [cols=3*]
-
 |===
 |Name |Type |Description
 
@@ -72,9 +79,9 @@ Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, Li
 |The response blocked latency calculated in milliseconds.
 |===
 
-=== Producer metrics
+== Producer metrics
 
-[cols=3*]
+[cols=3]
 |===
 |Name |Type |Description
 
@@ -84,7 +91,7 @@ Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, Li
 
 |kop_server_MESSAGE_PUBLISH
 |Summary
-|The message publish latency to Pulsar ManagedLedger.
+|The message publish latency to {pulsar-short} ManagedLedger.
 
 |kop_server_MESSAGE_QUEUED_LATENCY
 |Summary
@@ -94,19 +101,19 @@ Available labels: *request* (ApiVersions, Metadata, Produce, FindCoordinator, Li
 |Counter
 a|The producer bytes in stats.
 
-Available labels: *topic*, *partition*.
+Available labels:
 
-* *topic*: the topic name to produce.
-* *partition*: the partition id for the topic to produce.
+* *`topic`*: The topic name to produce
+* *`partition`*: The partition id for the topic to produce
 
 |kop_server_MESSAGE_IN
 |Counter
 a|The producer message in stats.
 
-Available labels: *topic*, *partition*.
+Available labels:
 
-* *topic*: the topic name to produce.
-* *partition*: the partition id for the topic to produce.
+* *`topic`*: The topic name to produce
+* *`partition`*: The partition id for the topic to produce
 
 |kop_server_BATCH_COUNT_PER_MEMORYRECORDS
 |Gauge
@@ -116,10 +123,10 @@ Available labels: *topic*, *partition*.
 |Counter
 a|The producer message conversions in stats.
 
-Available labels: *topic*, *partition*.
+Available labels:
 
-* *topic*: the topic name to produce.
-* *partition*: the partition id for the topic to produce.
+* *topic*: The topic name to produce
+* *partition*: The partition id for the topic to produce
 |===
 
 === Consumer metrics
@@ -130,7 +137,7 @@ Available labels: *topic*, *partition*.
 
 |kop_server_PREPARE_METADATA
 |Summary
-|The prepare metadata latency in milliseconds before starting fetch from Pulsar ManagedLedger.
+|The prepare metadata latency in milliseconds before starting fetch from {pulsar-short} ManagedLedger.
 
 |kop_server_TOTAL_MESSAGE_READ
 |Summary
@@ -148,43 +155,43 @@ Available labels: *topic*, *partition*.
 |Counter
 a|The consumer bytes out stats.
 
-Available labels: *topic*, *partition*, *group*.
+Available labels:
 
-* *topic*: the topic name to consume.
-* *partition*: the partition id for the topic to consume.
-* *group*: the group id for consumer to consumer message from topic-partition.
+* *`topic`*: The topic name to consume
+* *`partition`*: The partition id for the topic to consume
+* *`group`*: The group id for consumer to consumer message from topic-partition
 
 |kop_server_MESSAGE_OUT
 |Counter
 a|The consumer message out stats.
 
-Available labels: *topic*, *partition*, *group*.
+Available labels:
 
-* *topic*: the topic name to consume.
-* *partition*: the partition id for the topic to consume.
-* *group*: the group id for consumer to consumer message from topic-partition.
+* *`topic`*: The topic name to consume
+* *`partition`*: The partition id for the topic to consume
+* *`group`*: The group id for consumer to consumer message from topic-partition
 
 |kop_server_ENTRIES_OUT
 |Counter
 a|The consumer entries out stats.
 
-Available labels: *topic*, *partition*, *group*.
+Available labels:
 
-* *topic*: the topic name to consume.
-* *partition*: the partition id for the topic to consume.
-* *group*: the group id for consumer to consumer message from topic-partition.
+* *`topic`*: The topic name to consume
+* *`partition`*: The partition id for the topic to consume
+* *`group`*: The group id for consumer to consumer message from topic-partition
 
 |kop_server_CONSUME_MESSAGE_CONVERSIONS
 |Counter
 a|The consumer message conversions in stats.
 
-Available labels: *topic*, *partition*.
+Available labels:
 
-* *topic*: the topic name to consume.
-* *partition*: the partition id for the topic to consume.
+* *`topic`*: The topic name to consume
+* *`partition`*: The partition id for the topic to consume
 |===
 
-=== S4K event metrics
+=== Event metrics
 
 [cols=3*]
 |===
@@ -198,21 +205,18 @@ Available labels: *topic*, *partition*.
 |Summary
 |The events queued latency calculated in milliseconds.
 
-Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread).
+Available labels: *`event`* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread)
 
 |kop_server_KOP_EVENT_LATENCY
 |Summary
 |The events processing total latency for all S4K event types.
 
-Available labels: *event* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread).
+Available labels: *`event`* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEventThread)
 |===
 
-== What's next?
+== See also
 
-For more on Starlight for Kafka, see:
-
-* xref:configuration:starlight-kafka-configuration.adoc[Starlight for Kafka Configuration]
-* xref:starlight-kafka-implementation.adoc[Starlight for Kafka Implementation]
-* xref:starlight-kafka-proxy.adoc[Starlight for Kafka Proxy]
-* xref:starlight-kafka-schema-registry.adoc[Starlight for Kafka Schema Registry]
-* xref:installation:starlight-kafka-quickstart.adoc[Quickstart]
+* xref:configuration:starlight-kafka-configuration.adoc[]
+* xref:starlight-kafka-implementation.adoc[]
+* xref:starlight-kafka-proxy.adoc[]
+* xref:starlight-kafka-schema-registry.adoc[]

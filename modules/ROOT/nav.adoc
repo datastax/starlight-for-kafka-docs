@@ -1,1 +1,11 @@
+.Get started
+* xref:installation:starlight-kafka-quickstart.adoc[]
+* xref:configuration:starlight-kafka-configuration.adoc[]
 
+.Operations
+* xref:operations:starlight-kafka-implementation.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-monitor.adoc[]
+* xref:operations:starlight-kafka-schema-registry.adoc[]
+* xref:operations:starlight-kafka-kstreams.adoc[]
+* xref:operations:starlight-kafka-security.adoc[]
