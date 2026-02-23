@@ -21,9 +21,9 @@ sasl.mechanism=PLAIN
 [#configure-rep]
 == Configure replication factor
 
-In {product}, the replication factor is handled by BookKeeper and set at the namespace level.
+In {product}, the replication factor is handled by {bookkeeper-reg} and set at the namespace level.
 
-{kafka-short} Streams sets its own internal `replication.factor` number, but {pulsar-short} applies its namespace replication factor from BookKeeper.
+{kafka-short} Streams sets its own internal `replication.factor` number, but {pulsar-short} applies its namespace replication factor from {bookkeeper-short}.
 
 Set `replication.factor=1` in KStreams, or any positive integer.
 

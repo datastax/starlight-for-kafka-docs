@@ -8,7 +8,7 @@ This enables {kafka-short} applications to leverage {pulsar-short}'s powerful fe
 
 - Streamlined operations with enterprise-grade multi-tenancy
 - Simplified operations with a rebalance-free architecture
-- Infinite event stream retention with Apache BookKeeper and tiered storage
+- Infinite event stream retention with {bookkeeper-reg} and tiered storage
 - Serverless event processing with {pulsar-short} Functions
 
 == Architecture
