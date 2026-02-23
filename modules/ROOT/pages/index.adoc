@@ -1,6 +1,6 @@
 = {product}
 
-The https://github.com/datastax/starlight-for-kafka[{product} extension] brings native {kafka-reg} protocol support to {pulsar-reg} by introducing a https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[{kafka-short} protocol handler] on {pulsar-short} brokers.
+The {product-repo}[{product} extension] brings native {kafka-reg} protocol support to {pulsar-reg} by introducing a https://github.com/apache/pulsar/wiki/PIP-41%3A-Pluggable-Protocol-Handler[{kafka-short} protocol handler] on {pulsar-short} brokers.
 
 By adding the {product} protocol handler to your existing {pulsar-short} cluster, you can migrate your existing {kafka-short} applications and services to {pulsar-short} without modifying the code.
 
