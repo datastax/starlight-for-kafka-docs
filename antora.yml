@@ -19,4 +19,4 @@ asciidoc:
     kafka: 'Apache Kafka'
     kafka-short: 'Kafka'
     luna-streaming: 'Luna Streaming'
-    astra-streaming: 'Astra Streaming'
+    astra-stream: 'Astra Streaming'
