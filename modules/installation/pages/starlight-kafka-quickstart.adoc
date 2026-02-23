@@ -181,7 +181,7 @@ Self-managed::
 
 . Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the {product-repo}/releases[{product} GitHub repository].
 
-. Copy the `.nar` file to your `{pulsar-short}/protocols` directory.
+. Copy the `.nar` file to your `pulsar/protocols` directory.
 
 include::ROOT:partial$self-managed-config.adoc[]
 --
@@ -340,7 +340,7 @@ package org.example;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.{kafka-short}Consumer;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
