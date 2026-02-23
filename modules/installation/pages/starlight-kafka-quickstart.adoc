@@ -35,9 +35,9 @@ These steps explain how to enable the {product} protocol handler in an {astra-st
 
 . xref:astra-streaming:getting-started:index.adoc[Create a tenant] or click the name of an existing tenant.
 
-. Go to your tenant's **Connect** tab, select **Kafka**, and then click **Enable Kafka**.
+. Go to your tenant's **Connect** tab, select **{kafka-short}**, and then click **Enable {kafka-short}**.
 
-. Review the information about the {product} extension, and then click **Enable Kafka** to confirm that you want to enable this extension on your tenant.
+. Review the information about the {product} extension, and then click **Enable {kafka-short}** to confirm that you want to enable this extension on your tenant.
 +
 [IMPORTANT]
 ====
