@@ -179,7 +179,7 @@ Self-managed::
 --
 . If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
 
-. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the https://github.com/datastax/starlight-for-kafka/releases[{product} GitHub repository].
+. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the {product-repo}/releases[{product} GitHub repository].
 
 . Copy the `.nar` file to your `{pulsar-short}/protocols` directory.
 
@@ -232,7 +232,7 @@ This section explains how to use your {pulsar-short} tenant's connection details
 With a {pulsar-short} cluster between publishers and consumers, you can change the type of publisher and consumer to fit your needs.
 
 The following examples use the {kafka-short} CLI and Java.
-For complete source code examples and examples for other languages, see the https://github.com/datastax/astra-streaming-examples[{company} streaming examples repository].
+For complete source code examples and examples for other languages, see the {astra-streaming-examples-repo}[{company} streaming examples repository].
 These examples are written for {astra-stream} but they can be adapted for {luna-streaming} or self-managed {pulsar-short} clusters by replacing the connection details with those for your cluster.
 
 [tabs]
