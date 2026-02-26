@@ -123,7 +123,7 @@ In {pulsar-short}, each message is assigned with a `MessageID`. The message ID c
 
 == Produce Messages
 
-When the {kafka-short} request handler receives produced messages from a {kafka-short} client, it converts {kafka-short} messages to {pulsar-short} messages by mapping the fields (such as the key, value, timestamp and headers) one by one, and uses the ManagedLedger append API to append those converted {pulsar-short} messages to BookKeeper. Converting {kafka-short} messages to {pulsar-short} messages allows existing {pulsar-short} applications to consume messages produced by {kafka-short} clients.
+When the {kafka-short} request handler receives produced messages from a {kafka-short} client, it converts {kafka-short} messages to {pulsar-short} messages by mapping the fields (such as the key, value, timestamp and headers) one by one, and uses the ManagedLedger append API to append those converted {pulsar-short} messages to {bookkeeper-reg}. Converting {kafka-short} messages to {pulsar-short} messages allows existing {pulsar-short} applications to consume messages produced by {kafka-short} clients.
 
 == Consume Messages
 
