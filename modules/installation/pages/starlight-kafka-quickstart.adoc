@@ -8,7 +8,7 @@ To install {product} as a proxy extension, see xref:operations:starlight-kafka-p
 [#prerequisites]
 == Prerequisites
 
-To use {product}, you need a {pulsar-short} cluster from {astra-streaming}, {luna-streaming}, or a self-managed or standalone {pulsar-short} deployment.
+To use {product}, you need a {pulsar-short} cluster from {astra-stream}, {luna-streaming}, or a self-managed or standalone {pulsar-short} deployment.
 
 {product} version 2.10 is compatible with the following:
 
@@ -26,22 +26,22 @@ Before a {kafka-short} client can interact with your {pulsar-short} cluster, you
 
 [tabs]
 ======
-{astra-streaming}::
+{astra-stream}::
 +
 --
-These steps explain how to enable the {product} protocol handler in an {astra-streaming} {pulsar-short} cluster, and then get the connection details for your {kafka-short} client:
+These steps explain how to enable the {product} protocol handler in an {astra-stream} {pulsar-short} cluster, and then get the connection details for your {kafka-short} client:
 
 . In the {astra-ui-link} header, click icon:grip[name="Applications"], and then select *Streaming*.
 
 . xref:astra-streaming:getting-started:index.adoc[Create a tenant] or click the name of an existing tenant.
 
-. Go to your tenant's **Connect** tab, select **Kafka**, and then click **Enable Kafka**.
+. Go to your tenant's **Connect** tab, select **{kafka-short}**, and then click **Enable {kafka-short}**.
 
-. Review the information about the {product} extension, and then click **Enable Kafka** to confirm that you want to enable this extension on your tenant.
+. Review the information about the {product} extension, and then click **Enable {kafka-short}** to confirm that you want to enable this extension on your tenant.
 +
 [IMPORTANT]
 ====
-This action creates a configuration file and the following three namespaces in your {astra-streaming} tenant automatically:
+This action creates a configuration file and the following three namespaces in your {astra-stream} tenant automatically:
 
 * `kafka`: Produces and consumes messages
 * `+__kafka+`: Supports required {kafka-short} functionality
@@ -52,7 +52,7 @@ These are permanent namespaces that cannot be removed except by deleting the ent
 ====
 
 . Save the {kafka-short} connection details to a file named `ssl.properties`.
-The actual values depend on your {astra-streaming} tenant's configuration and cloud provider.
+The actual values depend on your {astra-stream} tenant's configuration and cloud provider.
 +
 .ssl.properties
 [source,plain,subs="+quotes,+attributes"]
@@ -67,7 +67,7 @@ sasl.mechanism: PLAIN
 +
 [TIP]
 ====
-In {astra-streaming}, if you click icon:download[name="Download"] or icon:clipboard[name="Copy"], then a {pulsar-short} token is included in the `password` field automatically.
+In {astra-stream}, if you click icon:download[name="Download"] or icon:clipboard[name="Copy"], then a {pulsar-short} token is included in the `password` field automatically.
 You can also generate a token on your tenant's **Settings** tab.
 ====
 
@@ -179,9 +179,9 @@ Self-managed::
 --
 . If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
 
-. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the https://github.com/datastax/starlight-for-kafka/releases[{product} GitHub repository].
+. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the {product-repo}/releases[{product} GitHub repository].
 
-. Copy the `.nar` file to your `{pulsar-short}/protocols` directory.
+. Copy the `.nar` file to your `pulsar/protocols` directory.
 
 include::ROOT:partial$self-managed-config.adoc[]
 --
@@ -232,12 +232,12 @@ This section explains how to use your {pulsar-short} tenant's connection details
 With a {pulsar-short} cluster between publishers and consumers, you can change the type of publisher and consumer to fit your needs.
 
 The following examples use the {kafka-short} CLI and Java.
-For complete source code examples and examples for other languages, see the https://github.com/datastax/astra-streaming-examples[{company} streaming examples repository].
-These examples are written for {astra-streaming} but they can be adapted for {luna-streaming} or self-managed {pulsar-short} clusters by replacing the connection details with those for your cluster.
+For complete source code examples and examples for other languages, see the {astra-streaming-examples-repo}[{company} streaming examples repository].
+These examples are written for {astra-stream} but they can be adapted for {luna-streaming} or self-managed {pulsar-short} clusters by replacing the connection details with those for your cluster.
 
 [tabs]
 ======
-{astra-streaming}::
+{astra-stream}::
 +
 --
 [tabs]
@@ -248,10 +248,10 @@ This example uses command line tools included with the https://kafka.apache.org/
 +
 . Enable {product} and get the `ssl.properties` connection details, as explained in <<establish-the-kafka-protocol-handler>>.
 +
-. In {astra-streaming}, in the `kafka` namespace, create a topic to receive messages from the `kafka-console-producer`.
+. In {astra-stream}, in the `kafka` namespace, create a topic to receive messages from the `kafka-console-producer`.
 You can use any valid name for the topic.
 +
-. Move your {astra-streaming} `ssl.properties` file into your {kafka-short} installation's `config` subdirectory, such as `kafka_2.13-3.1.0/config`.
+. Move your {astra-stream} `ssl.properties` file into your {kafka-short} installation's `config` subdirectory, such as `kafka_2.13-3.1.0/config`.
 +
 . In a terminal window, use the `kafka-console-producer` tool to create a {kafka-short} producer that produces messages on the topic you created in the `kafka` namespace:
 +
@@ -284,15 +284,15 @@ Because this command uses the `--from-beginning` option, when the consumer start
 +
 As you send messages and the consumer receives them, they appear in the `kafka-console-consumer` terminal.
 +
-. In {astra-streaming}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
-To verify that your {kafka-short} messages are being produced and consumed in your {astra-streaming} {pulsar-short} cluster, check the **Data In** metrics.
+. In {astra-stream}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
+To verify that your {kafka-short} messages are being produced and consumed in your {astra-stream} {pulsar-short} cluster, check the **Data In** metrics.
 The number of messages should be equal to the number of messages you sent with the `kafka-console-producer`.
 +
 . To exit the producer and consumer shells, press kbd:[Ctrl]+kbd:[C] in each terminal.
 
 Java client::
 +
-The following example uses a Java program to create a connection between {kafka-short} and your {astra-streaming} tenant, configures a producer and consumer, and then sends a message.
+The following example uses a Java program to create a connection between {kafka-short} and your {astra-stream} tenant, configures a producer and consumer, and then sends a message.
 This example uses Maven, but you can also use Gradle.
 +
 . Enable {product} and get the `ssl.properties` connection details, as explained in <<establish-the-kafka-protocol-handler>>.
@@ -340,7 +340,7 @@ package org.example;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.{kafka-short}Consumer;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -440,10 +440,10 @@ Found 1 total record(s)
 ConsumerRecord(topic = persistent://my-tenant-007/my-namespace/my-topic, partition = 0, leaderEpoch = null, offset = 22, CreateTime = 1673545962124, serialized key size = 8, serialized value size = 11, headers = RecordHeaders(headers = [], isReadOnly = false), key =   xxxxx, value = Hello World)
 ----
 +
-. In {astra-streaming}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
+. In {astra-stream}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
 +
 If you everything was configured correctly, then the `kafka` namespace should have a topic named `quickstart` that was created by the Java program.
-Additionally, the namespace's metrics should reflect that at least one message was published and consumed by your {astra-streaming} {pulsar-short} topic.
+Additionally, the namespace's metrics should reflect that at least one message was published and consumed by your {astra-stream} {pulsar-short} topic.
 ====
 --
 
