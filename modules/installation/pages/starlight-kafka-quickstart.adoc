@@ -102,18 +102,23 @@ The following steps explain how to deploy a {luna-streaming} Helm chart to creat
 ----
 helm repo add datastax-pulsar https://datastax.github.io/pulsar-helm-chart
 ----
++
+[IMPORTANT]
+====
+The https://datastax.github.io/pulsar-helm-chart[{company} {pulsar-short} Helm chart] is deprecated.
+For Kubernetes deployments, {company} recommends xref:kaap-operator::index.adoc[{kaap}].
+====
 
-. Install the Helm chart using a minimal values file.
+. Install the Helm chart using a xref:installation:attachment$values.yaml[minimal values file].
 The following command creates a Helm release named `my-pulsar-cluster` using the {company} Luna Helm chart within a Kubernetes namespace named `datastax-pulsar`.
 This minimal configuration creates only the essential components and has no ingress or load balanced services.
 +
 [source,shell]
 ----
-VALUES_URL="https://raw.githubusercontent.com/datastaxdevs/luna-streaming-examples/main/starlight-for-kafka/values.yaml"
 helm install \
   --namespace datastax-pulsar \
   --create-namespace \
-  --values $VALUES_URL \
+  --values path/to/values.yaml \
   --version 3.0.4 \
   my-pulsar-cluster \
   datastax-pulsar/pulsar
@@ -464,7 +469,7 @@ bin/kafka-console-producer.sh \
 +
 You can replace `quickstart` with any other name for the topic that will receive messages from the producer.
 If the specified topic doesn't exist in your {luna-streaming} tenant, it is created automatically when the producer sends the first message.
-You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the https://github.com/datastaxdevs/luna-streaming-examples/blob/main/starlight-for-kafka/values.yaml[Helm chart].
+You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the xref:installation:attachment$values.yaml[Helm chart].
 +
 .Connect to a remote cluster
 [%collapsible]
