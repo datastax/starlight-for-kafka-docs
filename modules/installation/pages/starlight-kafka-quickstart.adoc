@@ -105,7 +105,7 @@ helm repo add datastax-pulsar https://datastax.github.io/pulsar-helm-chart
 +
 [IMPORTANT]
 ====
-The {pulsar-helm-chart-repo}[{company} {pulsar-short} Helm chart] is deprecated.
+The https://datastax.github.io/pulsar-helm-chart[{company} {pulsar-short} Helm chart] is deprecated.
 For Kubernetes deployments, {company} recommends xref:kaap-operator::index.adoc[{kaap}].
 ====
 
