@@ -84,10 +84,10 @@ Continue to the next section to learn how to use the connection details in a {ka
 {luna-streaming}::
 +
 --
-The {product} extension is included in the `luna-streaming-all` image used to deploy a Luna cluster.
-The Luna Helm chart simplifies deployment of the {kafka-short} extension.
+The {product} extension is included in the `luna-streaming-all` image used to deploy an {luna-streaming} cluster (formerly DataStax Luna Streaming).
+The {company} {pulsar-short} Helm chart simplifies deployment of the {kafka-short} extension.
 
-The following steps explain how to deploy a {luna-streaming} Helm chart to create a simple {pulsar-short} cluster with the {product} extension ready to use.
+The following steps explain how to deploy a {company} {pulsar-short} Helm chart to create a simple {pulsar-short} cluster with the {product} extension ready to use.
 
 . Make sure you meet the following prerequisites:
 +
@@ -96,7 +96,7 @@ The following steps explain how to deploy a {luna-streaming} Helm chart to creat
 * Install https://kubernetes.io/docs/tasks/tools/[kubectl CLI] version 1.23.4 or later.
 * Have access to a Kubernetes cluster with permission to create a namespace, deployments, and pods.
 
-. Add the {company} Helm chart repo to your Helm store:
+. Add the {company} {pulsar-short} Helm chart repo to your Helm store:
 +
 [source,shell]
 ----
@@ -110,7 +110,7 @@ For Kubernetes deployments, {company} recommends xref:kaap-operator::index.adoc[
 ====
 
 . Install the Helm chart using a xref:installation:attachment$values.yaml[minimal values file].
-The following command creates a Helm release named `my-pulsar-cluster` using the {company} Luna Helm chart within a Kubernetes namespace named `datastax-pulsar`.
+The following command creates a Helm release named `my-pulsar-cluster` using the {company} {pulsar-short} Helm chart within a Kubernetes namespace named `datastax-pulsar`.
 This minimal configuration creates only the essential components and has no ingress or load balanced services.
 +
 [source,shell]
@@ -455,7 +455,7 @@ Additionally, the namespace's metrics should reflect that at least one message w
 {luna-streaming}::
 +
 --
-To use the {kafka-short} CLI or a {kafka-short} client with {product}, you use your {luna-streaming} {pulsar-short} tenant as the {kafka-short} bootstrap server.
+To use the {kafka-short} CLI or a {kafka-short} client with {product}, you use your {luna-streaming} tenant as the {kafka-short} bootstrap server.
 The following example command line tools included with the https://kafka.apache.org/downloads[{kafka} tarball], and it connects on `localhost:9092` because port forwarding was enabled in <<establish-the-kafka-protocol-handler>>.
 
 . In your {kafka-short} installation directory, start the `kafka-console-producer` shell:
@@ -501,7 +501,7 @@ Because this command uses the `--from-beginning` option, when the consumer start
 +
 As you send messages and the consumer receives them, they appear in the `kafka-console-consumer` terminal.
 
-. Use the {pulsar-short} Admin CLI or the {luna-streaming} {pulsar-short} Admin Console to inspect your tenant's activity, and verify that messages were published and consumed on the specified topic.
+. Use the {pulsar-short} Admin CLI or the {luna-streaming} Admin Console to inspect your tenant's activity, and verify that messages were published and consumed on the specified topic.
 
 . To exit the producer and consumer shells, press kbd:[Ctrl]+kbd:[C] in each terminal.
 --

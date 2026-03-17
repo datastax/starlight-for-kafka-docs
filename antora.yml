@@ -19,7 +19,7 @@ asciidoc:
     kafka-reg: 'Apache Kafka(R)'
     kafka: 'Apache Kafka'
     kafka-short: 'Kafka'
-    luna-streaming: 'Luna Streaming'
+    luna-streaming: 'IBM Elite Support for Apache Pulsar'
     astra-stream: 'Astra Streaming'
     astra-streaming-examples-repo: 'https://github.com/datastax/astra-streaming-examples'
     bookkeeper-reg: 'Apache BookKeeper(TM)'
