@@ -236,9 +236,10 @@ This section explains how to use your {pulsar-short} tenant's connection details
 {product} supports many different use cases.
 With a {pulsar-short} cluster between publishers and consumers, you can change the type of publisher and consumer to fit your needs.
 
-The following examples use the {kafka-short} CLI and Java.
-For complete source code examples and examples for other languages, see the {astra-streaming-examples-repo}[{company} streaming examples repository].
-These examples are written for {astra-stream} but they can be adapted for {luna-streaming} or self-managed {pulsar-short} clusters by replacing the connection details with those for your cluster.
+[TIP]
+====
+The {astra-stream} examples can be modified for {luna-streaming} and self-managed {pulsar-short} clusters by replacing the connection details with those for your cluster.
+====
 
 [tabs]
 ======
@@ -320,16 +321,16 @@ mvn archetype:generate \
 cd StarlightForKafkaClient
 ----
 +
-. Open the new project in your IDE, and then add the {kafka-short} client dependency to `pom.xml`:
+. Add the {kafka-short} client dependency to the `pom.xml` file:
 +
 .pom.xml
 [source,xml]
 ----
-<dependency>
-  <groupId>org.apache.kafka</groupId>
-  <artifactId>kafka-clients</artifactId>
-  <version>3.3.1</version>
-</dependency>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>3.3.1</version>
+    </dependency>
 ----
 +
 . Open the `App.java` file at `src/main/java/org/example/App.java`, and then delete any preexisting code in this file.
@@ -338,6 +339,7 @@ In the next steps, you will add code to this file to create a complete program t
 . Paste the following code in the file, and then replace the placeholder values with the values from your `ssl.properties` file.
 Your editor will report errors because this isn't a complete program yet.
 +
+./src/main/java/org/example/App.java
 [source,java,subs="+quotes"]
 ----
 package org.example;
@@ -371,6 +373,7 @@ If the topic doesn't exist, it is created it automatically when the producer sen
 +
 . Add the following code that builds the configuration for the producer and consumer:
 +
+./src/main/java/org/example/App.java
 [source,java]
 ----
     Properties config = new Properties();
@@ -388,6 +391,7 @@ If the topic doesn't exist, it is created it automatically when the producer sen
 +
 . Add the producer code, which is a simple flow that sends a single message and awaits acknowledgment:
 +
+./src/main/java/org/example/App.java
 [source,java]
 ----
     KafkaProducer<Long, String> producer = new KafkaProducer<>(config);
@@ -408,6 +412,7 @@ If the topic doesn't exist, it is created it automatically when the producer sen
 +
 . Add the consumer code, which creates a basic subscription and retrieves the latest messages on the topic:
 +
+./src/main/java/org/example/App.java
 [source,java]
 ----
     final KafkaConsumer<Integer, String> consumer = new KafkaConsumer<Integer, String>(config);

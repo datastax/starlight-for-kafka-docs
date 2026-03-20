@@ -21,7 +21,6 @@ asciidoc:
     kafka-short: 'Kafka'
     luna-streaming: 'IBM Elite Support for Apache Pulsar'
     astra-stream: 'Astra Streaming'
-    astra-streaming-examples-repo: 'https://github.com/datastax/astra-streaming-examples'
     bookkeeper-reg: 'Apache BookKeeper(TM)'
     bookkeeper-short: 'BookKeeper'
     kaap: 'Kubernetes Autoscaling for Apache Pulsar (KAAP)'
