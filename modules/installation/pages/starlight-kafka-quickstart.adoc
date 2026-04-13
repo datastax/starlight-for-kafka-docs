@@ -476,16 +476,12 @@ You can replace `quickstart` with any other name for the topic that will receive
 If the specified topic doesn't exist in your {luna-streaming} tenant, it is created automatically when the producer sends the first message.
 You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the xref:installation:attachment$values.yaml[Helm chart].
 +
-.Connect to a remote cluster
-[%collapsible]
-====
 To connect to a remote {luna-streaming} cluster, provide the full topic name and the bootstrap server URL for your {luna-streaming} tenant:
-
++
 [source,shell,subs="+quotes"]
 ----
 bin/kafka-console-producer.sh --topic "**TENANT_NAME**/**NAMESPACE_NAME**/**TOPIC_NAME**" --bootstrap-server "**SERVICE_URL**"
 ----
-====
 
 . When the producer is ready, type a message, and then press kbd:[Return] to send it.
 Optionally, you can send several messages before starting the consumer to see how it retrieves past messages.
@@ -532,16 +528,12 @@ You can replace `quickstart` with any other name for the topic that will receive
 If the specified topic doesn't exist in your {pulsar-short} tenant, it is created automatically when the producer sends the first message.
 You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters].
 +
-.Connect to a remote cluster
-[%collapsible]
-====
 To connect to a remote {pulsar-short} cluster, provide the full topic name and the bootstrap server URL for your tenant:
-
++
 [source,shell,subs="+quotes"]
 ----
 bin/kafka-console-producer.sh --topic "**TENANT_NAME**/**NAMESPACE_NAME**/**TOPIC_NAME**" --bootstrap-server "**SERVICE_URL**"
 ----
-====
 
 . When the producer is ready, type a message, and then press kbd:[Return] to send it.
 Optionally, you can send several messages before starting the consumer to see how it retrieves past messages.
