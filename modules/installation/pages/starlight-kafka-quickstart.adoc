@@ -2,8 +2,10 @@
 :navtitle: Installation
 
 This guide explains how to install the {product} extension as a protocol handler, and then use it to produce and consume {kafka-reg} messages on a {pulsar-reg} cluster.
+You use your {pulsar-short} tenant's connection details with a {kafka-short} client to produce and consume messages with {product}.
 
-To install {product} as a proxy extension, see xref:operations:starlight-kafka-proxy.adoc[].
+{product} supports many different use cases.
+With a {pulsar-short} cluster between publishers and consumers, you can change the type of publisher and consumer to fit your needs.
 
 [#prerequisites]
 == Prerequisites
@@ -19,17 +21,12 @@ To use {product}, you need a {pulsar-short} cluster from {astra-stream}, {luna-s
 
 {product} requires JDK 11.
 
-[#establish-the-kafka-protocol-handler]
-== Establish the {kafka-short} protocol handler
+[#establish-the-kafka-protocol-handler-for-astra-streaming]
+== Use {product} with {astra-stream}
 
-Before a {kafka-short} client can interact with your {pulsar-short} cluster, you need the {product} protocol handler installed in the cluster.
+Enable the {product} protocol handler in your {astra-stream} {pulsar-short} cluster, get the connection details for your {kafka-short} client, and then use a {kafka-short} client to interact with your {pulsar-short} cluster.
 
-[tabs]
-======
-{astra-stream}::
-+
---
-These steps explain how to enable the {product} protocol handler in an {astra-stream} {pulsar-short} cluster, and then get the connection details for your {kafka-short} client:
+=== Enable {product} in {astra-stream}
 
 . In the {astra-ui-link} header, click icon:grip[name="Applications"], and then select *Streaming*.
 
@@ -77,17 +74,231 @@ You can also generate a token on your tenant's **Settings** tab.
 ----
 session.timeout.ms=45000
 ----
-+
-Continue to the next section to learn how to use the connection details in a {kafka-short} client script.
---
 
-{luna-streaming}::
+. Use your tenant's connection details to produce and consume messages with the {kafka-short} CLI or a {kafka-short} client script, as demonstrated in the following examples.
+
+=== Connect to {astra-stream} with the {kafka-short} CLI
+
+This example uses command line tools included with the https://kafka.apache.org/downloads[{kafka} tarball]:
+
+. Enable {product} and get the `ssl.properties` connection details, as explained in <<establish-the-kafka-protocol-handler-for-astra-streaming>>.
+
+. In {astra-stream}, in the `kafka` namespace, create a topic to receive messages from the `kafka-console-producer`.
+You can use any valid name for the topic.
+
+. Move your {astra-stream} `ssl.properties` file into your {kafka-short} installation's `config` subdirectory, such as `kafka_2.13-3.1.0/config`.
+
+. In a terminal window, use the `kafka-console-producer` tool to create a {kafka-short} producer that produces messages on the topic you created in the `kafka` namespace:
 +
---
+[source,shell,subs="+quotes"]
+----
+bin/kafka-console-producer \
+--broker-list kafka-**PROVIDER**-**REGION**.streaming.datastax.com:9093 \
+--topic **TENANT_NAME**/kafka/**TOPIC_NAME** \
+--producer.config config/ssl.properties
+----
++
+When the producer is ready, it accepts standard input from the user.
+To send a message, type it in the terminal, and then press kbd:[Return].
+Optionally, you can send some messages before starting the consumer to see how it retrieves past messages.
+
+. In a new terminal window, use the `kafka-console-consumer` tool to create a {kafka-short} consumer that consumes messages from the beginning of your topic:
++
+[source,shell,subs="+quotes"]
+----
+bin/kafka-console-consumer \
+--bootstrap-server kafka-**PROVIDER**-**REGION**.streaming.datastax.com:9093 \
+--topic **TENANT_NAME**/kafka/**TOPIC_NAME** \
+--consumer.config config/ssl.properties \
+--from-beginning
+----
++
+Because this command uses the `--from-beginning` option, when the consumer starts, it retrieves any messages that were sent to the topic before it started.
+
+. Send a few messages in the `kafka-console-producer` terminal to generate more traffic on the tenant.
++
+As you send messages and the consumer receives them, they appear in the `kafka-console-consumer` terminal.
+
+. In {astra-stream}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
+To verify that your {kafka-short} messages are being produced and consumed in your {astra-stream} {pulsar-short} cluster, check the **Data In** metrics.
+The number of messages should be equal to the number of messages you sent with the `kafka-console-producer`.
+
+. To exit the producer and consumer shells, press kbd:[Ctrl]+kbd:[C] in each terminal.
+
+=== Connect to {astra-stream} with a {kafka-short} Java client
+
+The following example uses a Java program to create a connection between {kafka-short} and your {astra-stream} tenant, configures a producer and consumer, and then sends a message.
+This example uses Maven, but you can also use Gradle.
+
+. Enable {product} and get the `ssl.properties` connection details, as explained in <<establish-the-kafka-protocol-handler-for-astra-streaming>>.
+
+. Create a new Maven project:
++
+[source,shell]
+----
+mvn archetype:generate \
+    -DgroupId=org.example \
+    -DartifactId=StarlightForKafkaClient \
+    -DarchetypeArtifactId=maven-archetype-quickstart \
+    -DinteractiveMode=false
+----
+
+. Change to the new project directory:
++
+[source,shell]
+----
+cd StarlightForKafkaClient
+----
+
+. Add the {kafka-short} client dependency to the `pom.xml` file:
++
+.pom.xml
+[source,xml]
+----
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>3.3.1</version>
+    </dependency>
+----
+
+. Open the `App.java` file at `src/main/java/org/example/App.java`, and then delete any preexisting code in this file.
+In the next steps, you will add code to this file to create a complete program that produces and consumes messages.
+
+. Paste the following code in the file, and then replace the placeholder values with the values from your `ssl.properties` file.
+Your editor will report errors because this isn't a complete program yet.
++
+./src/main/java/org/example/App.java
+[source,java,subs="+quotes"]
+----
+package org.example;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.*;
+import org.apache.kafka.common.serialization.LongSerializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Properties;
+
+public class App {
+  private static String bootstrapServers = "**BOOTSTRAP_SERVER_URL**";
+  private static String pulsarToken = "**PASSWORD**";
+  private static String tenantName = "**USERNAME**";
+  private static final String namespace = "kafka";
+  private static final String topicName = "quickstart";
+  private static final String topic = String.format("persistent://%s/%s/%s", tenantName,namespace,topicName);
+
+  public static void main(String[] args) {
+----
+
+. Optional: Replace `quickstart` with another name for the topic that receives messages from the {kafka-short} producer.
+If the topic doesn't exist, it is created it automatically when the producer sends the first message.
+
+. Add the following code that builds the configuration for the producer and consumer:
++
+./src/main/java/org/example/App.java
+[source,java]
+----
+    Properties config = new Properties();
+    config.put("bootstrap.servers",bootstrapServers);
+    config.put("security.protocol","SASL_SSL");
+    config.put("sasl.jaas.config", String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username='%s' password='token:%s';", tenantName, pulsarToken));
+    config.put("sasl.mechanism","PLAIN");
+    config.put("session.timeout.ms","45000");
+    config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
+    config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+    config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+    config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+    config.put("group.id", "my-consumer-group");
+----
+
+. Add the producer code, which is a simple flow that sends a single message and awaits acknowledgment:
++
+./src/main/java/org/example/App.java
+[source,java]
+----
+    KafkaProducer<Long, String> producer = new KafkaProducer<>(config);
+
+    final ProducerRecord<Long, String> producerRecord = new ProducerRecord<>(topic, System.currentTimeMillis(), "Hello World");
+    producer.send(producerRecord, new Callback() {
+      public void onCompletion(RecordMetadata metadata, Exception e) {
+        if (e != null)
+          System.out.println(String.format("Send failed for record, %s. \nRecord data: %s",e.getMessage(), producerRecord));
+        else
+          System.out.println("Successfully sent message");
+      }
+    });
+
+    producer.flush();
+    producer.close();
+----
+
+. Add the consumer code, which creates a basic subscription and retrieves the latest messages on the topic:
++
+./src/main/java/org/example/App.java
+[source,java]
+----
+    final KafkaConsumer<Integer, String> consumer = new KafkaConsumer<Integer, String>(config);
+
+    consumer.subscribe(Collections.singletonList(topic));
+    ConsumerRecords<Integer, String> consumerRecords = consumer.poll(Duration.ofMillis(5000));
+
+    System.out.println(String.format("Found %d total record(s)", consumerRecords.count()));
+
+    for (ConsumerRecord<Integer, String> consumerRecord : consumerRecords) {
+      System.out.println(consumerRecord);
+    }
+
+    consumer.commitSync();
+    consumer.close();
+  }
+}
+----
+
+. Save `App.java`, and then build and run the JAR file for the complete program:
++
+[source,shell]
+----
+mvn clean package assembly:single
+java -jar target/StarlightForKafkaClient-1.0-SNAPSHOT-jar-with-dependencies.jar
+----
+
+. Make sure the result shows that a message was produces and consumed:
++
+[source,shell]
+----
+Successfully sent message
+
+Found 1 total record(s)
+ConsumerRecord(topic = persistent://my-tenant-007/my-namespace/my-topic, partition = 0, leaderEpoch = null, offset = 22, CreateTime = 1673545962124, serialized key size = 8, serialized value size = 11, headers = RecordHeaders(headers = [], isReadOnly = false), key =   xxxxx, value = Hello World)
+----
+
+. In {astra-stream}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
++
+If you everything was configured correctly, then the `kafka` namespace should have a topic named `quickstart` that was created by the Java program.
+Additionally, the namespace's metrics should reflect that at least one message was published and consumed by your {astra-stream} {pulsar-short} topic.
+
+[#establish-the-kafka-protocol-handler-for-ibm-elite-support-for-apache-pulsar]
+== Use {product} with {luna-streaming}
+
 The {product} extension is included in the `luna-streaming-all` image used to deploy an {luna-streaming} cluster (formerly DataStax Luna Streaming).
-The {company} {pulsar-short} Helm chart simplifies deployment of the {kafka-short} extension.
+
+=== Deploy {luna-streaming} with {product} enabled
+
+[IMPORTANT]
+====
+The https://datastax.github.io/pulsar-helm-chart[{company} {pulsar-short} Helm chart] is deprecated.
+For Kubernetes deployments, {company} recommends xref:kaap-operator::index.adoc[{kaap}].
+====
 
 The following steps explain how to deploy a {company} {pulsar-short} Helm chart to create a simple {pulsar-short} cluster with the {product} extension ready to use.
+Then you'll use a {kafka-short} client to interact with your cluster.
 
 . Make sure you meet the following prerequisites:
 +
@@ -102,12 +313,6 @@ The following steps explain how to deploy a {company} {pulsar-short} Helm chart 
 ----
 helm repo add datastax-pulsar https://datastax.github.io/pulsar-helm-chart
 ----
-+
-[IMPORTANT]
-====
-The https://datastax.github.io/pulsar-helm-chart[{company} {pulsar-short} Helm chart] is deprecated.
-For Kubernetes deployments, {company} recommends xref:kaap-operator::index.adoc[{kaap}].
-====
 
 . Install the Helm chart using a xref:installation:attachment$values.yaml[minimal values file].
 The following command creates a Helm release named `my-pulsar-cluster` using the {company} {pulsar-short} Helm chart within a Kubernetes namespace named `datastax-pulsar`.
@@ -176,292 +381,18 @@ kubectl port-forward -n datastax-pulsar service/pulsar-proxy 9092:9092
 You don't need to open the {pulsar-short} binary port to accept new messages when using {product}.
 This is because {kafka-short} clients communicate using the {kafka-short} protocol on port 9092, which is handled by the {product} extension.
 ====
-After deploying the Helm chart and enabling port forwarding, your applications can communicate with {pulsar-short} as if it were a real {kafka-short} host, as explained in the next section.
---
+After deploying the Helm chart and enabling port forwarding, your applications can communicate with {pulsar-short} as if it were a real {kafka-short} host, as demonstrated in the following {kafka-short} CLI and {kafka-short} client examples.
 
-Self-managed::
-+
---
-. If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
-
-. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the {product-repo}/releases[{product} GitHub repository].
-
-. Copy the `.nar` file to your `pulsar/protocols` directory.
-
-include::ROOT:partial$self-managed-config.adoc[]
---
-
-Build from source::
-+
---
-Build the protocol handler from source if you want to customize the code or contribute to the project.
-
-. Clone the {product} GitHub repository to your local machine:
-+
-[source,bash]
-----
-git clone https://github.com/datastax/starlight-for-kafka.git
-----
-
-. Change to the local repository directory:
-+
-[source,bash]
-----
-cd starlight-for-kafka
-----
-
-. If needed, set `jenv global 11` to use JDK 11 because {product} requires JDK11.
-
-. Build the Maven project:
-+
-[source,java]
-----
-mvn clean install -DskipTests
-----
-
-. If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
-
-. Copy the protocol handler `.nar` file to your {pulsar-short} `protocols` directory.
-After building the project, the `.nar` file is available at `starlight-for-kafka/kafka-impl/target/pulsar-protocol-handler-kafka-**VERSION**.nar`.
-
-include::ROOT:partial$self-managed-config.adoc[]
---
-======
-
-[#produce-and-consume-messages-with-starlight-for-kafka]
-== Produce and consume messages with {product}
-
-This section explains how to use your {pulsar-short} tenant's connection details with a {kafka-short} client to produce and consume messages with {product}.
-
-{product} supports many different use cases.
-With a {pulsar-short} cluster between publishers and consumers, you can change the type of publisher and consumer to fit your needs.
+=== Connect to {luna-streaming} with the {kafka-short} CLI or a {kafka-short} client
 
 [TIP]
 ====
-The {astra-stream} examples can be modified for {luna-streaming} and self-managed {pulsar-short} clusters by replacing the connection details with those for your cluster.
+You can modify the <<establish-the-kafka-protocol-handler-for-astra-streaming,{astra-stream} examples>> for your {luna-streaming} cluster by replacing the connection details with those for your cluster.
 ====
 
-[tabs]
-======
-{astra-stream}::
-+
---
-[tabs]
-====
-{kafka-short} CLI::
-+
-This example uses command line tools included with the https://kafka.apache.org/downloads[{kafka} tarball].
-+
-. Enable {product} and get the `ssl.properties` connection details, as explained in <<establish-the-kafka-protocol-handler>>.
-+
-. In {astra-stream}, in the `kafka` namespace, create a topic to receive messages from the `kafka-console-producer`.
-You can use any valid name for the topic.
-+
-. Move your {astra-stream} `ssl.properties` file into your {kafka-short} installation's `config` subdirectory, such as `kafka_2.13-3.1.0/config`.
-+
-. In a terminal window, use the `kafka-console-producer` tool to create a {kafka-short} producer that produces messages on the topic you created in the `kafka` namespace:
-+
-[source,shell,subs="+quotes"]
-----
-bin/kafka-console-producer \
---broker-list kafka-**PROVIDER**-**REGION**.streaming.datastax.com:9093 \
---topic **TENANT_NAME**/kafka/**TOPIC_NAME** \
---producer.config config/ssl.properties
-----
-+
-When the producer is ready, it accepts standard input from the user.
-To send a message, type it in the terminal, and then press kbd:[Return].
-Optionally, you can send some messages before starting the consumer to see how it retrieves past messages.
-+
-. In a new terminal window, use the `kafka-console-consumer` tool to create a {kafka-short} consumer that consumes messages from the beginning of your topic:
-+
-[source,shell,subs="+quotes"]
-----
-bin/kafka-console-consumer \
---bootstrap-server kafka-**PROVIDER**-**REGION**.streaming.datastax.com:9093 \
---topic **TENANT_NAME**/kafka/**TOPIC_NAME** \
---consumer.config config/ssl.properties \
---from-beginning
-----
-+
-Because this command uses the `--from-beginning` option, when the consumer starts, it retrieves any messages that were sent to the topic before it started.
-+
-. Send a few messages in the `kafka-console-producer` terminal to generate more traffic on the tenant.
-+
-As you send messages and the consumer receives them, they appear in the `kafka-console-consumer` terminal.
-+
-. In {astra-stream}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
-To verify that your {kafka-short} messages are being produced and consumed in your {astra-stream} {pulsar-short} cluster, check the **Data In** metrics.
-The number of messages should be equal to the number of messages you sent with the `kafka-console-producer`.
-+
-. To exit the producer and consumer shells, press kbd:[Ctrl]+kbd:[C] in each terminal.
-
-Java client::
-+
-The following example uses a Java program to create a connection between {kafka-short} and your {astra-stream} tenant, configures a producer and consumer, and then sends a message.
-This example uses Maven, but you can also use Gradle.
-+
-. Enable {product} and get the `ssl.properties` connection details, as explained in <<establish-the-kafka-protocol-handler>>.
-+
-. Create a new Maven project:
-+
-[source,shell]
-----
-mvn archetype:generate \
-    -DgroupId=org.example \
-    -DartifactId=StarlightForKafkaClient \
-    -DarchetypeArtifactId=maven-archetype-quickstart \
-    -DinteractiveMode=false
-----
-+
-. Change to the new project directory:
-+
-[source,shell]
-----
-cd StarlightForKafkaClient
-----
-+
-. Add the {kafka-short} client dependency to the `pom.xml` file:
-+
-.pom.xml
-[source,xml]
-----
-    <dependency>
-      <groupId>org.apache.kafka</groupId>
-      <artifactId>kafka-clients</artifactId>
-      <version>3.3.1</version>
-    </dependency>
-----
-+
-. Open the `App.java` file at `src/main/java/org/example/App.java`, and then delete any preexisting code in this file.
-In the next steps, you will add code to this file to create a complete program that produces and consumes messages.
-+
-. Paste the following code in the file, and then replace the placeholder values with the values from your `ssl.properties` file.
-Your editor will report errors because this isn't a complete program yet.
-+
-./src/main/java/org/example/App.java
-[source,java,subs="+quotes"]
-----
-package org.example;
-
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.producer.*;
-import org.apache.kafka.common.serialization.LongSerializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
-
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Properties;
-
-public class App {
-  private static String bootstrapServers = "**BOOTSTRAP_SERVER_URL**";
-  private static String pulsarToken = "**PASSWORD**";
-  private static String tenantName = "**USERNAME**";
-  private static final String namespace = "kafka";
-  private static final String topicName = "quickstart";
-  private static final String topic = String.format("persistent://%s/%s/%s", tenantName,namespace,topicName);
-
-  public static void main(String[] args) {
-----
-+
-. Optional: Replace `quickstart` with another name for the topic that receives messages from the {kafka-short} producer.
-If the topic doesn't exist, it is created it automatically when the producer sends the first message.
-+
-. Add the following code that builds the configuration for the producer and consumer:
-+
-./src/main/java/org/example/App.java
-[source,java]
-----
-    Properties config = new Properties();
-    config.put("bootstrap.servers",bootstrapServers);
-    config.put("security.protocol","SASL_SSL");
-    config.put("sasl.jaas.config", String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username='%s' password='token:%s';", tenantName, pulsarToken));
-    config.put("sasl.mechanism","PLAIN");
-    config.put("session.timeout.ms","45000");
-    config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
-    config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-    config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-    config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-    config.put("group.id", "my-consumer-group");
-----
-+
-. Add the producer code, which is a simple flow that sends a single message and awaits acknowledgment:
-+
-./src/main/java/org/example/App.java
-[source,java]
-----
-    KafkaProducer<Long, String> producer = new KafkaProducer<>(config);
-
-    final ProducerRecord<Long, String> producerRecord = new ProducerRecord<>(topic, System.currentTimeMillis(), "Hello World");
-    producer.send(producerRecord, new Callback() {
-      public void onCompletion(RecordMetadata metadata, Exception e) {
-        if (e != null)
-          System.out.println(String.format("Send failed for record, %s. \nRecord data: %s",e.getMessage(), producerRecord));
-        else
-          System.out.println("Successfully sent message");
-      }
-    });
-
-    producer.flush();
-    producer.close();
-----
-+
-. Add the consumer code, which creates a basic subscription and retrieves the latest messages on the topic:
-+
-./src/main/java/org/example/App.java
-[source,java]
-----
-    final KafkaConsumer<Integer, String> consumer = new KafkaConsumer<Integer, String>(config);
-
-    consumer.subscribe(Collections.singletonList(topic));
-    ConsumerRecords<Integer, String> consumerRecords = consumer.poll(Duration.ofMillis(5000));
-
-    System.out.println(String.format("Found %d total record(s)", consumerRecords.count()));
-
-    for (ConsumerRecord<Integer, String> consumerRecord : consumerRecords) {
-      System.out.println(consumerRecord);
-    }
-
-    consumer.commitSync();
-    consumer.close();
-  }
-}
-----
-+
-. Save `App.java`, and then build and run the JAR file for the complete program:
-+
-[source,shell]
-----
-mvn clean package assembly:single
-java -jar target/StarlightForKafkaClient-1.0-SNAPSHOT-jar-with-dependencies.jar
-----
-+
-. Make sure the result shows that a message was produces and consumed:
-+
-[source,shell]
-----
-Successfully sent message
-
-Found 1 total record(s)
-ConsumerRecord(topic = persistent://my-tenant-007/my-namespace/my-topic, partition = 0, leaderEpoch = null, offset = 22, CreateTime = 1673545962124, serialized key size = 8, serialized value size = 11, headers = RecordHeaders(headers = [], isReadOnly = false), key =   xxxxx, value = Hello World)
-----
-+
-. In {astra-stream}, go to your tenant's **Namespaces and Topics** tab to inspect the activity in the `kafka` namespace.
-+
-If you everything was configured correctly, then the `kafka` namespace should have a topic named `quickstart` that was created by the Java program.
-Additionally, the namespace's metrics should reflect that at least one message was published and consumed by your {astra-stream} {pulsar-short} topic.
-====
---
-
-{luna-streaming}::
-+
---
 To use the {kafka-short} CLI or a {kafka-short} client with {product}, you use your {luna-streaming} tenant as the {kafka-short} bootstrap server.
-The following example command line tools included with the https://kafka.apache.org/downloads[{kafka} tarball], and it connects on `localhost:9092` because port forwarding was enabled in <<establish-the-kafka-protocol-handler>>.
+
+The following example uses command line tools included with the https://kafka.apache.org/downloads[{kafka} tarball], and it connects on `localhost:9092` because port forwarding was enabled in <<establish-the-kafka-protocol-handler-for-ibm-elite-support-for-apache-pulsar>>:
 
 . In your {kafka-short} installation directory, start the `kafka-console-producer` shell:
 +
@@ -476,16 +407,12 @@ You can replace `quickstart` with any other name for the topic that will receive
 If the specified topic doesn't exist in your {luna-streaming} tenant, it is created automatically when the producer sends the first message.
 You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the xref:installation:attachment$values.yaml[Helm chart].
 +
-.Connect to a remote cluster
-[%collapsible]
-====
 To connect to a remote {luna-streaming} cluster, provide the full topic name and the bootstrap server URL for your {luna-streaming} tenant:
-
++
 [source,shell,subs="+quotes"]
 ----
 bin/kafka-console-producer.sh --topic "**TENANT_NAME**/**NAMESPACE_NAME**/**TOPIC_NAME**" --bootstrap-server "**SERVICE_URL**"
 ----
-====
 
 . When the producer is ready, type a message, and then press kbd:[Return] to send it.
 Optionally, you can send several messages before starting the consumer to see how it retrieves past messages.
@@ -509,13 +436,33 @@ As you send messages and the consumer receives them, they appear in the `kafka-c
 . Use the {pulsar-short} Admin CLI or the {luna-streaming} Admin Console to inspect your tenant's activity, and verify that messages were published and consumed on the specified topic.
 
 . To exit the producer and consumer shells, press kbd:[Ctrl]+kbd:[C] in each terminal.
---
 
-Self-managed::
-+
---
+== Use {product} with a self-managed {pulsar-short} cluster
+
+Install and configure the {product} protocol handler in your {pulsar-short} cluster, and then use the {kafka-short} CLI or a {kafka-short} client to interact with your {pulsar-short} cluster.
+
+=== Deploy and configure {product} on a self-managed {pulsar-short} cluster
+
+. If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
+
+. Download the `pulsar-protocol-handler-kafka-**VERSION**.nar` from the {product-repo}/releases[{product} GitHub repository].
+
+. Copy the `.nar` file to your `pulsar/protocols` directory.
+
+include::ROOT:partial$self-managed-config.adoc[]
+
+. Use your cluster connection details with the {kafka-short} CLI or a {kafka-short} client, as demonstrated in the following examples.
+
+=== Connect to a self-managed {pulsar-short} cluster with the {kafka-short} CLI or a {kafka-short} client
+
+[TIP]
+====
+You can modify the <<establish-the-kafka-protocol-handler-for-astra-streaming,{astra-stream} examples>> for your self-managed {pulsar-short} cluster by replacing the connection details with those for your cluster.
+====
+
 To use the {kafka-short} CLI or a {kafka-short} client with {product}, you use your {pulsar-short} tenant as the {kafka-short} bootstrap server.
-The following example command line tools included with the https://kafka.apache.org/downloads[{kafka} tarball], and it assumes port forwarding is enabled to connect on `localhost:9092`.
+
+The following example uses command line tools included with the https://kafka.apache.org/downloads[{kafka} tarball], and it assumes port forwarding is enabled to connect on `localhost:9092`:
 
 . Restart your {pulsar-short} brokers if you haven't done so already.
 
@@ -532,16 +479,12 @@ You can replace `quickstart` with any other name for the topic that will receive
 If the specified topic doesn't exist in your {pulsar-short} tenant, it is created automatically when the producer sends the first message.
 You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters].
 +
-.Connect to a remote cluster
-[%collapsible]
-====
 To connect to a remote {pulsar-short} cluster, provide the full topic name and the bootstrap server URL for your tenant:
-
++
 [source,shell,subs="+quotes"]
 ----
 bin/kafka-console-producer.sh --topic "**TENANT_NAME**/**NAMESPACE_NAME**/**TOPIC_NAME**" --bootstrap-server "**SERVICE_URL**"
 ----
-====
 
 . When the producer is ready, type a message, and then press kbd:[Return] to send it.
 Optionally, you can send several messages before starting the consumer to see how it retrieves past messages.
@@ -579,9 +522,42 @@ As you send messages and the consumer receives them, they appear in the terminal
 . Use the {pulsar-short} Admin CLI to inspect your tenant's activity, and verify that messages were published and consumed on the specified topic.
 
 . To exit the producer and consumer shells, press kbd:[Ctrl]+kbd:[C] in each terminal.
---
-======
 
-== Next steps
+== Build from source
 
-Learn how to xref:configuration:starlight-kafka-configuration.adoc[configure and manage {product}].
+Build the {product} protocol handler from source if you want to customize the code or contribute to the project:
+
+. Clone the {product} GitHub repository to your local machine:
++
+[source,bash]
+----
+git clone https://github.com/datastax/starlight-for-kafka.git
+----
+
+. Change to the local repository directory:
++
+[source,bash]
+----
+cd starlight-for-kafka
+----
+
+. If needed, set `jenv global 11` to use JDK 11 because {product} requires JDK11.
+
+. Build the Maven project:
++
+[source,java]
+----
+mvn clean install -DskipTests
+----
+
+. If this is the first time you've used protocol handlers with your {pulsar-short} deployment, create a `protocols` folder in the root of your {pulsar-short} directory.
+
+. Copy the protocol handler `.nar` file to your {pulsar-short} `protocols` directory.
+After building the project, the `.nar` file is available at `starlight-for-kafka/kafka-impl/target/pulsar-protocol-handler-kafka-**VERSION**.nar`.
+
+include::ROOT:partial$self-managed-config.adoc[]
+
+== See also
+
+* xref:configuration:starlight-kafka-configuration.adoc[configure and manage {product}]
+* xref:operations:starlight-kafka-proxy.adoc[Install {product} as a proxy extension]
