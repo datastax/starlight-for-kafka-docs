@@ -52,15 +52,17 @@ These are permanent namespaces that cannot be removed except by deleting the ent
 The actual values depend on your {astra-stream} tenant's configuration and cloud provider.
 +
 .ssl.properties
-[source,plain,subs="+quotes,+attributes"]
+[source,plaintext,subs="+quotes"]
 ----
 username: **TENANT_NAME**
-password: token:{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}{asterisk}
+password: token:masked
 bootstrap.servers: kafka-**PROVIDER**-**REGION**.streaming.datastax.com:9093
 schema.registry.url: https://kafka-**PROVIDER**-**REGION**.streaming.datastax.com:8081
 security.protocol: SASL_SSL
 sasl.mechanism: PLAIN
 ----
++
+The `password` is masked with asterisks (`*`).
 +
 [TIP]
 ====
@@ -70,7 +72,7 @@ You can also generate a token on your tenant's **Settings** tab.
 
 . Optional: Add a session timeout value to the `ssl.properties` file to avoid connection issues with some {kafka-short} clients:
 +
-[source,properties]
+[source,plaintext]
 ----
 session.timeout.ms=45000
 ----
@@ -271,7 +273,7 @@ java -jar target/StarlightForKafkaClient-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 . Make sure the result shows that a message was produces and consumed:
 +
-[source,shell]
+[source,console]
 ----
 Successfully sent message
 
@@ -294,7 +296,7 @@ The {product} extension is included in the `luna-streaming-all` image used to de
 [IMPORTANT]
 ====
 The https://datastax.github.io/pulsar-helm-chart[{company} {pulsar-short} Helm chart] is deprecated.
-For Kubernetes deployments, {company} recommends xref:kaap-operator::index.adoc[{kaap}].
+For Kubernetes deployments, {company} recommends xref:kaap-operator:ROOT:index.adoc[{kaap}].
 ====
 
 The following steps explain how to deploy a {company} {pulsar-short} Helm chart to create a simple {pulsar-short} cluster with the {product} extension ready to use.
@@ -352,7 +354,7 @@ List the namespaces in the `public` tenant:
 +
 Make sure the output includes the `default` and `+__kafka+` namespaces:
 +
-[source,shell]
+[source,console]
 ----
 public/__kafka
 public/__kafka_producerid
@@ -405,7 +407,7 @@ bin/kafka-console-producer.sh \
 +
 You can replace `quickstart` with any other name for the topic that will receive messages from the producer.
 If the specified topic doesn't exist in your {luna-streaming} tenant, it is created automatically when the producer sends the first message.
-You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the xref:installation:attachment$values.yaml[Helm chart].
+You can configure this behavior and other xref:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the xref:installation:attachment$values.yaml[Helm chart].
 +
 To connect to a remote {luna-streaming} cluster, provide the full topic name and the bootstrap server URL for your {luna-streaming} tenant:
 +
@@ -477,7 +479,7 @@ bin/kafka-console-producer.sh \
 +
 You can replace `quickstart` with any other name for the topic that will receive messages from the producer.
 If the specified topic doesn't exist in your {pulsar-short} tenant, it is created automatically when the producer sends the first message.
-You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters].
+You can configure this behavior and other xref:configuration:starlight-kafka-configuration.adoc[{product} parameters].
 +
 To connect to a remote {pulsar-short} cluster, provide the full topic name and the bootstrap server URL for your tenant:
 +
@@ -545,7 +547,7 @@ cd starlight-for-kafka
 
 . Build the Maven project:
 +
-[source,java]
+[source,bash]
 ----
 mvn clean install -DskipTests
 ----
