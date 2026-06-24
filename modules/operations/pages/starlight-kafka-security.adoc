@@ -31,7 +31,7 @@ Currently, {product} only supports the https://docs.confluent.io/platform/curren
 
 === `PLAIN` authentication
 
-Authenticate {product} with the `PLAIN` SASL mechanism, follow the steps below.
+Authenticate {product} with the `PLAIN` SASL mechanism, do the following:
 
 . Enable authentication on the {pulsar-short} broker. For the `PLAIN` mechanism, {kafka-short} authentication is forwarded to the https://pulsar.apache.org/docs/en/security-jwt/[JWT authentication] of {pulsar-short}, so you need to configure the JWT authentication by setting the following properties in `conf/broker.conf`.
 +
@@ -57,23 +57,25 @@ brokerClientAuthenticationParameters=token:<token-of-super-user-role>
 superUserRoles=<super-user-roles>
 ----
 
-.. Specify the key. For more information, see https://pulsar.apache.org/docs/en/next/security-jwt/#enable-token-authentication-on-brokers[Enable Token Authentication on Brokers].
-
-* If using a *secret key*, set the property as below.
+.. Specify the key.
++
+For more information, see https://pulsar.apache.org/docs/en/next/security-jwt/#enable-token-authentication-on-brokers[Enable Token Authentication on Brokers].
++
+* To use a secret key:
 +
 [source,plaintext]
 ----
 tokenSecretKey=file:///path/to/secret.key
 ----
 
-* To pass the key inline, set the property as below.
+* To pass the key inline:
 +
 [source,plaintext]
 ----
 tokenSecretKey=data:;base64,FLFyW0oLJ2Fi22KKCm21J18mbAdztfSHN/lAT5ucEKU=
 ----
 
-* If using a public/private key, set the property as below.
+* To use a public/private key:
 +
 [source,plaintext]
 ----
@@ -119,7 +121,7 @@ For more on passing credentials with JAAS, see https://docs.confluent.io/platfor
 [#oauthbearer]
 === OAUTHBEARER authentication
 
-Authenticate {product} using the `OAUTHBEARER` mechanism by following the steps below.
+Authenticate {product} using the `OAUTHBEARER` mechanism, do the following:
 
 . Enable authentication on the {pulsar-short} broker.
 Set the following properties in the `conf/broker.conf` or `conf/standalone.conf` file.
@@ -239,7 +241,7 @@ For stable releases, the `pulsar.version` is the same as the `kop.version`.
 |`sasl.login.callback.handler.class`
 |Class of SASL login callback handler
 |`com.datastax.oss.kafka.oauth.OauthLoginCallbackHandler`
-|Set this value to the value in the example properties configuration below.
+|Set this value to the given example value.
 
 |`security.protocol`
 |Security protocol
@@ -328,7 +330,7 @@ The token itself doesn't have any permissions associated with it.
 The authorization engine determines whether the token should have permissions or not.
 Once you have created the token, you can grant permission for this token.
 +
-For example, to grant a role to the `user-role` created above:
+For example, to grant a role to the previously created `user-role`:
 +
 [source,bash]
 ----
@@ -415,7 +417,7 @@ keytool -keystore server.keystore.jks -alias CARoot -import -file ca-cert
 keytool -keystore server.keystore.jks -alias localhost -import -file cert-signed
 ----
 +
-In the above example, there are four passwords provided:
+In the preceding example, there are four passwords provided:
 +
 * `server-keystore` for `server.keystore.jks`
 * `server` for `ca-cert` and `ca-key`
