@@ -33,7 +33,9 @@ Currently, {product} only supports the https://docs.confluent.io/platform/curren
 
 Authenticate {product} with the `PLAIN` SASL mechanism, do the following:
 
-. Enable authentication on the {pulsar-short} broker. For the `PLAIN` mechanism, {kafka-short} authentication is forwarded to the https://pulsar.apache.org/docs/en/security-jwt/[JWT authentication] of {pulsar-short}, so you need to configure the JWT authentication by setting the following properties in `conf/broker.conf`.
+. Enable authentication on the {pulsar-short} broker.
++
+For the `PLAIN` mechanism, {kafka-short} authentication is forwarded to the https://pulsar.apache.org/docs/en/security-jwt/[JWT authentication] of {pulsar-short}, so you need to configure the JWT authentication by setting the following properties in `conf/broker.conf`.
 +
 [TIP]
 ====
@@ -82,14 +84,18 @@ tokenSecretKey=data:;base64,FLFyW0oLJ2Fi22KKCm21J18mbAdztfSHN/lAT5ucEKU=
 tokenPublicKey=file:///path/to/public.key
 ----
 
-. Enable authentication on {product}. Set the following property in the `conf/broker.conf`:
+. Enable authentication on {product}.
+Set the following property in the `conf/broker.conf`:
 +
 [source,plaintext]
 ----
 saslAllowedMechanisms=PLAIN
 ----
 
-. Enable authentication on the {kafka-short} client. To forward your credentials, `SASL-PLAIN` is used on the {kafka-short} client side. To enable `SASL-PLAIN`, set the following properties through {kafka-short} JAAS.
+. Enable authentication on the {kafka-short} client.
++
+To forward your credentials, `SASL-PLAIN` is used on the {kafka-short} client side.
+To enable `SASL-PLAIN`, set the following properties through {kafka-short} JAAS.
 +
 [cols=3]
 |===
@@ -312,7 +318,9 @@ authorizationEnabled=true
 ----
 
 . Generate JWT tokens.
-A token is the credential associated with a user. The association is done through the `principal` or `role`.
++
+A token is the credential associated with a user.
+The association is done through the `principal` or `role`.
 In the case of JWT tokens, this field is typically referred as `subject`, though they are exactly the same concept.
 +
 Use this command to require the generated token to have a `subject` field set:
@@ -326,6 +334,7 @@ bin/pulsar tokens create --secret-key file:///path/to/secret.key \
 This command prints the token string on `stdout`.
 
 . Grant permission to a specific role.
++
 The token itself doesn't have any permissions associated with it.
 The authorization engine determines whether the token should have permissions or not.
 Once you have created the token, you can grant permission for this token.
@@ -343,7 +352,8 @@ bin/pulsar-admin --auth-plugin "org.apache.pulsar.client.impl.auth.Authenticatio
 [#ssl]
 == SSL encryption
 
-This section explains connecting and configuring {product} with SSL. There are two methods available:
+This section explains connecting and configuring {product} with SSL.
+There are two methods available:
 
 * **Existing TLS certificates (Recommended)**: Use the TLS certificates already configured for the {pulsar-short} TLS endpoint to also connect the {kafka-short} client.
 This feature of {product} is designed to simplify the TLS connection configuration.
@@ -355,7 +365,8 @@ See <<manual-ssl>>.
 [#pulsar-ssl]
 === Create SSL configuration with {pulsar-short}
 
-{product} features fast, painless TLS configuration between {pulsar-short} and {kafka-short}. Instead of creating different certificates for the {pulsar-short} broker and {kafka-short} client, simply modify `broker.conf` to pick up the existing {pulsar-short} TLS certifications and configurations.
+{product} features fast, painless TLS configuration between {pulsar-short} and {kafka-short}.
+Instead of creating different certificates for the {pulsar-short} broker and {kafka-short} client, simply modify `broker.conf` to pick up the existing {pulsar-short} TLS certifications and configurations.
 
 . Configure TLS on the {pulsar-short} broker.
 For more information, see https://pulsar.apache.org/docs/security-tls-transport/#create-tls-certificates[Create TLS certificates].
@@ -378,7 +389,8 @@ These settings enable TLS on the broker, and then {product} picks up the TLS cer
 
 The following example shows how to manually configure {product} with SSL.
 
-{product} supports `PLAINTEXT` and `SSL` configuration types for {kafka-short} listeners. SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as follows:
+{product} supports `PLAINTEXT` and `SSL` configuration types for {kafka-short} listeners.
+SSL listeners are added to the comma-separated list of URIs in `kafkaListeners`, as follows:
 
 [source,plaintext]
 ----
@@ -424,7 +436,9 @@ In the preceding example, there are four passwords provided:
 * `server-truststore` for `server.truststore.jks`
 * `client-truststore` for `client.truststore.jks`
 
-. Configure the {pulsar-short} broker. In `conf/broker.conf`, add the related configurations using the JKS configurations created in the previous step:
+. Configure the {pulsar-short} broker.
++
+In `conf/broker.conf`, add the related configurations using the JKS configurations created in the previous step:
 +
 [source,plaintext]
 ----

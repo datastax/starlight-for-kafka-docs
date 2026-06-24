@@ -34,15 +34,20 @@ allowAutoTopicCreationType=partitioned
 Since topics are partitioned by default in {kafka-short}, it's better to avoid creating non-partitioned topics unless {kafka-short} clients need to interact with existing non-partitioned topics.
 ====
 +
-.. Set {kafka-short} listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which {kafka-short} binds to for listening.
+.. Set {kafka-short} listeners.
++
+`kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which {kafka-short} binds to for listening.
 +
 [source,plaintext]
 ----
 kafkaListeners=PLAINTEXT://127.0.0.1:9092
 ----
 +
-.. Set {kafka-short} advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
-`kafkaAdvertisedListeners` isn't required unless you want to expose another address to the {kafka-short} client. It defaults to the same address as `kafkaListeners` by default.
+.. Set {kafka-short} advertised listeners.
++
+`kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
+`kafkaAdvertisedListeners` isn't required unless you want to expose another address to the {kafka-short} client.
+It defaults to the same address as `kafkaListeners` by default.
 +
 [source,plaintext]
 ----

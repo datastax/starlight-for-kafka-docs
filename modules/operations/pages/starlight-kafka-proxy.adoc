@@ -1,7 +1,8 @@
 = {product} proxy extension
 :navtitle: Proxy extension
 
-{product} allows you to deploy a https://github.com/apache/pulsar/wiki/PIP-99:-Pulsar-Proxy-Extensions[proxy extension] on the {pulsar-short} proxy component. This allows the {kafka-short} client to access your {pulsar-short} cluster the same way as {pulsar-short} clients do.
+{product} allows you to deploy a https://github.com/apache/pulsar/wiki/PIP-99:-Pulsar-Proxy-Extensions[proxy extension] on the {pulsar-short} proxy component.
+This allows the {kafka-short} client to access your {pulsar-short} cluster the same way as {pulsar-short} clients do.
 
 This is particularly useful in Kubernetes environments where you already have the {pulsar-short} proxy.
 
@@ -27,11 +28,13 @@ kopTlsEnabledWithBroker=true
 ----
 
 `kafkaAdvertisedListeners` must contain the public address that clients will use to connect to the proxy.
-The preceding example uses `pulsar-proxy:9092`, but this address is available only inside the Kubernetes cluster. If you are exposing your service outside of the Kubernetes cluster, you must use the public name.
+The preceding example uses `pulsar-proxy:9092`, but this address is available only inside the Kubernetes cluster.
+If you are exposing your service outside of the Kubernetes cluster, you must use the public name.
 
 == TLS Configuration for the Proxy
 
-TLS is configured using the same TLS configuration as the {pulsar-short} proxy. To expose TLS endpoints, change the following settings in `conf/proxy.conf`.
+TLS is configured using the same TLS configuration as the {pulsar-short} proxy.
+To expose TLS endpoints, change the following settings in `conf/proxy.conf`.
 
 [source,plaintext]
 ----
@@ -57,7 +60,8 @@ kafkaProxySuperUserRole=admin
 ----
 
 The first line tells the proxy to accept username/password authentication.
-In the second line, `admin` is the name of a role that is allowed to perform administrative operations on the cluster. This role is needed to perform authorization tasks on the proxy, like validating the user that is logging in.
+In the second line, `admin` is the name of a role that is allowed to perform administrative operations on the cluster.
+This role is needed to perform authorization tasks on the proxy, like validating the user that is logging in.
 
 If you enable authentication and authorization on the proxy then you must also enable them on the broker, and the Protocol Handler must be configured to listen on PLAINTEXT_SASL.
 
@@ -66,7 +70,8 @@ If you enable authentication and authorization on the proxy then you must also e
 The proxy uses the broker discovery service to discover the brokers.
 The {pulsar-short} broker doesn't advertise the address of the {kafka-short} listeners, so the mapping between a broker and the actual TCP port that is listening for {kafka-short} connections is done per convention.
 
-If a {pulsar-short} broker exposes the {pulsar-short} endpoint at port 6650, the proxy assumes that it is exposing the {kafka-short} endpoint at port 9092. The same applies for TLS communications, where port 6651 is mapped to 9093.
+If a {pulsar-short} broker exposes the {pulsar-short} endpoint at port 6650, the proxy assumes that it is exposing the {kafka-short} endpoint at port 9092.
+The same applies for TLS communications, where port 6651 is mapped to 9093.
 
 You can override this mapping by using the `kafkaProxyBrokerPortToKopMapping` configuration entry:
 

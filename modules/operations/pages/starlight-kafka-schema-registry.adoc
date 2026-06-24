@@ -34,7 +34,8 @@ kopSchemaRegistryEnable=true
 kopSchemaRegistryProxyPort=8081
 ----
 
-. Verify that the Schema Registry is working properly by connecting to http://pulsar-broker:8001/config or http://pulsar-proxy:8081/config (if you're using the proxy). You should see something like this:
+. Verify that the Schema Registry is working properly by connecting to http://pulsar-broker:8001/config or http://pulsar-proxy:8081/config (if you're using the proxy).
+Make sure the output is similar to the following:
 +
 [source,json]
 ----
