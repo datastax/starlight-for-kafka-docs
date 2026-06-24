@@ -42,7 +42,7 @@ For example, to listen on ports `9092` and `19092` with the `PLAINTEXT` protocol
 
 Add the following configurations:
 
-[source,yaml]
+[source,plaintext]
 ----
 kafkaListeners=kafka_internal://0.0.0.0:9092,kafka_external://0.0.0.0:19092
 kafkaProtocolMap=kafka_internal:PLAINTEXT,kafka_external:PLAINTEXT
@@ -59,6 +59,7 @@ In the above example,
 == Logger
 
 {product} shares the same configuration files with the {pulsar-short} broker, e.g. `conf/broker.conf` or `conf/standalone.conf`. The log configuration is modified in `conf/log4j2.yaml` file as below:
+
 [source,yaml]
 ----
 Logger:
