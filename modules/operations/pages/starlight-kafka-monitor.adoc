@@ -217,6 +217,6 @@ Available labels: *`event`* (DeleteTopicsEvent, BrokersChangeEvent, ShutdownEven
 == See also
 
 * xref:configuration:starlight-kafka-configuration.adoc[]
-* xref:starlight-kafka-implementation.adoc[]
-* xref:starlight-kafka-proxy.adoc[]
-* xref:starlight-kafka-schema-registry.adoc[]
+* xref:operations:starlight-kafka-implementation.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-schema-registry.adoc[]

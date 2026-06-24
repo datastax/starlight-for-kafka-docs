@@ -26,7 +26,7 @@ kopSchemaRegistryEnable=true
 kopSchemaRegistryProxyPort=8001
 ----
 
-. If you're using the {kafka-short} xref:starlight-kafka-proxy.adoc[proxy], add this configuration in `conf/proxy.conf`:
+. If you're using the {kafka-short} xref:operations:starlight-kafka-proxy.adoc[proxy], add this configuration in `conf/proxy.conf`:
 +
 [source,conf]
 ----
@@ -90,6 +90,6 @@ schema.registry.url=http://pulsar-proxy:8081
 == See also
 
 * xref:configuration:starlight-kafka-configuration.adoc[]
-* xref:starlight-kafka-implementation.adoc[]
-* xref:starlight-kafka-security.adoc[]
-* xref:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-implementation.adoc[]
+* xref:operations:starlight-kafka-security.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
