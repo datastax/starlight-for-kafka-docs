@@ -3,7 +3,7 @@
 
 This page covers enabling authentication features for {product}.
 
-{product} supports xref:starlight-kafka-security.adoc#authentication[SASL/PLAIN authentication], xref:starlight-kafka-security.adoc#authorization[JWT authorization], and xref:starlight-kafka-security.adoc#ssl[SSL encryption].
+{product} supports <<authentication,SASL/PLAIN authentication>>, <<authorization,JWT authorization>>, and <<ssl,SSL encryption>>.
 
 {product} is installed with no authentication, authorization, or encryption, but these can be enabled to improve security.
 
@@ -344,9 +344,12 @@ bin/pulsar-admin --auth-plugin "org.apache.pulsar.client.impl.auth.Authenticatio
 
 This section explains connecting and configuring {product} with SSL. There are two methods available:
 
-* **Existing TLS certificates (Recommended)**: Use the TLS certificates already configured for the {pulsar-short} TLS endpoint to also connect the {kafka-short} client. This is a new feature of {product} designed to make TLS connection fast and painless. Proceed to xref:starlight-kafka-security.adoc#pulsar-ssl[Create SSL connection with {pulsar-short}].
+* **Existing TLS certificates (Recommended)**: Use the TLS certificates already configured for the {pulsar-short} TLS endpoint to also connect the {kafka-short} client.
+This feature of {product} is designed to simplify the TLS connection configuration.
+See <<pulsar-ssl>>.
 
-* **Dedicated TLS certificates**: Create dedicated TLS certificates and modify the {pulsar-short} broker and {kafka-short} client. Instructions for this method are xref:starlight-kafka-security.adoc#manual-ssl[here].
+* **Dedicated TLS certificates**: Create dedicated TLS certificates and modify the {pulsar-short} broker and {kafka-short} client.
+See <<manual-ssl>>.
 
 [#pulsar-ssl]
 === Create SSL configuration with {pulsar-short}
@@ -456,6 +459,6 @@ For more on configuring {kafka-short}, see https://kafka.apache.org/documentatio
 For more on {product}, see:
 
 * xref:configuration:starlight-kafka-configuration.adoc[]
-* xref:starlight-kafka-implementation.adoc[]
-* xref:starlight-kafka-proxy.adoc[]
-* xref:starlight-kafka-schema-registry.adoc[]
+* xref:operations:starlight-kafka-implementation.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-schema-registry.adoc[]

@@ -81,4 +81,4 @@ Typically, this isn't needed for standard deployments that use default ports.
 == See also
 
 * xref:configuration:starlight-kafka-configuration.adoc[]
-* xref:starlight-kafka-implementation.adoc[]
+* xref:operations:starlight-kafka-implementation.adoc[]

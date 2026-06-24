@@ -294,7 +294,7 @@ The {product} extension is included in the `luna-streaming-all` image used to de
 [IMPORTANT]
 ====
 The https://datastax.github.io/pulsar-helm-chart[{company} {pulsar-short} Helm chart] is deprecated.
-For Kubernetes deployments, {company} recommends xref:kaap-operator::index.adoc[{kaap}].
+For Kubernetes deployments, {company} recommends xref:kaap-operator:ROOT:index.adoc[{kaap}].
 ====
 
 The following steps explain how to deploy a {company} {pulsar-short} Helm chart to create a simple {pulsar-short} cluster with the {product} extension ready to use.
@@ -405,7 +405,7 @@ bin/kafka-console-producer.sh \
 +
 You can replace `quickstart` with any other name for the topic that will receive messages from the producer.
 If the specified topic doesn't exist in your {luna-streaming} tenant, it is created automatically when the producer sends the first message.
-You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the xref:installation:attachment$values.yaml[Helm chart].
+You can configure this behavior and other xref:configuration:starlight-kafka-configuration.adoc[{product} parameters] in the xref:installation:attachment$values.yaml[Helm chart].
 +
 To connect to a remote {luna-streaming} cluster, provide the full topic name and the bootstrap server URL for your {luna-streaming} tenant:
 +
@@ -477,7 +477,7 @@ bin/kafka-console-producer.sh \
 +
 You can replace `quickstart` with any other name for the topic that will receive messages from the producer.
 If the specified topic doesn't exist in your {pulsar-short} tenant, it is created automatically when the producer sends the first message.
-You can configure this behavior and other xref:starlight-for-kafka:configuration:starlight-kafka-configuration.adoc[{product} parameters].
+You can configure this behavior and other xref:configuration:starlight-kafka-configuration.adoc[{product} parameters].
 +
 To connect to a remote {pulsar-short} cluster, provide the full topic name and the bootstrap server URL for your tenant:
 +

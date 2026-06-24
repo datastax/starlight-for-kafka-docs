@@ -40,7 +40,7 @@ When `kafkaEnableMultiTenantMetadata` is enabled, `<kafkaTenant>` is the {pulsar
 
 {product} uses the same topic lookup approach for the {kafka-short} request handler and the {pulsar-short} request handler. The request handler does topic discovery to look up all ownerships for the requested topic partitions, and responds with the ownership information as part of the {kafka-short} `TopicMetadata` returned to {kafka-short} clients.
 
-When you are using the xref:starlight-kafka-proxy.adoc[Proxy] module, the proxy answers its own advertised address as owner of every topic. The Proxy automatically
+When you are using the xref:operations:starlight-kafka-proxy.adoc[Proxy] module, the proxy answers its own advertised address as owner of every topic. The Proxy automatically
 dispatches every request to the Broker that owns the topic, so {kafka-short} clients don't have knowledge of the internal topology of the cluster.
 
 == Message
@@ -140,6 +140,6 @@ This bridges the gap between {pulsar-short} and {kafka-short} and allows use of 
 == See also
 
 * xref:configuration:starlight-kafka-configuration.adoc[]
-* xref:starlight-kafka-monitor.adoc[]
-* xref:starlight-kafka-proxy.adoc[]
-* xref:starlight-kafka-schema-registry.adoc[]
+* xref:operations:starlight-kafka-monitor.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-schema-registry.adoc[]
