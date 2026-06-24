@@ -165,7 +165,7 @@ Default: `client_credentials`
 +
 Here is an example `conf/broker.conf` file:
 +
-[source,conf]
+[source,plaintext]
 ----
 authenticationEnabled=true
 authenticationProviders=org.apache.pulsar.broker.authentication.AuthenticationProviderToken
@@ -178,7 +178,7 @@ tokenPublicKey=<token-public-key>
 . Enable authentication on S4K.
 Set the following property in the `conf/broker.conf` or `conf/standalone.conf` file:
 +
-[source,conf]
+[source,plaintext]
 ----
 saslAllowedMechanisms=OAUTHBEARER
 ----
@@ -188,7 +188,7 @@ For the `OAUTHBEARER` mechanism, use `AuthenticationProviderToken` or customize 
 S4K provides a built-in `AuthenticateCallbackHandler` that uses the authentication provider of {pulsar-short} for authentication.
 You need to configure the following properties in the `conf/kop-handler.properties` file:
 +
-[source,conf]
+[source,plaintext]
 ----
 # Use S4K's built-in handler:
 kopOauth2AuthenticateCallbackHandler=io.streamnative.pulsar.handlers.kop.security.oauth.OauthValidatorCallbackHandler
@@ -284,7 +284,7 @@ a|The following pattern formats are supported:
 +
 Here is an example properties configuration:
 +
-[source,conf]
+[source,plaintext]
 ----
 sasl.login.callback.handler.class=com.datastax.oss.kafka.oauth.OauthLoginCallbackHandler
 security.protocol=SASL_PLAINTEXT # or security.protocol=SASL_SSL if SSL connection is used
