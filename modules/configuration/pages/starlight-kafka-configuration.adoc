@@ -58,7 +58,8 @@ In the above example,
 [#logger]
 == Logger
 
-{product} shares the same configuration files with the {pulsar-short} broker, e.g. `conf/broker.conf` or `conf/standalone.conf`. The log configuration is modified in `conf/log4j2.yaml` file as below:
+{product} shares the same configuration files with the {pulsar-short} broker, which is `conf/broker.conf` or `conf/standalone.conf`.
+The log configuration is modified in `conf/log4j2.yaml` file as below:
 
 [source,yaml]
 ----
@@ -73,7 +74,8 @@ Logger:
 [#namespace]
 == Namespace
 
-{pulsar-short} is a multi-tenant system that requires users to specify the http://pulsar.apache.org/docs/en/concepts-multi-tenancy/[tenant and namespace]. While most {kafka-short} users just specify the short topic name, {product} provides the following configurations to specify the default namespace.
+{pulsar-short} is a multi-tenant system that requires users to specify the http://pulsar.apache.org/docs/en/concepts-multi-tenancy/[tenant and namespace].
+While most {kafka-short} users just specify the short topic name, {product} provides the following configurations to specify the default namespace.
 
 [cols=3*]
 |===
@@ -108,7 +110,7 @@ Logger:
 |true
 
 |kopAllowedNamespaces
-|The allowed namespace to list topics with a comma separator. e.g. `public/default,public/kafka`.
+|The allowed namespace to list topics with a comma separator, such as `public/default,public/kafka`.
 |If empty or not set, then the allowed namespaces are `<kafkaTenant>/<kafkaNamespace>`.
 |===
 
