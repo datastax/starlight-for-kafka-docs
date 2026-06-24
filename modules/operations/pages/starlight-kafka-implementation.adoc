@@ -5,7 +5,8 @@ This document describes how to implement the {product} protocol handler.
 
 == Topic
 
-In {kafka-short}, all topics are stored in one flat namespace, but in {pulsar-short}, topics are organized in hierarchical multi-tenant namespaces. {product} introduces a setting `kafkaNamespace` in the broker configuration which allows administrators to map {kafka-short} topics to {pulsar-short} topics.
+In {kafka-short}, all topics are stored in one flat namespace, but in {pulsar-short}, topics are organized in hierarchical multi-tenant namespaces.
+{product} introduces a setting `kafkaNamespace` in the broker configuration which allows administrators to map {kafka-short} topics to {pulsar-short} topics.
 
 To let {kafka-short} users leverage the multi-tenancy of {pulsar}, a {kafka-short} user can specify a {pulsar-short} tenant and namespace as the topic prefix like {pulsar-short} topics.
 For example:
@@ -38,15 +39,17 @@ When `kafkaEnableMultiTenantMetadata` is enabled, `<kafkaTenant>` is the {pulsar
 
 == Topic lookup
 
-{product} uses the same topic lookup approach for the {kafka-short} request handler and the {pulsar-short} request handler. The request handler does topic discovery to look up all ownerships for the requested topic partitions, and responds with the ownership information as part of the {kafka-short} `TopicMetadata` returned to {kafka-short} clients.
+{product} uses the same topic lookup approach for the {kafka-short} request handler and the {pulsar-short} request handler.
+The request handler does topic discovery to look up all ownerships for the requested topic partitions, and responds with the ownership information as part of the {kafka-short} `TopicMetadata` returned to {kafka-short} clients.
 
-When you are using the xref:starlight-kafka-proxy.adoc[Proxy] module, the proxy answers its own advertised address as owner of every topic. The Proxy automatically
-dispatches every request to the Broker that owns the topic, so {kafka-short} clients don't have knowledge of the internal topology of the cluster.
+When you are using the xref:operations:starlight-kafka-proxy.adoc[Proxy] module, the proxy answers its own advertised address as owner of every topic.
+The Proxy automatically dispatches every request to the Broker that owns the topic, so {kafka-short} clients don't have knowledge of the internal topology of the cluster.
 
 == Message
 
-{kafka-short} and {pulsar-short} messages have keys, values, timestamps, and headers, but in {pulsar-short} the `headers` are called `properties`. {product} converts these
-fields automatically between {kafka-short} messages and {pulsar-short} messages. The mapping relationships are as below.
+{kafka-short} and {pulsar-short} messages have keys, values, timestamps, and headers, but in {pulsar-short} the `headers` are called `properties`.
+{product} converts these fields automatically between {kafka-short} messages and {pulsar-short} messages.
+The mapping relationships are as follows.
 
 === {pulsar-short} to {kafka-short} message field mapping relationships
 
@@ -117,29 +120,35 @@ If a {kafka-short} message doesn't have a `timestamp`, then `event time` and `pu
 
 In {kafka-short}, each message is assigned with an offset once the message is successfully produced to a topic partition.
 
-In {pulsar-short}, each message is assigned with a `MessageID`. The message ID consists of `ledger-id`, `entry-id`, and `batch-index` components.
+In {pulsar-short}, each message is assigned with a `MessageID`.
+The message ID consists of `ledger-id`, `entry-id`, and `batch-index` components.
 
 {product} uses the same approach in the {pulsar-short}-{kafka-short} wrapper to convert a {pulsar-short} `MessageID` to an offset, and vice versa.
 
 == Produce Messages
 
-When the {kafka-short} request handler receives produced messages from a {kafka-short} client, it converts {kafka-short} messages to {pulsar-short} messages by mapping the fields (such as the key, value, timestamp and headers) one by one, and uses the ManagedLedger append API to append those converted {pulsar-short} messages to {bookkeeper-reg}. Converting {kafka-short} messages to {pulsar-short} messages allows existing {pulsar-short} applications to consume messages produced by {kafka-short} clients.
+When the {kafka-short} request handler receives produced messages from a {kafka-short} client, it converts {kafka-short} messages to {pulsar-short} messages by mapping the fields (such as the key, value, timestamp and headers) one by one, and uses the ManagedLedger append API to append those converted {pulsar-short} messages to {bookkeeper-reg}.
+Converting {kafka-short} messages to {pulsar-short} messages allows existing {pulsar-short} applications to consume messages produced by {kafka-short} clients.
 
 == Consume Messages
 
-When the {kafka-short} request handler receives a consumer request from a {kafka-short} client, it opens a non-durable cursor to read the entries starting from the requested offset. The {kafka-short} request handler converts the {pulsar-short} messages back to {kafka-short} messages to allow existing {kafka-short} applications to consume the messages produced by {pulsar-short} clients.
+When the {kafka-short} request handler receives a consumer request from a {kafka-short} client, it opens a non-durable cursor to read the entries starting from the requested offset.
+The {kafka-short} request handler converts the {pulsar-short} messages back to {kafka-short} messages to allow existing {kafka-short} applications to consume the messages produced by {pulsar-short} clients.
 
 == Group coordinator & offset management
 
-{pulsar-short} doesn't have a centralized group coordinator for assigning partitions to consumers of a consumer group or managing offsets for each consumer group. In {pulsar-short}, partition assignment is managed by the broker on a per-partition basis, and the offset management is done by storing the acknowledgements in cursors by the owner broker of that partition.
+{pulsar-short} doesn't have a centralized group coordinator for assigning partitions to consumers of a consumer group or managing offsets for each consumer group.
+In {pulsar-short}, partition assignment is managed by the broker on a per-partition basis, and the offset management is done by storing the acknowledgements in cursors by the owner broker of that partition.
 
 To be fully compatible with {kafka-short} clients, {product} implements the {kafka-short} group coordinator by storing the coordinator group changes and offsets in a system topic called `kafkaTenant/kafka/consumer_offsets` in {pulsar-short}.
 
-This bridges the gap between {pulsar-short} and {kafka-short} and allows use of existing {pulsar-short} tools and policies to manage subscriptions and monitor {kafka-short} consumers. {product} adds a background thread in the implemented group coordinator to periodically synchronize offset updates from the system topic to {pulsar-short} cursors. Therefore, a {kafka-short} consumer group is effectively treated as a {pulsar-short} subscription to allow existing {pulsar-short} tools to be used for managing {kafka-short} consumer groups.
+This bridges the gap between {pulsar-short} and {kafka-short} and allows use of existing {pulsar-short} tools and policies to manage subscriptions and monitor {kafka-short} consumers.
+{product} adds a background thread in the implemented group coordinator to periodically synchronize offset updates from the system topic to {pulsar-short} cursors.
+Therefore, a {kafka-short} consumer group is effectively treated as a {pulsar-short} subscription to allow existing {pulsar-short} tools to be used for managing {kafka-short} consumer groups.
 
 == See also
 
 * xref:configuration:starlight-kafka-configuration.adoc[]
-* xref:starlight-kafka-monitor.adoc[]
-* xref:starlight-kafka-proxy.adoc[]
-* xref:starlight-kafka-schema-registry.adoc[]
+* xref:operations:starlight-kafka-monitor.adoc[]
+* xref:operations:starlight-kafka-proxy.adoc[]
+* xref:operations:starlight-kafka-schema-registry.adoc[]
