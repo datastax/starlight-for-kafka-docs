@@ -3,7 +3,7 @@ For standalone deployments, add these configurations to `standalone.conf`.
 +
 .. Add the following configuration values to your {pulsar-short} configuration file:
 +
-[source,conf]
+[source,plaintext]
 ----
 messagingProtocols=kafka
 protocolHandlerDirectory=./protocols
@@ -36,7 +36,7 @@ Since topics are partitioned by default in {kafka-short}, it's better to avoid c
 +
 .. Set {kafka-short} listeners. `kafkaListeners` is a comma-separated list of listeners, and the host/IP and port which {kafka-short} binds to for listening.
 +
-[source,conf]
+[source,plaintext]
 ----
 kafkaListeners=PLAINTEXT://127.0.0.1:9092
 ----
@@ -44,7 +44,7 @@ kafkaListeners=PLAINTEXT://127.0.0.1:9092
 .. Set {kafka-short} advertised listeners. `kafkaAdvertisedListeners` is a comma-separated list of listeners with their host/IP and port.
 `kafkaAdvertisedListeners` isn't required unless you want to expose another address to the {kafka-short} client. It defaults to the same address as `kafkaListeners` by default.
 +
-[source,conf]
+[source,plaintext]
 ----
 kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
 ----
@@ -52,14 +52,14 @@ kafkaAdvertisedListeners=PLAINTEXT://127.0.0.1:9092
 .. Set offset management.
 Offset management is required because {product} depends upon {pulsar-short} broker-level entry metadata.
 +
-[source,conf]
+[source,plaintext]
 ----
 brokerEntryMetadataInterceptors=org.apache.pulsar.common.intercept.AppendIndexMetadataInterceptor
 ----
 +
 .. Disable the deletion of inactive topics:
 +
-[source,conf]
+[source,plaintext]
 ----
 brokerDeleteInactiveTopicsEnabled=false
 ----

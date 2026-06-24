@@ -9,7 +9,7 @@ This guide explains how to make those changes, and it provides an example Java a
 
 To use the username and password authentication in Kstreams, set the following properties through {kafka-short} JAAS:
 
-[source,bash]
+[source,plaintext]
 ----
 sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="tenantname"
  password="token:XXXX-JWT-TOKEN;"
