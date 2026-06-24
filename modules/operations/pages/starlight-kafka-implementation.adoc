@@ -49,7 +49,7 @@ The Proxy automatically dispatches every request to the Broker that owns the top
 
 {kafka-short} and {pulsar-short} messages have keys, values, timestamps, and headers, but in {pulsar-short} the `headers` are called `properties`.
 {product} converts these fields automatically between {kafka-short} messages and {pulsar-short} messages.
-The mapping relationships are as below.
+The mapping relationships are as follows.
 
 === {pulsar-short} to {kafka-short} message field mapping relationships
 

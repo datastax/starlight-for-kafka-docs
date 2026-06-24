@@ -29,7 +29,7 @@ Enabling authentication for {product} requires enabling authentication for the f
 
 === Enable `PLAIN` authentication
 
-To enable authentication with the `PLAIN` SASL mechanism, follow the steps below.
+To enable authentication with the `PLAIN` SASL mechanism, do the following:
 
 . Enable authentication on the {pulsar-short} broker.
 +
@@ -61,21 +61,21 @@ superUserRoles=<super-user-roles>
 +
 For more information, see https://pulsar.apache.org/docs/en/next/security-jwt/#enable-token-authentication-on-brokers[Enable Token Authentication on Brokers].
 +
-* If using a *secret key*, set the property as below.
+* To use a secret key:
 +
 [source,plaintext]
 ----
 tokenSecretKey=file:///path/to/secret.key
 ----
 
-* To pass the key inline, set the property as below.
+* To pass the key inline:
 +
 [source,plaintext]
 ----
 tokenSecretKey=data:;base64,FLFyW0oLJ2Fi22KKCm21J18mbAdztfSHN/lAT5ucEKU=
 ----
 
-* If using a public/private key, set the property as below.
+* To use a public/private key:
 +
 [source,plaintext]
 ----
@@ -157,7 +157,7 @@ The token itself doesn't have any permissions associated with it.
 The authorization engine determines whether the token should have permissions or not.
 Once you have created the token, you can grant permission for this token.
 +
-For example, to grant a role to the `user-role` created above:
+For example, to grant a role to the previously created `user-role`:
 +
 [source,bash]
 ----

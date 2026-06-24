@@ -49,7 +49,7 @@ kafkaProtocolMap=kafka_internal:PLAINTEXT,kafka_external:PLAINTEXT
 kafkaAdvertisedListeners=kafka_internal://localhost:9092,kafka_external://localhost:19092
 ----
 
-In the above example,
+In the preceding example:
 
 * `kafkaListener` is split into multiple tokens by a comma (`,`), the token is in a format of `<listener-name>://<host>:<port>`.
 * `kafkaProtocolMap` is split into multiple tokens by a comma (`,`), the token is in a format of `<listener-name>:<protocol>`.
@@ -59,7 +59,7 @@ In the above example,
 == Logger
 
 {product} shares the same configuration files with the {pulsar-short} broker, which is `conf/broker.conf` or `conf/standalone.conf`.
-The log configuration is modified in `conf/log4j2.yaml` file as below:
+The log configuration is modified in `conf/log4j2.yaml` file:
 
 [source,yaml]
 ----
