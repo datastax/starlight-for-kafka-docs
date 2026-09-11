@@ -9,7 +9,7 @@ This is particularly useful in Kubernetes environments where you already have th
 == Configuration
 
 . Create a `proxyextensions` folder in the root of your {pulsar-short} directory.
-. Copy the `pulsar-kafka-proxy-2.10.0.1.XXXX.nar` file to the `proxyextensions` directory.
+. Copy the `pulsar-kafka-proxy-4.0.0.1.XXXX.nar` file to the `proxyextensions` directory.
 . Add these lines to `proxy.conf`:
 +
 [source,plaintext]

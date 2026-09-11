@@ -12,9 +12,9 @@ With a {pulsar-short} cluster between publishers and consumers, you can change t
 
 To use {product}, you need a {pulsar-short} cluster from {astra-stream}, {luna-streaming}, or a self-managed or standalone {pulsar-short} deployment.
 
-{product} version 2.10 is compatible with the following:
+{product} version 4.0 is compatible with the following:
 
-* {pulsar-short} version 2.10.x
+* {pulsar-short} version 4.0.x
 * {kafka-short} client versions 0.10, 1.x, 2.x, and 3.x
 * {kafka-short} Streams
 * {kafka-short} CLI
