@@ -202,7 +202,6 @@ The output is similar to the following:
 
 If you are on an M1 Mac and encounter a `jnilib` error, add the following dependency to the example application's `pom.xml` file:
 
-.pom.xml
 [source,xml]
 ----
 <dependency>

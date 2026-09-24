@@ -49,9 +49,9 @@ These are permanent namespaces that cannot be removed except by deleting the ent
 ====
 
 . Save the {kafka-short} connection details to a file named `ssl.properties`.
++
 The actual values depend on your {astra-stream} tenant's configuration and cloud provider.
 +
-.ssl.properties
 [source,plaintext,subs="+quotes"]
 ----
 username: **TENANT_NAME**
@@ -154,7 +154,6 @@ cd StarlightForKafkaClient
 
 . Add the {kafka-short} client dependency to the `pom.xml` file:
 +
-.pom.xml
 [source,xml]
 ----
     <dependency>
@@ -170,7 +169,6 @@ In the next steps, you will add code to this file to create a complete program t
 . Paste the following code in the file, and then replace the placeholder values with the values from your `ssl.properties` file.
 Your editor will report errors because this isn't a complete program yet.
 +
-./src/main/java/org/example/App.java
 [source,java,subs="+quotes"]
 ----
 package org.example;
@@ -204,7 +202,6 @@ If the topic doesn't exist, it is created it automatically when the producer sen
 
 . Add the following code that builds the configuration for the producer and consumer:
 +
-./src/main/java/org/example/App.java
 [source,java]
 ----
     Properties config = new Properties();
@@ -222,7 +219,6 @@ If the topic doesn't exist, it is created it automatically when the producer sen
 
 . Add the producer code, which is a simple flow that sends a single message and awaits acknowledgment:
 +
-./src/main/java/org/example/App.java
 [source,java]
 ----
     KafkaProducer<Long, String> producer = new KafkaProducer<>(config);
@@ -243,7 +239,6 @@ If the topic doesn't exist, it is created it automatically when the producer sen
 
 . Add the consumer code, which creates a basic subscription and retrieves the latest messages on the topic:
 +
-./src/main/java/org/example/App.java
 [source,java]
 ----
     final KafkaConsumer<Integer, String> consumer = new KafkaConsumer<Integer, String>(config);

@@ -211,7 +211,7 @@ By default, it uses the `token` authentication method.
 * If you use `AuthenticationProviderToken`, since `AuthenticationProviderToken#getAuthMethodName()` returns `token`, set the `oauth.validate.method` as the token.
 * If you use other providers, set the `oauth.validate.method` as the result of `getAuthMethodName()`.
 +
-[source,properties]
+[source,plaintext]
 ----
 oauth.validate.method=token
 ----
