@@ -1,6 +1,6 @@
 name: 'starlight-for-kafka'
 title: 'Starlight for Kafka'
-version: '4.0.0.x'
+version: ~
 start_page: 'index.adoc'
 
 nav:
